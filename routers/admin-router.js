@@ -1,79 +1,71 @@
-
+// routers/admin-router.js
 const router = require('express').Router();
 
 const adminMiddleware = require('../middleware/admin-middleware.js');
 const adminController = require('../controllers/admin-controller.js');
 const upload = require('../middleware/upload-middleware.js');
 
-// =====================================================
-// ADMIN LOGIN & REGISTER PAGES
-// Keep these OUTSIDE adminMiddleware
-// =====================================================
+// Runs multer but turns upload errors (wrong file type, too big) into a friendly message.
+const uploadPfp = (redirectTo) => (req, res, next) =>
+    upload.single('pfp')(req, res, (err) => {
+        if (err) {
+            req.flash('error', err.message || 'Could not upload that image.');
+            return res.redirect(redirectTo);
+        }
+        next();
+    });
 
-// Login page
+// View helpers (icons, date formatting...) for every admin page, including login
+router.use(adminMiddleware.locals);
+
+// =====================================================
+// PUBLIC ADMIN PAGES (no login needed)
+// =====================================================
 router.get('/login', adminController.getLogin);
-
-// Login form submission
 router.post('/login/user', adminController.login);
 
-// Registration page
+// First-admin setup only. Closes itself once an admin exists.
 router.get('/register', adminController.getRegister);
-
-// Registration form submission
-// IMPORTANT: Restrict this route to authorized setup/admin use.
-router.post(
-    '/register/user',
-    upload.single('pfp'),
-    adminController.register
-);
+router.post('/register/user', uploadPfp('/admin/register'), adminController.register);
 
 // =====================================================
-// PROTECT ALL ROUTES BELOW THIS LINE
+// EVERYTHING BELOW REQUIRES AN ACTIVE ADMIN
 // =====================================================
 router.use(adminMiddleware);
 
-router.get('/logout', adminController.logout)
+router.get('/logout', adminController.logout);
 
 // Dashboard
 router.get('/', adminController.getDashboard);
 
-// User management
+// Manage Users
 router.get('/users', adminController.getUsers);
 router.patch('/users/:id/status', adminController.updateUserStatus);
 
-// Lost and found items
+// Manage Items (lost + found share one page)
 router.get('/lost-items', adminController.getLostItems);
 router.get('/found-items', adminController.getFoundItems);
 
-// Claims
-router.get('/claims', adminController.getClaims);
-router.patch('/claims/:id/status', adminController.updateClaimStatus);
+// User Verification
+router.get('/user-verification', adminController.getUserVerification);
+router.patch('/users/:id/verification', adminController.updateVerificationStatus);
 
-// Feedback
-router.get('/feedback', adminController.getFeedback);
-
-
- // User Verification
-router.get(
-    '/user-verification',
-    adminController.getUserVerification
-);
-
-router.patch(
-    '/users/:id/verification',
-    adminController.updateVerificationStatus
-);
-
-// Analytics
-router.get('/analytics',adminController.getAnalytics);
-
-//reports
+// Analytics, Reports, Activity Logs
+router.get('/analytics', adminController.getAnalytics);
 router.get('/reports', adminController.getReports);
-
-//activity logs
 router.get('/activity-logs', adminController.getActivityLogs);
 
-// Settings
+// Settings (appearance + manage admins)
 router.get('/settings', adminController.getSettings);
+router.post('/settings/admins', adminController.addAdmin);
+router.patch('/settings/admins/:id/status', adminController.updateAdminStatus);
+
+// My Profile (separate from Settings)
+router.get('/profile', adminController.getProfile);
+router.post('/profile', uploadPfp('/admin/profile'), adminController.updateProfile);
+router.post('/profile/password', adminController.changePassword);
+
+// Unknown /admin/... URL
+router.use(adminController.notFound);
 
 module.exports = router;

@@ -1,0 +1,54 @@
+<%- include('partials/head', { title: 'My Profile' }) %>
+<body>
+<%- include('partials/sidebar') %>
+<main class="main">
+    <%- include('partials/flash') %>
+
+    <header class="page-head">
+        <div><h1>My Profile</h1><p>Your personal admin account. App preferences are in <a href="/admin/settings" style="color:var(--primary);font-weight:600">Settings</a>.</p></div>
+    </header>
+
+    <section class="grid-2" style="grid-template-columns:minmax(0,1fr) minmax(0,1.6fr)">
+        <article class="panel">
+            <div class="panel-body profile-hero">
+                <%- avatar(admin.full_name, admin.profile_image, 'av-lg') %>
+                <h2><%= admin.full_name %></h2>
+                <span class="badge badge-primary">Administrator</span>
+                <p class="muted"><%= admin.email %></p>
+                <p class="muted">Member since <%= fmtDate(admin.created_at) %></p>
+            </div>
+        </article>
+
+        <div class="stack">
+            <article class="panel">
+                <div class="panel-head"><div><h2>Profile details</h2><p>Update your name, number and picture</p></div></div>
+                <form method="POST" action="/admin/profile" enctype="multipart/form-data">
+                    <div class="panel-body">
+                        <div class="field"><label for="pName">Full name</label><input class="input" id="pName" name="name" type="text" value="<%= admin.full_name %>" required></div>
+                        <div class="field-row">
+                            <div class="field"><label for="pEmail">Email</label><input class="input" id="pEmail" type="email" value="<%= admin.email %>" disabled><span class="help">Email cannot be changed here.</span></div>
+                            <div class="field"><label for="pNum">Contact number</label><input class="input" id="pNum" name="num" type="text" inputmode="numeric" maxlength="11" value="<%= admin.contact_number || '' %>" placeholder="09123456789"></div>
+                        </div>
+                        <div class="field"><label for="pPfp">Profile picture</label><input class="input" id="pPfp" name="pfp" type="file" accept="image/*"></div>
+                    </div>
+                    <div class="modal-foot"><button class="btn btn-primary" type="submit">Save changes</button></div>
+                </form>
+            </article>
+
+            <article class="panel" id="password">
+                <div class="panel-head"><div><h2>Change password</h2><p>Use at least 8 characters</p></div></div>
+                <form method="POST" action="/admin/profile/password" autocomplete="off">
+                    <div class="panel-body">
+                        <div class="field"><label for="cur">Current password</label><input class="input" id="cur" name="current" type="password" autocomplete="current-password" required></div>
+                        <div class="field-row">
+                            <div class="field"><label for="nw">New password</label><input class="input" id="nw" name="next" type="password" minlength="8" autocomplete="new-password" required></div>
+                            <div class="field"><label for="cf">Confirm new password</label><input class="input" id="cf" name="confirm" type="password" minlength="8" autocomplete="new-password" required></div>
+                        </div>
+                    </div>
+                    <div class="modal-foot"><button class="btn btn-primary" type="submit">Update password</button></div>
+                </form>
+            </article>
+        </div>
+    </section>
+</main>
+<%- include('partials/foot') %>

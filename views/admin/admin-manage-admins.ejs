@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Manage Admins | FindBack Admin</title>
+    <link rel="stylesheet" href="/css/admin-sidebar.css">
+    <link rel="stylesheet" href="/css/admin-manage-admins.css">
+</head>
+<body>
+<div class="admin-layout">
+
+    <%- include('partials/admin-sidebar', { activePage: 'settings' }) %>
+
+    <main class="admin-main">
+
+        <header class="page-heading">
+            <h1>MANAGE ADMINS</h1>
+        </header>
+
+        <% if (typeof success !== 'undefined' && success && success.length) { %>
+            <div class="ma-flash ma-flash-success"><%= success[0] %></div>
+        <% } %>
+        <% if (typeof error !== 'undefined' && error && error.length) { %>
+            <div class="ma-flash ma-flash-error"><%= error[0] %></div>
+        <% } %>
+
+        <section class="ma-panel">
+            <div class="ma-panel-heading">
+                <h2><span class="ma-icon">🛡</span> Administrators</h2>
+
+                <div class="ma-actions">
+                    <input type="search" id="adminSearch" class="ma-search"
+                           placeholder="Search admins..." aria-label="Search admins">
+                    <button type="button" class="ma-btn ma-btn-primary" id="openAddAdmin">+ Add Admin</button>
+                </div>
+            </div>
+
+            <div class="ma-table-wrap">
+                <table class="ma-table" id="adminsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Date Added</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% if (admins.length) { %>
+                        <% admins.forEach(a => {
+                            const active = String(a.account_status || '').toLowerCase() === 'active';
+                            const isSelf = Number(a.user_id) === Number(currentAdminId);
+                        %>
+                            <tr>
+                                <td><%= a.user_id %></td>
+                                <td><strong><%= a.full_name || '—' %></strong><%= isSelf ? ' (you)' : '' %></td>
+                                <td><%= a.email || '—' %></td>
+                                <td>
+                                    <span class="ma-role ma-role-<%= a.admin_role === 'super_admin' ? 'super' : 'admin' %>">
+                                        <%= a.admin_role === 'super_admin' ? 'Super Admin' : 'Admin' %>
+                                    </span>
+                                </td>
+                                <td><%= a.created_at ? new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }) : '—' %></td>
+                                <td>
+                                    <span class="ma-badge <%= active ? 'ma-badge-active' : 'ma-badge-inactive' %>">
+                                        <%= a.account_status || 'Unknown' %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <% if (isSelf) { %>
+                                        <span class="ma-muted">—</span>
+                                    <% } else { %>
+                                        <form method="POST" action="/admin/settings/admins/<%= a.user_id %>/status"
+                                              class="ma-status-form"
+                                              data-verb="<%= active ? 'Disable' : 'Enable' %>">
+                                            <input type="hidden" name="status" value="<%= active ? 'inactive' : 'active' %>">
+                                            <button type="submit" class="ma-btn <%= active ? 'ma-btn-danger' : 'ma-btn-ghost' %>">
+                                                <%= active ? 'Disable' : 'Enable' %>
+                                            </button>
+                                        </form>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr><td colspan="7" class="ma-empty">No admins found.</td></tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="ma-count" id="adminCount">Total admins: <%= admins.length %></p>
+        </section>
+    </main>
+</div>
+
+<!-- ADD ADMIN MODAL -->
+<div class="ma-modal" id="addAdminModal" aria-hidden="true">
+    <div class="ma-modal-card" role="dialog" aria-modal="true" aria-labelledby="addAdminTitle">
+        <div class="ma-modal-header">
+            <h2 id="addAdminTitle">Add New Admin</h2>
+            <button type="button" class="ma-modal-close" id="closeAddAdmin" aria-label="Close">&times;</button>
+        </div>
+
+        <form method="POST" action="/admin/settings/admins" class="ma-form" autocomplete="off">
+            <label for="aaName">Full Name</label>
+            <input type="text" id="aaName" name="name" placeholder="ex. Juan De La Cruz" required>
+
+            <label for="aaEmail">Email Address</label>
+            <input type="email" id="aaEmail" name="email" placeholder="ex. juan@email.com" required>
+
+            <label for="aaNum">Contact Number</label>
+            <input type="text" id="aaNum" name="num" placeholder="ex. 09123456789">
+
+            <label for="aaPw">Temporary Password</label>
+            <input type="password" id="aaPw" name="pw" minlength="8" placeholder="At least 8 characters" required>
+
+            <label for="aaRole">Role</label>
+            <select id="aaRole" name="role">
+                <option value="admin">Admin</option>
+                <option value="super_admin">Super Admin (can manage admins)</option>
+            </select>
+
+            <div class="ma-form-actions">
+                <button type="button" class="ma-btn ma-btn-ghost" id="cancelAddAdmin">Cancel</button>
+                <button type="submit" class="ma-btn ma-btn-primary">Create Admin</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById('addAdminModal');
+    const openModal  = () => { modal.classList.add('show');    modal.setAttribute('aria-hidden', 'false'); document.getElementById('aaName').focus(); };
+    const closeModal = () => { modal.classList.remove('show'); modal.setAttribute('aria-hidden', 'true'); };
+
+    document.getElementById('openAddAdmin').addEventListener('click', openModal);
+    document.getElementById('closeAddAdmin').addEventListener('click', closeModal);
+    document.getElementById('cancelAddAdmin').addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    document.querySelectorAll('.ma-status-form').forEach(form => {
+        form.addEventListener('submit', e => {
+            if (!confirm(form.dataset.verb + ' this admin?')) e.preventDefault();
+        });
+    });
+
+    document.getElementById('adminSearch').addEventListener('input', function () {
+        const k = this.value.trim().toLowerCase();
+        let n = 0;
+        document.querySelectorAll('#adminsTable tbody tr').forEach(r => {
+            if (r.querySelector('.ma-empty')) return;
+            const ok = r.innerText.toLowerCase().includes(k);
+            r.hidden = !ok;
+            if (ok) n++;
+        });
+        document.getElementById('adminCount').textContent = (k ? 'Matching admins: ' : 'Total admins: ') + n;
+    });
+</script>
+</body>
+</html>

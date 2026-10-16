@@ -1,79 +1,95 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Dashboard | FindBack</title>
-    <link rel="icon" type="image/svg+xml" href="/img/icon/icon.svg">
-    <link rel="stylesheet" href="/css/admin-sidebar.css">
-    <link rel="stylesheet" href="/css/admin-Dashboard.css">
-</head>
+<%- include('partials/head', { title: 'Dashboard' }) %>
 <body>
-<div class="admin-layout">
-    <%- include('partials/admin-sidebar', { activePage: 'dashboard' }) %>
+<%- include('partials/sidebar') %>
+<main class="main">
+    <%- include('partials/flash') %>
 
-    <main class="admin-main">
-        <header class="page-heading">
-            <div>
-                <h1>Dashboard Overview</h1>
-                <p>Welcome back! Here's what's happening on FindBack.</p>
-            </div>
-        </header>
+    <header class="page-head">
+        <div>
+            <h1>Dashboard</h1>
+            <p>Welcome back, <%= String((admin && admin.full_name) || 'Admin').split(' ')[0] %>. Here is what is happening on FindBack.</p>
+        </div>
+        <div class="page-actions">
+            <a class="btn btn-primary" href="/admin/user-verification"><%- icon('shield') %>Review verifications</a>
+        </div>
+    </header>
 
-        <section class="dashboard-section">
-            <h2><span class="section-icon">↗</span> Items Statistics</h2>
-            <div class="mini-stats">
-                <article class="mini-stat">
-                    <span class="mini-icon">▧</span>
-                    <strong><%= statistics?.totalLostItems ?? 0 %></strong>
-                    <small>Lost Items</small>
-                </article>
-                <article class="mini-stat">
-                    <span class="mini-icon">⌕</span>
-                    <strong><%= statistics?.totalFoundItems ?? 0 %></strong>
-                    <small>Found Items</small>
-                </article>
-                <article class="mini-stat">
-                    <span class="mini-icon">♧</span>
-                    <strong><%= statistics?.totalLostItems + statistics?.totalFoundItems || 0 %></strong>
-                    <small>Total Reports</small>
-                </article>
-            </div>
-        </section>
+    <section class="stats">
+        <a class="stat" href="/admin/users"><span class="stat-icon"><%- icon('users') %></span><div><p>Total Users</p><strong><%= stats.users %></strong></div></a>
+        <a class="stat" href="/admin/lost-items"><span class="stat-icon"><%- icon('search') %></span><div><p>Lost Items</p><strong><%= stats.lost %></strong></div></a>
+        <a class="stat" href="/admin/found-items"><span class="stat-icon ok"><%- icon('box') %></span><div><p>Found Items</p><strong><%= stats.found %></strong></div></a>
+        <a class="stat" href="/admin/user-verification"><span class="stat-icon warn"><%- icon('shield') %></span><div><p>Pending Verifications</p><strong><%= stats.pendingVerifications %></strong></div></a>
+        <a class="stat" href="/admin/analytics"><span class="stat-icon warn"><%- icon('flag') %></span><div><p>Pending Claims</p><strong><%= stats.pendingClaims %></strong></div></a>
+        <a class="stat" href="/admin/reports"><span class="stat-icon"><%- icon('message') %></span><div><p>Feedback</p><strong><%= stats.feedback %></strong></div></a>
+    </section>
 
-        <section class="dashboard-section">
-            <h2><span class="section-icon">↗</span> Users Analytics</h2>
-            <div class="mini-stats">
-                <article class="mini-stat">
-                    <span class="mini-icon">♟</span>
-                    <strong><%= statistics?.totalUsers ?? 0 %></strong>
-                    <small>Total Users</small>
-                </article>
+    <section class="grid-2">
+        <article class="panel">
+            <div class="panel-head">
+                <div><h2>Recent reports</h2><p>Latest lost and found submissions</p></div>
+                <a class="btn btn-ghost btn-sm" href="/admin/reports">View all</a>
             </div>
-        </section>
+            <div class="table-wrap">
+                <table class="table">
+                    <thead><tr><th>Item</th><th>Type</th><th>Reported by</th><th>Date</th><th>Status</th></tr></thead>
+                    <tbody>
+                    <% if (recentReports.length) { %>
+                        <% recentReports.forEach(function (r) { %>
+                            <tr>
+                                <td><strong style="color:var(--text)"><%= r.item_name %></strong></td>
+                                <td><span class="badge <%= r.report_type === 'Lost' ? 'badge-primary' : 'badge-success' %>"><%= r.report_type %></span></td>
+                                <td><%= r.reported_by || 'Unknown' %></td>
+                                <td><%= fmtDate(r.created_at) %></td>
+                                <td><span class="badge <%= badge(r.status) %>"><%= r.status || 'pending' %></span></td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr><td colspan="5"><div class="empty">No reports yet.</div></td></tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </article>
 
-        <section class="dashboard-section">
-            <h2><span class="section-icon">↗</span> Claims Analytics</h2>
-            <div class="mini-stats">
-                <article class="mini-stat">
-                    <span class="mini-icon">✓</span>
-                    <strong><%= statistics?.approvedClaims ?? 0 %></strong>
-                    <small>Approved</small>
-                </article>
-                <article class="mini-stat">
-                    <span class="mini-icon">×</span>
-                    <strong><%= statistics?.rejectedClaims ?? 0 %></strong>
-                    <small>Rejected</small>
-                </article>
-                <article class="mini-stat">
-                    <span class="mini-icon">◷</span>
-                    <strong><%= statistics?.pendingClaims ?? 0 %></strong>
-                    <small>Waiting</small>
-                </article>
+        <article class="panel">
+            <div class="panel-head">
+                <div><h2>Waiting for verification</h2><p>Newest users to review</p></div>
+                <a class="btn btn-ghost btn-sm" href="/admin/user-verification">Open</a>
             </div>
-        </section>
-    </main>
-</div>
-</body>
-</html>
+            <% if (pendingUsers.length) { %>
+                <ul class="list">
+                    <% pendingUsers.forEach(function (u) { %>
+                        <li>
+                            <%- avatar(u.full_name, u.profile_image, 'av-sm') %>
+                            <div class="grow"><strong><%= u.full_name %></strong><small><%= u.email %></small></div>
+                            <small class="muted"><%= timeAgo(u.created_at) %></small>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } else { %>
+                <div class="empty"><%- icon('check') %><p>Everyone is reviewed.</p></div>
+            <% } %>
+        </article>
+    </section>
+
+    <section class="panel">
+        <div class="panel-head">
+            <div><h2>Recent admin activity</h2><p>What admins did lately</p></div>
+            <a class="btn btn-ghost btn-sm" href="/admin/activity-logs">All activity</a>
+        </div>
+        <% if (recentActivity.length) { %>
+            <ul class="list">
+                <% recentActivity.forEach(function (a) { %>
+                    <li>
+                        <span class="badge <%= actionTone(a.action) %>"><%= actionLabel(a.action) %></span>
+                        <div class="grow"><strong><%= a.admin_name || 'Admin' %></strong><small><%= a.details || '' %></small></div>
+                        <small class="muted"><%= timeAgo(a.created_at) %></small>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <div class="empty"><%- icon('clock') %><p>No admin activity recorded yet.</p></div>
+        <% } %>
+    </section>
+</main>
+<%- include('partials/foot') %>

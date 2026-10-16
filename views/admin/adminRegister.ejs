@@ -1,74 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="/img/icon/icon.svg">
-    <link rel="stylesheet" href="/css/register.css">
-    <title>REGISTER</title>
-</head>
+<%- include('partials/head', { title: 'Admin setup' }) %>
 <body>
-    <div class="nav">
-        <div class="logo">
-            <img src="/img/logo.png" alt="FindBack Logo">
-        </div>
-        <div class="nav-links">
-             <a href="/">Home</a>
-            <a href="/browse">Browse Items</a>
-            <a href="/howitworks">How It Works</a>
-            <a href="/contacts">Contact Us</a>
-        </div>
-        <div class="right-buttons">
-            <% if (user) { %>
-                <div class="profilepic">
-                    <a href="/user/profile">
-                        <img src="<%= user.profile_image %>" alt="<%= user.full_name %> Profile Picture">
-                    </a>
-                    <a href="/auth/logout">Log Out</a>
+<div class="auth">
+    <section class="auth-brand">
+        <span class="brand-mark">F</span>
+        <h1>Set up FindBack Admin</h1>
+        <p>Create the first administrator account. After this, new admins are added from Settings by an existing admin.</p>
+    </section>
+
+    <section class="auth-form-wrap">
+        <div class="auth-card">
+            <h2>Create first admin</h2>
+            <p>This page closes automatically once an admin exists.</p>
+
+            <%- include('partials/flash') %>
+
+            <form method="POST" action="/admin/register/user" enctype="multipart/form-data" novalidate>
+                <div class="field">
+                    <label for="name">Full name</label>
+                    <input class="input" id="name" name="name" type="text" placeholder="Juan Dela Cruz" required>
                 </div>
-        <% } else { %>
-            <a href="/auth/login">Login</a>
-            <a href="/auth/register">Get Started</a>
-        <% } %>
+                <div class="field">
+                    <label for="email">Email address</label>
+                    <input class="input" id="email" name="email" type="email" placeholder="admin@email.com" required>
+                </div>
+                <div class="field">
+                    <label for="num">Contact number</label>
+                    <input class="input" id="num" name="num" type="text" inputmode="numeric" maxlength="11" placeholder="09123456789">
+                </div>
+                <div class="field">
+                    <label for="pw">Password</label>
+                    <input class="input" id="pw" name="pw" type="password" minlength="8" autocomplete="new-password" placeholder="At least 8 characters" required>
+                </div>
+                <div class="field">
+                    <label for="pfp">Profile picture <span class="muted">(optional)</span></label>
+                    <input class="input" id="pfp" name="pfp" type="file" accept="image/*">
+                </div>
+                <button class="btn btn-primary btn-block" type="submit">Create admin</button>
+            </form>
+
+            <p class="auth-foot">Already have an account? <a href="/admin/login">Sign in</a></p>
         </div>
-    </div>
-    <% if (success && success.length > 0) { %>
-        <div class="flash-message flash-success">
-            <span class="flash-icon">✓</span>
-            <span class="flash-text"><%= success[0] %></span>
-            <button type="button" class="flash-close" onclick="this.parentElement.remove()">&times;</button>
-        </div>
-    <% } %>
-    <% if (error && error.length > 0) { %>
-        <div class="flash-message flash-error">
-            <span class="flash-icon">!</span>
-            <span class="flash-text"><%= error[0] %></span>
-            <button type="button" class="flash-close" onclick="this.parentElement.remove()">&times;</button>
-        </div>
-    <% } %> 
-    <img src="/img/logo.png" alt="FindBack Logo">
-    <h2>Create Admin Account</h2>
-    <p>Join FindBack and help reunite lost items!</p>
-    <form action="/admin/register/user" method="POST" enctype="multipart/form-data">
-        <label>Profile Picture</label>
-        <input type="file" name="pfp" required>
-        <label>Full Name</label>
-        <input type="text" name="name" placeholder="ex. Juan De La Cruz" required>
-        <label>Email Addresss</label>
-        <input type="email" name="email" placeholder="ex. juandelacruz@email.com" required>
-        <label>Contact Number</label>
-        <input type="text" name="num" placeholder="ex. 09123456789" required>
-        <label>Password</label>
-        <input type="password" name="pw" placeholder="ex. x1w23WLm9" required>
-        <button type="submit">Submit</button>
-    </form>
-    <p>Already have an account?<a href="/admin/login">Login Here</a></p>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-        socket.on('connect', () => {
-            console.log('Connected to FINDBACK Socket.IO!');
-        });
-    </script>
-</body>
-</html> 
+    </section>
+</div>
+<%- include('partials/foot') %>

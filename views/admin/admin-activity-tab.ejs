@@ -1,0 +1,102 @@
+<%
+    const ACTION_LABELS = {
+        LOGIN: 'Logged in', LOGOUT: 'Logged out',
+        ADD_ADMIN: 'Added admin', ENABLE_ADMIN: 'Enabled admin', DISABLE_ADMIN: 'Disabled admin',
+        APPROVE_VERIFICATION: 'Approved verification', REJECT_VERIFICATION: 'Rejected verification',
+        UPDATE_USER_STATUS: 'Changed user status', DELETE_ITEM: 'Deleted item', UPDATE_ITEM: 'Updated item'
+    };
+    const label = (a) => ACTION_LABELS[a] || String(a).replace(/_/g, ' ').toLowerCase().replace(/^./, c => c.toUpperCase());
+    const when = (d) => {
+        const x = new Date(d);
+        return isNaN(x) ? '—' : x.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+    };
+%>
+<section class="logs-toolbar">
+    <form method="GET" action="/admin/activity-logs" class="ma-filters">
+        <input type="hidden" name="tab" value="admins">
+
+        <select name="admin" aria-label="Filter by admin" onchange="this.form.submit()">
+            <option value="">All admins</option>
+            <% adminOptions.forEach(a => { %>
+                <option value="<%= a.id %>" <%= String(filters.admin) === String(a.id) ? 'selected' : '' %>><%= a.name %></option>
+            <% }) %>
+        </select>
+
+        <select name="action" aria-label="Filter by action" onchange="this.form.submit()">
+            <option value="">All actions</option>
+            <% actionOptions.forEach(a => { %>
+                <option value="<%= a.action %>" <%= filters.action === a.action ? 'selected' : '' %>><%= label(a.action) %></option>
+            <% }) %>
+        </select>
+    </form>
+
+    <div class="search-box">
+        <input type="search" id="adminLogSearch" placeholder="Search" aria-label="Search admin activity">
+        <span class="search-icon">⌕</span>
+    </div>
+
+    <button type="button" class="export-btn" onclick="window.print()">Export Logs <span>›</span></button>
+</section>
+
+<section class="logs-content">
+    <article class="logs-panel" style="grid-column: 1 / -1;">
+        <h2>Admin Activity</h2>
+
+        <div class="logs-table-wrapper">
+            <table id="adminLogsTable">
+                <thead>
+                    <tr>
+                        <th>Date &amp; Time</th>
+                        <th>Admin</th>
+                        <th>Action</th>
+                        <th>Details</th>
+                        <th>IP Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% if (adminLogs.length) { %>
+                    <% adminLogs.forEach(l => { %>
+                        <tr>
+                            <td><%= when(l.created_at) %></td>
+                            <td>
+                                <%= l.admin_name || ('Admin #' + l.admin_id) %>
+                                <% if (l.admin_email) { %><br><small class="ma-muted"><%= l.admin_email %></small><% } %>
+                            </td>
+                            <td><span class="ma-action ma-action-<%= String(l.action).toLowerCase().replace(/[^a-z0-9]/g, '-') %>"><%= label(l.action) %></span></td>
+                            <td>
+                                <%= l.details || '—' %>
+                                <% if (l.target_type) { %><br><small class="ma-muted"><%= l.target_type %><%= l.target_id ? ' #' + l.target_id : '' %></small><% } %>
+                            </td>
+                            <td><%= l.ip_address || '—' %></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr><td colspan="5" class="empty-state">No admin activity recorded yet.</td></tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-footer">
+            <span id="adminLogCount"><%= adminLogs.length %> activity records (latest 500)</span>
+        </div>
+    </article>
+</section>
+
+<script>
+    (function () {
+        const input = document.getElementById('adminLogSearch');
+        const rows = document.querySelectorAll('#adminLogsTable tbody tr');
+        const count = document.getElementById('adminLogCount');
+        input.addEventListener('input', function () {
+            const k = this.value.toLowerCase();
+            let n = 0;
+            rows.forEach(r => {
+                const ok = r.innerText.toLowerCase().includes(k);
+                r.style.display = ok ? '' : 'none';
+                if (ok && !r.querySelector('td[colspan]')) n++;
+            });
+            count.textContent = n + ' activity records';
+        });
+    })();
+</script>

@@ -1,0 +1,8 @@
+<% const _ok = [].concat(locals.success || []).filter(Boolean);
+   const _err = [].concat(locals.error || []).filter(Boolean); %>
+<% _ok.forEach(function (m) { %>
+    <div class="alert alert-success" role="status"><%- icon('check') %><span><%= m %></span><button type="button" class="close" aria-label="Dismiss">&times;</button></div>
+<% }) %>
+<% _err.forEach(function (m) { %>
+    <div class="alert alert-error" role="alert"><%- icon('x') %><span><%= m %></span><button type="button" class="close" aria-label="Dismiss">&times;</button></div>
+<% }) %>

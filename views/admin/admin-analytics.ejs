@@ -1,257 +1,109 @@
-```ejs
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FindBack Admin | Analytics</title>
-
-    <link rel="stylesheet" href="/css/admin-analytics.css">
-    <link rel="stylesheet" href="/css/admin-sidebar.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+<%- include('partials/head', { title: 'Analytics' }) %>
 <body>
+<%- include('partials/sidebar') %>
+<main class="main">
+    <%- include('partials/flash') %>
+    <% const a = locals.analytics || {};
+       const au = a.users || {}, ac = a.claims || {}; %>
 
-    <%- include('partials/admin-sidebar', { activePage: 'analytics' }) %>
+    <header class="page-head">
+        <div><h1>Analytics</h1><p>Monitor your lost and found system performance.</p></div>
+    </header>
 
-    <main class="analytics-main">
+    <section class="stats">
+        <div class="stat"><span class="stat-icon"><%- icon('users') %></span><div><p>Active Users</p><strong><%= au.activeUsers || 0 %></strong></div></div>
+        <div class="stat"><span class="stat-icon"><%- icon('search') %></span><div><p>Items Lost</p><strong><%= a.lostItems || 0 %></strong></div></div>
+        <div class="stat"><span class="stat-icon ok"><%- icon('box') %></span><div><p>Items Found</p><strong><%= a.foundItems || 0 %></strong></div></div>
+        <div class="stat"><span class="stat-icon ok"><%- icon('check') %></span><div><p>Claims Approved</p><strong><%= ac.approvedClaims || 0 %></strong></div></div>
+        <div class="stat"><span class="stat-icon warn"><%- icon('flag') %></span><div><p>Pending Reviews</p><strong><%= ac.pendingClaims || 0 %></strong></div></div>
+    </section>
 
-        <header class="page-header">
-            <div>
-                <h1>Analytics</h1>
-                <p>Monitor your lost and found system performance.</p>
+    <section class="panel" style="margin-bottom:20px">
+        <div class="panel-head">
+            <div><h2>Lost and found items over time</h2><p>Monthly overview of reported items</p></div>
+            <span class="badge badge-primary">Last 12 months</span>
+        </div>
+        <div class="panel-body">
+            <div class="chart-box"><canvas id="monthlyChart" aria-label="Monthly lost and found items chart" role="img"></canvas></div>
+            <p class="help" id="chartFallback" hidden>The chart could not load (Chart.js needs internet access).</p>
+        </div>
+    </section>
+
+    <section class="grid-2">
+        <article class="panel">
+            <div class="panel-head"><div><h2>Recent claims</h2><p>Latest claim requests</p></div></div>
+            <div class="table-wrap">
+                <table class="table">
+                    <thead><tr><th>Claim</th><th>Claimant</th><th>Item</th><th>Category</th><th>Status</th></tr></thead>
+                    <tbody>
+                    <% if ((a.recentClaims || []).length) { %>
+                        <% a.recentClaims.forEach(function (c) { %>
+                            <tr>
+                                <td>#<%= c.claim_id %></td>
+                                <td><%= c.full_name || 'Unknown' %></td>
+                                <td><%= c.item_name || '—' %></td>
+                                <td><%= c.category_name || 'Other' %></td>
+                                <td><span class="badge <%= badge(c.status) %>"><%= c.status || 'pending' %></span></td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr><td colspan="5"><div class="empty">No claims yet.</div></td></tr>
+                    <% } %>
+                    </tbody>
+                </table>
             </div>
-        </header>
+        </article>
 
-        <section class="stats-grid">
-            <div class="stat-card">
-                <p>Active Users</p>
-                <h2><%= (analytics && analytics.users && analytics.users.activeUsers) || 0 %></h2>
-            </div>
-
-            <div class="stat-card">
-                <p>Items Found</p>
-                <h2><%= (analytics && analytics.foundItems) || 0 %></h2>
-            </div>
-
-            <div class="stat-card">
-                <p>Claims Approved</p>
-                <h2><%= (analytics && analytics.claims && analytics.claims.approvedClaims) || 0 %></h2>
-            </div>
-
-            <div class="stat-card">
-                <p>Pending Reviews</p>
-                <h2><%= (analytics && analytics.claims && analytics.claims.pendingClaims) || 0 %></h2>
-            </div>
-        </section>
-
-        <section class="analytics-panel monthly-panel">
-            <div class="panel-heading">
-                <div>
-                    <h3>Lost and Found Items Over Time</h3>
-                    <p>Monthly overview of reported items</p>
-                </div>
-                <span class="chart-period">12 Months</span>
-            </div>
-
-            <div class="chart-container">
-                <canvas id="monthlyChart"></canvas>
-            </div>
-        </section>
-
-        <section class="analytics-grid">
-
-            <div class="analytics-panel category-panel">
-                <div class="panel-heading">
-                    <h3>Top Categories</h3>
-                </div>
-
-                <% if (analytics && analytics.categoryStats && analytics.categoryStats.length > 0) { %>
-                    <% analytics.categoryStats.forEach(function(category) { %>
-                        <div class="category-row">
-                            <span class="category-dot"></span>
-
-                            <span class="category-name">
-                                <%= category.category_name || 'Uncategorized' %>
-                            </span>
-
-                            <span class="category-percentage">
-                                <%= Number(category.percentage) || 0 %>%
-                            </span>
+        <article class="panel">
+            <div class="panel-head"><div><h2>Top categories</h2><p>Share of all reports</p></div></div>
+            <div class="panel-body">
+                <% if ((a.categoryStats || []).length) { %>
+                    <% a.categoryStats.forEach(function (c) { %>
+                        <div class="bar-row">
+                            <span><%= c.category_name || 'Uncategorized' %></span>
+                            <div class="bar"><i data-w="<%= Math.min(100, Number(c.percentage) || 0) %>"></i></div>
+                            <b><%= Number(c.percentage) || 0 %>%</b>
                         </div>
-                    <% }); %>
+                    <% }) %>
                 <% } else { %>
-                    <p class="empty-message">No categories available.</p>
+                    <div class="empty">No category data yet.</div>
                 <% } %>
             </div>
+        </article>
+    </section>
+</main>
 
-            <div class="analytics-panel claims-panel">
-                <div class="panel-heading">
-                    <h3>Claims Review</h3>
-                </div>
+<script type="application/json" id="monthlyData"><%- JSON.stringify(a.monthlyItems || []).replace(/</g, '\\u003c') %></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var canvas = document.getElementById('monthlyChart');
+        if (typeof Chart === 'undefined') { document.getElementById('chartFallback').hidden = false; return; }
+        var rows = [];
+        try { rows = JSON.parse(document.getElementById('monthlyData').textContent || '[]'); } catch (e) {}
+        var css = getComputedStyle(document.documentElement);
+        var primary = css.getPropertyValue('--primary').trim() || '#7C18FF';
+        var muted = css.getPropertyValue('--muted').trim() || '#81768C';
+        var grid = css.getPropertyValue('--border').trim() || '#E7E2ED';
 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>User</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <% if (analytics && analytics.recentClaims && analytics.recentClaims.length > 0) { %>
-                                <% analytics.recentClaims.forEach(function(claim) { %>
-                                    <tr>
-                                        <td><%= claim.claim_id %></td>
-
-                                        <td><%= claim.full_name || 'Unknown' %></td>
-
-                                        <td><%= claim.category_name || 'Other' %></td>
-
-                                        <td>
-                                            <span class="status-badge <%= String(claim.status || 'pending').toLowerCase() %>">
-                                                <%= claim.status || 'Pending' %>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                <% }); %>
-                            <% } else { %>
-                                <tr>
-                                    <td colspan="4" class="empty-message">
-                                        No claims available.
-                                    </td>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-        </section>
-
-        <footer class="analytics-footer">
-            FindBack Admin Dashboard &copy; <%= new Date().getFullYear() %>
-        </footer>
-
-    </main>
-
-    <script id="monthlyData" type="application/json"><%- JSON.stringify((analytics && analytics.monthlyItems) || []) %></script>
-
-    <script>
-        const monthlyDataElement = document.getElementById('monthlyData');
-        let monthlyData = [];
-
-        try {
-            monthlyData = JSON.parse(monthlyDataElement.textContent || '[]');
-        } catch (error) {
-            console.error('Unable to read monthly analytics data:', error);
-        }
-
-        const chartCanvas = document.getElementById('monthlyChart');
-
-        if (chartCanvas && typeof Chart !== 'undefined') {
-            new Chart(chartCanvas, {
-                type: 'bar',
-
-                data: {
-                    labels: monthlyData.map(function(item) {
-                        return item.label;
-                    }),
-
-                    datasets: [
-                        {
-                            label: 'Lost Items',
-                            data: monthlyData.map(function(item) {
-                                return Number(item.lostItems) || 0;
-                            }),
-                            backgroundColor: '#801cff',
-                            borderRadius: 5,
-                            barPercentage: 0.7,
-                            categoryPercentage: 0.7
-                        },
-                        {
-                            label: 'Found Items',
-                            data: monthlyData.map(function(item) {
-                                return Number(item.foundItems) || 0;
-                            }),
-                            backgroundColor: '#c05bcf',
-                            borderRadius: 5,
-                            barPercentage: 0.7,
-                            categoryPercentage: 0.7
-                        }
-                    ]
-                },
-
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                            align: 'end',
-                            labels: {
-                                usePointStyle: true,
-                                pointStyle: 'rectRounded',
-                                boxWidth: 10,
-                                boxHeight: 10,
-                                padding: 18,
-                                font: {
-                                    size: 11
-                                }
-                            }
-                        },
-
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    },
-
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#777281',
-                                font: {
-                                    size: 11
-                                }
-                            },
-                            border: {
-                                display: false
-                            }
-                        },
-
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                precision: 0,
-                                color: '#777281',
-                                font: {
-                                    size: 11
-                                }
-                            },
-                            grid: {
-                                color: '#f0edf5'
-                            },
-                            border: {
-                                display: false,
-                                dash: [4, 4]
-                            }
-                        }
-                    }
+        new Chart(canvas, {
+            type: 'bar',
+            data: {
+                labels: rows.map(function (r) { return r.label; }),
+                datasets: [
+                    { label: 'Lost', data: rows.map(function (r) { return r.lostItems; }), backgroundColor: primary, borderRadius: 6, maxBarThickness: 22 },
+                    { label: 'Found', data: rows.map(function (r) { return r.foundItems; }), backgroundColor: '#C05BCF', borderRadius: 6, maxBarThickness: 22 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: muted, usePointStyle: true, boxWidth: 8 } } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: muted } },
+                    y: { beginAtZero: true, ticks: { precision: 0, color: muted }, grid: { color: grid } }
                 }
-            });
-        }
-    </script>
-
-</body>
-</html>
-```
+            }
+        });
+    });
+</script>
+<%- include('partials/foot') %>

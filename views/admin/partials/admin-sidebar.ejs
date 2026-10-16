@@ -1,4 +1,3 @@
-```ejs
 <aside class="admin-sidebar">
 
     <div class="sidebar-brand">
@@ -9,14 +8,21 @@
         </div>
     </div>
 
-    <div class="sidebar-label">MAIN MENU</div>
-
     <nav class="sidebar-nav">
+
+        <div class="sidebar-label">OVERVIEW</div>
 
         <a href="/admin"
            class="<%= activePage === 'dashboard' ? 'active' : '' %>">
             <span>▦</span> Dashboard
         </a>
+
+        <a href="/admin/analytics"
+           class="<%= activePage === 'analytics' ? 'active' : '' %>">
+            <span>▥</span> Analytics
+        </a>
+
+        <div class="sidebar-label">MANAGE</div>
 
         <a href="/admin/users"
            class="<%= activePage === 'users' ? 'active' : '' %>">
@@ -33,15 +39,12 @@
             <span>✓</span> User Verification
         </a>
 
-        <a href="/admin/analytics"
-           class="<%= activePage === 'analytics' ? 'active' : '' %>">
-            <span>▥</span> Analytics
-        </a>
-
         <a href="/admin/reports"
            class="<%= activePage === 'reports' ? 'active' : '' %>">
             <span>▤</span> Reports
         </a>
+
+        <div class="sidebar-label">SYSTEM</div>
 
         <a href="/admin/activity-logs"
            class="<%= activePage === 'activity-logs' ? 'active' : '' %>">
@@ -74,4 +77,3 @@
     </div>
 
 </aside>
-```

@@ -1,200 +1,106 @@
-```ejs
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Activity Logs | FindBack Admin</title>
-
-    <link rel="stylesheet" href="/css/admin-sidebar.css">
-    <link rel="stylesheet" href="/css/admin-activity-logs.css">
-</head>
+<%- include('partials/head', { title: 'Activity Logs' }) %>
 <body>
+<%- include('partials/sidebar') %>
+<main class="main">
+    <%- include('partials/flash') %>
 
-    <!-- EXISTING SIDEBAR: DO NOT CHANGE -->
-    <%- include('partials/admin-sidebar', {
-        activePage: 'activity-logs'
-    }) %>
+    <header class="page-head">
+        <div><h1>Activity Logs</h1><p>Track what admins do and how accounts are growing.</p></div>
+    </header>
 
-    <main class="admin-main">
+    <nav class="tabs" aria-label="Activity log type">
+        <a class="tab <%= tab === 'admins' ? 'active' : '' %>" href="/admin/activity-logs">Admin activity</a>
+        <a class="tab <%= tab === 'accounts' ? 'active' : '' %>" href="/admin/activity-logs?tab=accounts">User accounts</a>
+    </nav>
 
-        <div class="page-heading">
-            <h1>Activity Logs</h1>
-        </div>
+    <% if (tab === 'admins') { %>
 
-        <!-- Search and Export -->
-        <section class="logs-toolbar">
-            <div class="search-box">
-                <input
-                    type="search"
-                    id="logSearch"
-                    placeholder="Search"
-                    aria-label="Search user records"
-                >
-                <span class="search-icon">⌕</span>
+        <% if (logsMissing) { %>
+            <div class="alert alert-info"><%- icon('clock') %><span>The activity table does not exist yet. Run <b>sql/admin-update.sql</b> once in MySQL, then actions will start appearing here.</span></div>
+        <% } %>
+
+        <section class="panel">
+            <div class="toolbar">
+                <label class="search">
+                    <%- icon('search') %>
+                    <input class="input" type="search" placeholder="Search activity" data-search="adminLogTable" aria-label="Search activity">
+                </label>
+
+                <form method="GET" action="/admin/activity-logs" class="chips" style="gap:8px">
+                    <select class="select" name="admin" aria-label="Filter by admin" style="min-height:36px;padding:4px 12px;width:auto" onchange="this.form.submit()">
+                        <option value="">All admins</option>
+                        <% adminOptions.forEach(function (a) { %>
+                            <option value="<%= a.user_id %>" <%= String(filters.admin) === String(a.user_id) ? 'selected' : '' %>><%= a.full_name %></option>
+                        <% }) %>
+                    </select>
+                    <select class="select" name="action" aria-label="Filter by action" style="min-height:36px;padding:4px 12px;width:auto" onchange="this.form.submit()">
+                        <option value="">All actions</option>
+                        <% actionOptions.forEach(function (a) { %>
+                            <option value="<%= a.action %>" <%= filters.action === a.action ? 'selected' : '' %>><%= actionLabel(a.action) %></option>
+                        <% }) %>
+                    </select>
+                    <% if (filters.admin || filters.action) { %><a class="btn btn-ghost btn-sm" href="/admin/activity-logs">Clear</a><% } %>
+                </form>
+
+                <button type="button" class="btn btn-ghost btn-sm spacer" data-export="adminLogTable" data-name="admin-activity"><%- icon('download') %>Export CSV</button>
             </div>
 
-            <button
-                type="button"
-                class="export-btn"
-                onclick="window.print()"
-            >
-                Export Logs <span>›</span>
-            </button>
+            <div class="table-wrap">
+                <table class="table" id="adminLogTable">
+                    <thead><tr><th>When</th><th>Admin</th><th>Action</th><th>Details</th><th>IP address</th></tr></thead>
+                    <tbody>
+                    <% adminLogs.forEach(function (l) { %>
+                        <tr data-row>
+                            <td title="<%= fmtDateTime(l.created_at) %>"><%= fmtDateTime(l.created_at) %></td>
+                            <td><div class="cell-user"><%- avatar(l.admin_name, l.admin_image, 'av-sm') %><div><strong><%= l.admin_name || 'Admin #' + l.admin_id %></strong><small><%= l.admin_email || '' %></small></div></div></td>
+                            <td><span class="badge <%= actionTone(l.action) %>"><%= actionLabel(l.action) %></span></td>
+                            <td><%= l.details || '—' %><% if (l.target_type) { %><br><small class="muted"><%= l.target_type %><%= l.target_id ? ' #' + l.target_id : '' %></small><% } %></td>
+                            <td><%= l.ip_address || '—' %></td>
+                        </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="empty" data-empty="adminLogTable" <%= adminLogs.length ? 'hidden' : '' %>><%- icon('clock') %><p>No admin activity recorded yet.</p></div>
+            <div class="panel-foot"><span>Showing <b data-count="adminLogTable"><%= adminLogs.length %></b> records (latest 500)</span></div>
         </section>
 
-        <!-- SUMMARY CARDS -->
-        <section class="logs-summary">
+    <% } else { %>
 
-            <article class="log-summary-card">
-                <div class="summary-icon">▣</div>
-                <p>ID Numbers</p>
-                <h2><%= logs.length %></h2>
-            </article>
+        <section class="panel">
+            <div class="toolbar">
+                <label class="search">
+                    <%- icon('search') %>
+                    <input class="input" type="search" placeholder="Search accounts" data-search="accountTable" aria-label="Search accounts">
+                </label>
+                <div class="chips">
+                    <button type="button" class="chip active" data-filter="accountTable" data-key="role" data-value="">All</button>
+                    <button type="button" class="chip" data-filter="accountTable" data-key="role" data-value="user">Users</button>
+                    <button type="button" class="chip" data-filter="accountTable" data-key="role" data-value="admin">Admins</button>
+                </div>
+                <button type="button" class="btn btn-ghost btn-sm spacer" data-export="accountTable" data-name="accounts"><%- icon('download') %>Export CSV</button>
+            </div>
 
-            <article class="log-summary-card">
-                <div class="summary-icon">♙</div>
-                <p>Names</p>
-                <h2>
-                    <%= logs.filter(log => log.full_name).length %>
-                </h2>
-            </article>
-
-            <article class="log-summary-card">
-                <div class="summary-icon">✉</div>
-                <p>Emails</p>
-                <h2>
-                    <%= logs.filter(log => log.email).length %>
-                </h2>
-            </article>
-
+            <div class="table-wrap">
+                <table class="table" id="accountTable">
+                    <thead><tr><th>Account</th><th>Role</th><th>Verification</th><th>Status</th><th>Joined</th></tr></thead>
+                    <tbody>
+                    <% accounts.forEach(function (u) { %>
+                        <tr data-row data-role="<%= u.role %>">
+                            <td><div class="cell-user"><%- avatar(u.full_name, u.profile_image, 'av-sm') %><div><strong><%= u.full_name %></strong><small><%= u.email %></small></div></div></td>
+                            <td><span class="badge <%= u.role === 'admin' ? 'badge-primary' : 'badge-neutral' %>"><%= u.role %></span></td>
+                            <td><span class="badge <%= badge(u.verification_status) %>"><%= u.verification_status %></span></td>
+                            <td><span class="badge <%= badge(u.account_status) %>"><%= u.account_status %></span></td>
+                            <td><%= fmtDateTime(u.created_at) %></td>
+                        </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="empty" data-empty="accountTable" <%= accounts.length ? 'hidden' : '' %>><%- icon('users') %><p>No accounts yet.</p></div>
+            <div class="panel-foot"><span>Showing <b data-count="accountTable"><%= accounts.length %></b> accounts</span></div>
         </section>
 
-        <!-- TABLE AND STATUS -->
-        <section class="logs-content">
-
-            <article class="logs-panel">
-                <h2>Log Details</h2>
-
-                <div class="logs-table-wrapper">
-                    <table id="logsTable">
-
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <% if (logs && logs.length > 0) { %>
-
-                                <% logs.forEach(log => { %>
-                                    <tr>
-                                        <td><%= log.user_id %></td>
-
-                                        <td>
-                                            <%= log.full_name || 'N/A' %>
-                                        </td>
-
-                                        <td>
-                                            <%= log.email || 'N/A' %>
-                                        </td>
-
-                                        <td>
-                                            <% const status = String(log.account_status || 'Unknown').toLowerCase(); %>
-
-                                            <span class="status-badge <%= status === 'active' ? 'active' : 'inactive' %>">
-                                                <%= log.account_status || 'Unknown' %>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                <% }) %>
-
-                            <% } else { %>
-
-                                <tr>
-                                    <td colspan="4" class="empty-state">
-                                        No user records found.
-                                    </td>
-                                </tr>
-
-                            <% } %>
-                        </tbody>
-
-                    </table>
-                </div>
-
-                <div class="table-footer">
-                    <span id="resultsCount">
-                        <%= logs.length %> user records
-                    </span>
-                </div>
-            </article>
-
-            <!-- STATUS CARD -->
-            <article class="status-panel">
-
-                <div class="status-icon">✓</div>
-
-                <h3>Status</h3>
-
-                <div class="status-stat">
-                    <span>Active</span>
-                    <strong>
-                        <%= logs.filter(log =>
-                            String(log.account_status || '').toLowerCase() === 'active'
-                        ).length %>
-                    </strong>
-                </div>
-
-                <div class="status-stat">
-                    <span>Inactive</span>
-                    <strong>
-                        <%= logs.filter(log =>
-                            String(log.account_status || '').toLowerCase() === 'inactive'
-                        ).length %>
-                    </strong>
-                </div>
-
-            </article>
-
-        </section>
-
-    </main>
-
-    <!-- SEARCH FUNCTION -->
-    <script>
-        const searchInput = document.getElementById('logSearch');
-        const tableRows = document.querySelectorAll(
-            '#logsTable tbody tr'
-        );
-        const resultsCount = document.getElementById('resultsCount');
-
-        searchInput.addEventListener('input', function () {
-            const keyword = this.value.toLowerCase();
-            let visibleCount = 0;
-
-            tableRows.forEach(row => {
-                const matches = row.innerText
-                    .toLowerCase()
-                    .includes(keyword);
-
-                row.style.display = matches ? '' : 'none';
-
-                if (matches && row.querySelector('td[colspan]') === null) {
-                    visibleCount++;
-                }
-            });
-
-            resultsCount.textContent =
-                visibleCount + ' user records';
-        });
-    </script>
-
-</body>
-</html>
-```
+    <% } %>
+</main>
+<%- include('partials/foot') %>

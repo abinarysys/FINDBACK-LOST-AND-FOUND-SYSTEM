@@ -1,62 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="/img/icon/icon.svg">
-    <link rel="stylesheet" href="/css/login.css">
-    <title>LOGIN</title>
-</head>
+<%- include('partials/head', { title: 'Sign in' }) %>
 <body>
-    <div class="nav">
-        <div class="logo">
-            <img src="/img/logo.png" alt="FindBack Logo">
+<div class="auth">
+    <section class="auth-brand">
+        <span class="brand-mark">F</span>
+        <h1>FindBack Admin</h1>
+        <p>Manage users, review reports and keep the lost &amp; found community running smoothly.</p>
+    </section>
+
+    <section class="auth-form-wrap">
+        <div class="auth-card">
+            <h2>Welcome back</h2>
+            <p>Sign in with your administrator account.</p>
+
+            <%- include('partials/flash') %>
+
+            <form method="POST" action="/admin/login/user" novalidate>
+                <div class="field">
+                    <label for="email">Email address</label>
+                    <input class="input" id="email" name="email" type="email" autocomplete="username" placeholder="admin@email.com" required autofocus>
+                </div>
+                <div class="field">
+                    <label for="pw">Password</label>
+                    <input class="input" id="pw" name="pw" type="password" autocomplete="current-password" placeholder="Your password" required>
+                </div>
+                <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+            </form>
+
+            <% if (locals.allowSetup) { %>
+                <p class="auth-foot">No admin yet? <a href="/admin/register">Create the first admin</a></p>
+            <% } %>
+            <p class="auth-foot"><a href="/">&larr; Back to FindBack</a></p>
         </div>
-        <div class="nav-links">
-             <a href="/">Home</a>
-            <a href="/browse">Browse Items</a>
-            <a href="/howitworks">How It Works</a>
-            <a href="/contacts">Contact Us</a>
-        </div>
-        <div class="right-buttons">
-            <a href="/auth/login">Login</a>
-            <a href="/auth/register">Get Started</a>
-        </div>
-    </div>
-    <% if (success && success.length > 0) { %>
-        <div class="flash-message flash-success">
-            <span class="flash-icon">✓</span>
-            <span class="flash-text"><%= success[0] %></span>
-            <button type="button" class="flash-close" onclick="this.parentElement.remove()">&times;</button>
-        </div>
-    <% } %>
-    <% if (error && error.length > 0) { %>
-        <div class="flash-message flash-error">
-            <span class="flash-icon">!</span>
-            <span class="flash-text"><%= error[0] %></span>
-            <button type="button" class="flash-close" onclick="this.parentElement.remove()">&times;</button>
-        </div>
-    <% } %> 
-    <img src="/img/logo.png" alt="FindBack Logo">
-    <h2>Welcome to FindBack</h2>
-    <p>Login as admin to continue finding what matters</p>
-    <form action="/admin/login/user" method="POST">
-        <label>Email</label>
-        <input type="email" name="email" placeholder="ex. juandelacrus@email.com" required>
-        <label>Password</label>
-        <input type="password" name="pw" placeholder="ex. jkb3H98#nd" required>
-        <button type="submit">Log In</button>
-        <label for="register">
-    don't have a account?<a href="/admin/register">register here</a>
-    </label>
-    </form>
-    
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-        socket.on('connect', () => {
-            console.log('Connected to FINDBACK Socket.IO!');
-        });
-    </script>
-</body>
-</html>
+    </section>
+</div>
+<%- include('partials/foot') %>

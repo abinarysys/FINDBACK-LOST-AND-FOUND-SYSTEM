@@ -1,0 +1,14 @@
+<%- include('partials/head', { title: locals.title || 'Error' }) %>
+<body>
+<div class="error-page">
+    <div>
+        <div class="code"><%= locals.code || 500 %></div>
+        <h1 style="margin:10px 0 6px"><%= locals.title || 'Something went wrong' %></h1>
+        <p class="muted" style="margin-bottom:20px"><%= locals.message || 'Please try again.' %></p>
+        <div class="btn-row" style="justify-content:center">
+            <a class="btn btn-primary" href="/admin">Back to dashboard</a>
+            <a class="btn btn-ghost" href="javascript:history.back()">Go back</a>
+        </div>
+    </div>
+</div>
+<%- include('partials/foot') %>

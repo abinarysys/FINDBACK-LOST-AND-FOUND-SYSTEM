@@ -1,359 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Manage Items | FindBack</title>
-
-    <link rel="stylesheet" href="/css/admin-sidebar.css">
-    <link rel="stylesheet" href="/css/admin-lost-items.css">
-</head>
+<%- include('partials/head', { title: 'Manage Items' }) %>
 <body>
-<%
-    /* ---- Normalise data coming from the controller ----
-       Accepts several possible variable names so the page still works
-       if the controller names them differently. */
-    const _pick = (...names) => {
-        for (const n of names) {
-            const v = locals[n];
-            if (Array.isArray(v)) return v;
-        }
-        return [];
-    };
-    const lostList  = _pick('lostItems', 'lost_items', 'lostReports', 'lostItemReports', 'lost', 'items');
-    const foundList = _pick('foundItems', 'found_items', 'foundReports', 'foundItemReports', 'found');
+<%- include('partials/sidebar') %>
+<main class="main">
+    <%- include('partials/flash') %>
 
-    /* Build a valid browser URL for an uploaded image.
-       DB may store: "123-photo.jpg", "uploads/123-photo.jpg",
-       "/uploads/123-photo.jpg", "public/uploads/123-photo.jpg" or a full URL. */
-    const imgUrl = (raw) => {
-        if (!raw) return '';
-        let p = String(raw).trim().replace(/\\/g, '/');
-        if (/^(https?:)?\/\//i.test(p) || p.startsWith('data:')) return p;
-        p = p.replace(/^\/?public\//i, '');
-        if (!/^\/?uploads\//i.test(p)) p = 'uploads/' + p.replace(/^\//, '');
-        return '/' + p.replace(/^\//, '');
-    };
+    <header class="page-head">
+        <div><h1>Manage Items</h1><p>Everything users reported as lost or found.</p></div>
+    </header>
 
-    const fmtDate = (d) => {
-        if (!d) return '—';
-        const x = new Date(d);
-        return isNaN(x) ? '—' : x.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
-    };
+    <% const initialTab = locals.tab === 'found' ? 'found' : 'lost'; %>
 
-    const reporterName = (i) =>
-        i.full_name || i.reporter_name || i.user_name || i.username ||
-        ((i.first_name || i.last_name) ? [i.first_name, i.last_name].filter(Boolean).join(' ') : '') || '—';
-%>
-<div class="admin-layout">
+    <div class="tabs" data-tabs role="tablist">
+        <button type="button" class="tab <%= initialTab === 'lost' ? 'active' : '' %>" data-tab="lost" role="tab">Lost items <span class="badge badge-neutral" style="margin-left:6px"><%= lostItems.length %></span></button>
+        <button type="button" class="tab <%= initialTab === 'found' ? 'active' : '' %>" data-tab="found" role="tab">Found items <span class="badge badge-neutral" style="margin-left:6px"><%= foundItems.length %></span></button>
+    </div>
 
-    <%- include('partials/admin-sidebar', { activePage: 'items' }) %>
-
-    <main class="admin-main">
-
-        <header class="page-heading">
-            <h1>ADMIN MANAGE ITEMS</h1>
-        </header>
-
-        <!-- LOST ITEMS -->
-        <section class="panel">
-            <div class="panel-heading">
-                <h2>
-                    <span class="purple-icon">♟</span>
-                    Lost Items Management
-                </h2>
-
-                <input
-                    type="search"
-                    class="item-search"
-                    id="lostSearch"
-                    placeholder="Search lost items..."
-                    aria-label="Search lost items">
+    <% [['lost', lostItems], ['found', foundItems]].forEach(function (g) {
+        const kind = g[0], list = g[1], tid = kind + 'Table'; %>
+        <section class="panel" data-panel="<%= kind %>" <%= initialTab === kind ? '' : 'hidden' %>>
+            <div class="toolbar">
+                <label class="search">
+                    <%- icon('search') %>
+                    <input class="input" type="search" placeholder="Search item, category or reporter" data-search="<%= tid %>" aria-label="Search <%= kind %> items">
+                </label>
+                <button type="button" class="btn btn-ghost btn-sm spacer" data-export="<%= tid %>" data-name="<%= kind %>-items"><%- icon('download') %>Export CSV</button>
             </div>
 
             <div class="table-wrap">
-                <table class="admin-table" id="lostTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Item Name</th>
-                            <th>Item Picture</th>
-                            <th>Category</th>
-                            <th>Date Created</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
+                <table class="table" id="<%= tid %>">
+                    <thead><tr><th>Item</th><th>Category</th><th>Reported by</th><th>Location</th><th><%= kind === 'lost' ? 'Date lost' : 'Date found' %></th><th>Status</th><th class="num">Details</th></tr></thead>
                     <tbody>
-                    <% if (lostList.length) { %>
-                        <% lostList.forEach(item => {
-                            const itemId = item.lost_item_id || item.lost_id || item.item_id || item.id || '—';
-                            const status = String(item.status || 'Unknown').toLowerCase();
-                            const name = item.item_name || item.name || item.title || 'Unnamed item';
-                            const cat = item.category_name || item.category || '—';
-                            const picture = imgUrl(item.image_url || item.item_image || item.image_path || item.image || item.photo || item.picture);
-                        %>
-                            <tr>
-                                <td><%= itemId %></td>
-
-                                <td class="item-name">
-                                    <%= name %>
-                                </td>
-
-                                <td>
-                                    <% if (picture) { %>
-                                        <img
-                                            class="admin-lost-items-image"
-                                            src="<%= picture %>" loading="lazy"
-                                            alt="<%= name %>"
-                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                        <span class="no-image" style="display:none;">No image</span>
+                    <% list.forEach(function (it) { %>
+                        <tr data-row>
+                            <td>
+                                <div class="cell-user">
+                                    <% if (it.photo) { %>
+                                        <img class="thumb" src="<%= it.photo %>" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'thumb',textContent:'No photo'}))">
                                     <% } else { %>
-                                        <span class="no-image">No image</span>
+                                        <span class="thumb"><%- icon('image') %></span>
                                     <% } %>
-                                </td>
-
-                                <td><%= cat %></td>
-
-                                <td>
-                                    <%= fmtDate(item.created_at || item.date_reported || item.date_lost || item.date_found) %>
-                                </td>
-
-                                <td>
-                                    <span class="status status-<%= status.replace(/[^a-z0-9-]/g, '') %>">
-                                        <%= item.status || 'Unknown' %>
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <button
-                                        type="button"
-                                        class="action-btn view-item-btn"
-                                        title="View item details"
-                                        data-id="<%= itemId %>"
-                                        data-name="<%= name %>"
-                                        data-category="<%= cat %>"
-                                        data-reporter="<%= reporterName(item) %>"
-                                        data-status="<%= item.status || 'Unknown' %>"
-                                        data-description="<%= item.description || 'No description available.' %>">
-                                        View
-                                    </button>
-                                </td>
-                            </tr>
-                        <% }) %>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="7" class="empty-state">
-                                No lost item reports found.
+                                    <div><strong><%= it.item_name %></strong><small>#<%= it.id %></small></div>
+                                </div>
                             </td>
+                            <td><%= it.category_name || '—' %></td>
+                            <td><%= it.reporter || 'Unknown' %></td>
+                            <td style="max-width:220px"><%= it.location || '—' %></td>
+                            <td><%= fmtDate(it.item_date) %></td>
+                            <td><span class="badge <%= badge(it.status) %>"><%= it.status || 'unknown' %></span></td>
+                            <td><div class="row-actions"><button type="button" class="btn btn-ghost btn-sm" data-view data-kind="<%= kind %>" data-id="<%= it.id %>">View</button></div></td>
                         </tr>
-                    <% } %>
+                    <% }) %>
                     </tbody>
                 </table>
             </div>
-
-            <div class="table-footer">
-                <p class="table-count" id="lostCount">
-                    Total lost items: <%= lostList.length %>
-                </p>
-            </div>
+            <div class="empty" data-empty="<%= tid %>" <%= list.length ? 'hidden' : '' %>><%- icon('box') %><p>No <%= kind %> items reported yet.</p></div>
+            <div class="panel-foot"><span>Showing <b data-count="<%= tid %>"><%= list.length %></b> of <%= list.length %> <%= kind %> items</span></div>
         </section>
+    <% }) %>
+</main>
 
-        <!-- FOUND ITEMS -->
-        <section class="panel">
-            <div class="panel-heading">
-                <h2>
-                    <span class="purple-icon">♟</span>
-                    Found Items Management
-                </h2>
-
-                <input
-                    type="search"
-                    class="item-search"
-                    id="foundSearch"
-                    placeholder="Search found items..."
-                    aria-label="Search found items">
-            </div>
-
-            <div class="table-wrap">
-                <table class="admin-table" id="foundTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Item Name</th>
-                            <th>Item Picture</th>
-                            <th>Category</th>
-                            <th>Date Created</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                    <% if (foundList.length) { %>
-                        <% foundList.forEach(item => {
-                            const itemId = item.found_item_id || item.found_id || item.item_id || item.id || '—';
-                            const status = String(item.status || 'Unknown').toLowerCase();
-                            const name = item.item_name || item.name || item.title || 'Unnamed item';
-                            const cat = item.category_name || item.category || '—';
-                            const picture = imgUrl(item.image_url || item.item_image || item.image_path || item.image || item.photo || item.picture);
-                        %>
-                            <tr>
-                                <td><%= itemId %></td>
-
-                                <td class="item-name">
-                                    <%= name %>
-                                </td>
-
-                                <td>
-                                    <% if (picture) { %>
-                                        <img
-                                            class="admin-lost-items-image"
-                                            src="<%= picture %>" loading="lazy"
-                                            alt="<%= name %>"
-                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                        <span class="no-image" style="display:none;">No image</span>
-                                    <% } else { %>
-                                        <span class="no-image">No image</span>
-                                    <% } %>
-                                </td>
-
-                                <td><%= cat %></td>
-
-                                <td>
-                                    <%= fmtDate(item.created_at || item.date_reported || item.date_lost || item.date_found) %>
-                                </td>
-
-                                <td>
-                                    <span class="status status-<%= status.replace(/[^a-z0-9-]/g, '') %>">
-                                        <%= item.status || 'Unknown' %>
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <button
-                                        type="button"
-                                        class="action-btn view-item-btn"
-                                        title="View item details"
-                                        data-id="<%= itemId %>"
-                                        data-name="<%= name %>"
-                                        data-category="<%= cat %>"
-                                        data-reporter="<%= reporterName(item) %>"
-                                        data-status="<%= item.status || 'Unknown' %>"
-                                        data-description="<%= item.description || 'No description available.' %>">
-                                        View
-                                    </button>
-                                </td>
-                            </tr>
-                        <% }) %>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="7" class="empty-state">
-                                No found item reports found.
-                            </td>
-                        </tr>
-                    <% } %>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="table-footer">
-                <p class="table-count" id="foundCount">
-                    Total found items: <%= foundList.length %>
-                </p>
-            </div>
-        </section>
-
-    </main>
-</div>
-
-<!-- ITEM DETAILS MODAL -->
-<div class="item-modal" id="itemModal" aria-hidden="true">
-    <div class="item-modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div class="modal-header">
-            <h2 id="modalTitle">Item Details</h2>
-            <button type="button" id="closeModal" class="modal-close" aria-label="Close">
-                &times;
-            </button>
+<!-- ITEM DETAILS -->
+<div class="modal" id="itemModal" role="dialog" aria-modal="true" aria-labelledby="itemTitle">
+    <div class="modal-card">
+        <div class="modal-head"><h2 id="itemTitle">Item details</h2><button type="button" class="modal-x" data-close aria-label="Close"><%- icon('x') %></button></div>
+        <div class="modal-body">
+            <img class="detail-photo" id="dPhoto" alt="" hidden>
+            <dl class="detail-list">
+                <dt>Item</dt><dd id="dName"></dd>
+                <dt>Type</dt><dd id="dKind"></dd>
+                <dt>Status</dt><dd id="dStatus"></dd>
+                <dt>Category</dt><dd id="dCategory"></dd>
+                <dt id="dDateLabel">Date</dt><dd id="dDate"></dd>
+                <dt>Location</dt><dd id="dLocation"></dd>
+                <dt>Reported by</dt><dd id="dReporter"></dd>
+                <dt>Contact</dt><dd id="dContact"></dd>
+                <dt>Posted</dt><dd id="dPosted"></dd>
+                <dt>Description</dt><dd id="dDescription"></dd>
+            </dl>
         </div>
-
-        <div class="modal-content">
-            <p><strong>Item ID:</strong> <span id="detailId"></span></p>
-            <p><strong>Item Name:</strong> <span id="detailName"></span></p>
-            <p><strong>Category:</strong> <span id="detailCategory"></span></p>
-            <p><strong>Reported By:</strong> <span id="detailReporter"></span></p>
-            <p><strong>Status:</strong> <span id="detailStatus"></span></p>
-            <p><strong>Description:</strong></p>
-            <p id="detailDescription" class="detail-description"></p>
-        </div>
+        <div class="modal-foot"><button type="button" class="btn btn-primary" data-close>Close</button></div>
     </div>
 </div>
 
+<script type="application/json" id="itemsData"><%- JSON.stringify({ lost: lostItems, found: foundItems }).replace(/</g, '\\u003c') %></script>
 <script>
-    function setupSearch(inputId, tableId, countId, label) {
-        const input = document.getElementById(inputId);
-        const table = document.getElementById(tableId);
-        const count = document.getElementById(countId);
+    document.addEventListener('DOMContentLoaded', function () {
+        var data = JSON.parse(document.getElementById('itemsData').textContent);
+        var $ = function (id) { return document.getElementById(id); };
+        var fmt = function (d) { if (!d) return '—'; var x = new Date(d); return isNaN(x) ? '—' : x.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }); };
 
-        input.addEventListener('input', function () {
-            const term = this.value.trim().toLowerCase();
-            const rows = Array.from(table.querySelectorAll('tbody tr'));
-            let matches = 0;
+        document.addEventListener('click', function (e) {
+            var b = e.target.closest('[data-view]');
+            if (!b) return;
+            var it = (data[b.dataset.kind] || []).find(function (x) { return String(x.id) === b.dataset.id; });
+            if (!it) return;
 
-            rows.forEach(row => {
-                if (row.querySelector('.empty-state')) {
-                    row.hidden = term.length > 0;
-                    return;
-                }
+            var photo = $('dPhoto');
+            if (it.photo) { photo.src = it.photo; photo.hidden = false; photo.onerror = function () { photo.hidden = true; }; } else { photo.hidden = true; }
 
-                const visible = row.innerText.toLowerCase().includes(term);
-                row.hidden = !visible;
-
-                if (visible) matches++;
-            });
-
-            count.textContent = term
-                ? 'Matching ' + label + ': ' + matches
-                : 'Total ' + label + ': ' + rows.filter(
-                    row => !row.querySelector('.empty-state')
-                ).length;
+            $('dName').textContent = it.item_name || '—';
+            $('dKind').textContent = b.dataset.kind === 'lost' ? 'Lost item' : 'Found item';
+            $('dStatus').textContent = it.status || '—';
+            $('dCategory').textContent = it.category_name || '—';
+            $('dDateLabel').textContent = b.dataset.kind === 'lost' ? 'Date lost' : 'Date found';
+            $('dDate').textContent = fmt(it.item_date);
+            $('dLocation').textContent = it.location || '—';
+            $('dReporter').textContent = it.reporter || 'Unknown';
+            $('dContact').textContent = [it.reporter_email, it.reporter_contact].filter(Boolean).join(' · ') || '—';
+            $('dPosted').textContent = fmt(it.created_at);
+            $('dDescription').textContent = it.description || '—';
+            FB.openModal('itemModal');
         });
-    }
-
-    setupSearch('lostSearch', 'lostTable', 'lostCount', 'lost items');
-    setupSearch('foundSearch', 'foundTable', 'foundCount', 'found items');
-
-    const modal = document.getElementById('itemModal');
-
-    document.querySelectorAll('.view-item-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            document.getElementById('detailId').textContent = this.dataset.id;
-            document.getElementById('detailName').textContent = this.dataset.name;
-            document.getElementById('detailCategory').textContent = this.dataset.category;
-            document.getElementById('detailReporter').textContent = this.dataset.reporter;
-            document.getElementById('detailStatus').textContent = this.dataset.status;
-            document.getElementById('detailDescription').textContent = this.dataset.description;
-
-            modal.classList.add('show');
-            modal.setAttribute('aria-hidden', 'false');
-        });
-    });
-
-    function closeItemModal() {
-        modal.classList.remove('show');
-        modal.setAttribute('aria-hidden', 'true');
-    }
-
-    document.getElementById('closeModal').addEventListener('click', closeItemModal);
-
-    modal.addEventListener('click', function (event) {
-        if (event.target === modal) closeItemModal();
-    });
-
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') closeItemModal();
     });
 </script>
-</body>
-</html>
+<%- include('partials/foot') %>

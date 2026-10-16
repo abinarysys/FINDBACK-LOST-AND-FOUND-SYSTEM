@@ -1,119 +1,116 @@
-```ejs
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Settings | FindBack Admin</title>
-
-    <link rel="stylesheet" href="/css/admin-sidebar.css">
-    <link rel="stylesheet" href="/css/admin-settings.css">
-</head>
+<%- include('partials/head', { title: 'Settings' }) %>
 <body>
+<%- include('partials/sidebar') %>
+<main class="main">
+    <%- include('partials/flash') %>
 
+    <header class="page-head">
+        <div><h1>Settings</h1><p>Appearance and administrator accounts. Your personal details live in <a href="/admin/profile" style="color:var(--primary);font-weight:600">My Profile</a>.</p></div>
+    </header>
 
-<%- include('partials/admin-sidebar', { activePage: 'settings' }) %>
+    <section class="grid-eq">
+        <article class="panel">
+            <div class="panel-head"><div><h2>Appearance</h2><p>Saved on this device only</p></div></div>
+            <div class="panel-body">
+                <div class="setting-row">
+                    <div><strong>Dark mode</strong><span class="d">Easier on the eyes at night.</span></div>
+                    <label class="switch"><input type="checkbox" id="darkToggle" aria-label="Dark mode"><i></i></label>
+                </div>
+                <div class="setting-row" style="align-items:flex-start;flex-direction:column;gap:12px">
+                    <div><strong>Accent colour</strong><span class="d">Buttons, links and highlights.</span></div>
+                    <div class="swatches">
+                        <% ['#7C18FF', '#2563EB', '#0D9488', '#E11D48', '#EA580C', '#9333EA'].forEach(function (c) { %>
+                            <button type="button" class="swatch" data-color="<%= c %>" aria-label="Use colour <%= c %>"></button>
+                        <% }) %>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div><strong>Reset appearance</strong><span class="d">Back to the FindBack purple, light mode.</span></div>
+                    <button type="button" class="btn btn-ghost btn-sm" id="resetTheme">Reset</button>
+                </div>
+            </div>
+        </article>
 
-    <main class="admin-main settings-main">
+        <article class="panel">
+            <div class="panel-head"><div><h2>Security</h2><p>Keep the admin area safe</p></div></div>
+            <div class="panel-body">
+                <div class="setting-row">
+                    <div><strong>Change my password</strong><span class="d">Use at least 8 characters.</span></div>
+                    <a class="btn btn-ghost btn-sm" href="/admin/profile#password">Change</a>
+                </div>
+                <div class="setting-row">
+                    <div><strong>Admin activity</strong><span class="d">See who did what and when.</span></div>
+                    <a class="btn btn-ghost btn-sm" href="/admin/activity-logs">Open</a>
+                </div>
+                <div class="setting-row">
+                    <div><strong>Sign out</strong><span class="d">End this session on this device.</span></div>
+                    <a class="btn btn-danger btn-sm" href="/admin/logout">Logout</a>
+                </div>
+            </div>
+        </article>
+    </section>
 
-        <div class="page-heading">
-            <h1>Settings</h1>
+    <section class="panel">
+        <div class="panel-head">
+            <div><h2>Administrator accounts</h2><p>Add admins or switch them off. A disabled admin is signed out immediately.</p></div>
+            <button type="button" class="btn btn-primary" data-open="addAdminModal"><%- icon('plus') %>Add admin</button>
         </div>
 
-        <div class="settings-grid">
-
-            <section class="settings-card">
-                <h2>Account Management</h2>
-
-                <a href="/admin/profile" class="settings-option">
-                    <span>👤 Profile Picture</span>
-                    <span class="arrow">›</span>
-                </a>
-
-                <a href="/admin/profile" class="settings-option">
-                    <span>✉ Name, Email</span>
-                    <span class="arrow">›</span>
-                </a>
-
-                <a href="/admin/profile" class="settings-option">
-                    <span>🔒 Password</span>
-                    <span class="arrow">›</span>
-                </a>
-            </section>
-
-            <section class="settings-card">
-                <h2>Appearance</h2>
-
-                <label class="settings-option">
-                    <span>Light Mode / Dark Mode</span>
-                    <span class="switch">
-                        <input type="checkbox" id="darkModeToggle">
-                        <span class="slider"></span>
-                    </span>
-                </label>
-
-                <label class="settings-option">
-                    <span>Primary Color</span>
-                    <input
-                        type="color"
-                        id="primaryColor"
-                        value="#7C18FF"
-                        aria-label="Primary color"
-                    >
-                </label>
-            </section>
-
-            <section class="settings-card">
-                <h2>Systems</h2>
-
-                <a href="/admin/profile" class="settings-option">
-                    <span>👤 New User Register</span>
-                </a>
-
-                <a href="/admin/profile" class="settings-option">
-                    <span>👤 Admin Profile</span>
-                </a>
-            </section>
-
-            <section class="settings-card">
-                <h2>Notifications</h2>
-
-                <a href="/admin/profile" class="settings-option">
-                    <span>Device</span>
-                    <span class="arrow">›</span>
-                </a>
-
-                <a href="/admin/profile" class="settings-option">
-                    <span>Location</span>
-                    <span class="arrow">›</span>
-                </a>
-
-                <a href="/admin/profile" class="settings-option">
-                    <span>Last Active Time</span>
-                    <span class="arrow">›</span>
-                </a>
-            </section>
-
+        <div class="table-wrap">
+            <table class="table" id="adminsTable">
+                <thead><tr><th>Admin</th><th>Contact</th><th>Added</th><th>Last sign-in</th><th>Status</th><th class="num">Action</th></tr></thead>
+                <tbody>
+                <% admins.forEach(function (a) {
+                    const self = Number(a.user_id) === Number(currentAdminId);
+                    const on = a.account_status === 'active'; %>
+                    <tr data-row>
+                        <td><div class="cell-user"><%- avatar(a.full_name, a.profile_image) %><div><strong><%= a.full_name %><%= self ? ' (you)' : '' %></strong><small><%= a.email %></small></div></div></td>
+                        <td><%= a.contact_number || '—' %></td>
+                        <td><%= fmtDate(a.created_at) %></td>
+                        <td><%= a.last_login ? timeAgo(a.last_login) : '—' %></td>
+                        <td><span class="badge <%= badge(a.account_status) %>"><%= a.account_status %></span></td>
+                        <td>
+                            <div class="row-actions">
+                            <% if (self) { %>
+                                <span class="muted">—</span>
+                            <% } else if (on) { %>
+                                <button class="btn btn-danger btn-sm" data-action data-method="PATCH"
+                                        data-url="/admin/settings/admins/<%= a.user_id %>/status" data-body='{"status":"inactive"}'
+                                        data-confirm="Disable <%= a.full_name %>? They will be signed out.">Disable</button>
+                            <% } else { %>
+                                <button class="btn btn-success btn-sm" data-action data-method="PATCH"
+                                        data-url="/admin/settings/admins/<%= a.user_id %>/status" data-body='{"status":"active"}'>Enable</button>
+                            <% } %>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
         </div>
-    </main>
+        <div class="panel-foot"><span><%= admins.length %> administrator<%= admins.length === 1 ? '' : 's' %></span></div>
+    </section>
+</main>
 
-    <script>
-        const darkToggle = document.getElementById('darkModeToggle');
-        const colorPicker = document.getElementById('primaryColor');
-
-        darkToggle.addEventListener('change', function () {
-            document.body.classList.toggle('dark-mode', this.checked);
-        });
-
-        colorPicker.addEventListener('input', function () {
-            document.documentElement.style.setProperty(
-                '--primary',
-                this.value
-            );
-        });
-    </script>
-
-</body>
-</html>
-```
+<!-- ADD ADMIN -->
+<div class="modal" id="addAdminModal" role="dialog" aria-modal="true" aria-labelledby="addAdminTitle">
+    <div class="modal-card">
+        <div class="modal-head"><h2 id="addAdminTitle">Add new admin</h2><button type="button" class="modal-x" data-close aria-label="Close"><%- icon('x') %></button></div>
+        <form method="POST" action="/admin/settings/admins" autocomplete="off">
+            <div class="modal-body">
+                <div class="field"><label for="aaName">Full name</label><input class="input" id="aaName" name="name" type="text" placeholder="Juan Dela Cruz" required></div>
+                <div class="field"><label for="aaEmail">Email address</label><input class="input" id="aaEmail" name="email" type="email" placeholder="admin@email.com" required></div>
+                <div class="field-row">
+                    <div class="field"><label for="aaNum">Contact number</label><input class="input" id="aaNum" name="num" type="text" inputmode="numeric" maxlength="11" placeholder="09123456789"></div>
+                    <div class="field"><label for="aaPw">Temporary password</label><input class="input" id="aaPw" name="pw" type="password" minlength="8" placeholder="Min. 8 characters" required></div>
+                </div>
+                <p class="help">Share the temporary password privately. They can change it in My Profile.</p>
+            </div>
+            <div class="modal-foot">
+                <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+                <button type="submit" class="btn btn-primary">Create admin</button>
+            </div>
+        </form>
+    </div>
+</div>
+<%- include('partials/foot') %>

@@ -326,4 +326,19 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+
+-- ------------------------------------------------------
+-- Update: user verification status
+-- Added on 2026-10-16
+-- ------------------------------------------------------
+
+ALTER TABLE `users`
+  ADD COLUMN `verification_status`
+  ENUM('pending', 'verified', 'rejected')
+  NOT NULL DEFAULT 'pending';
+
+UPDATE `users`
+SET `verification_status` = 'verified'
+WHERE `role` = 'admin';
+
 -- Dump completed on 2026-10-14 17:51:39

@@ -1,0 +1,53 @@
+<%
+    const NAV = [
+        ['dashboard',     '/admin',                  'Dashboard',         'grid'],
+        ['users',         '/admin/users',            'Manage Users',      'users'],
+        ['items',         '/admin/lost-items',       'Manage Items',      'box'],
+        ['verification',  '/admin/user-verification','User Verification', 'shield'],
+        ['analytics',     '/admin/analytics',        'Analytics',         'chart'],
+        ['reports',       '/admin/reports',          'Reports',           'file'],
+        ['activity-logs', '/admin/activity-logs',    'Activity Logs',     'clock']
+    ];
+    const current = locals.activePage || '';
+    const me = locals.admin || {};
+%>
+<aside class="sidebar" aria-label="Admin navigation">
+
+    <a class="brand" href="/admin" title="FindBack Admin">
+        <span class="brand-mark">F</span>
+        <span class="brand-text"><strong>FindBack</strong><small>Admin Panel</small></span>
+    </a>
+
+    <div class="nav-label">MAIN MENU</div>
+
+    <nav class="nav">
+        <% NAV.forEach(function (n) { %>
+            <a href="<%= n[1] %>" title="<%= n[2] %>"
+               class="nav-link <%= current === n[0] ? 'active' : '' %>"
+               <%- current === n[0] ? 'aria-current="page"' : '' %>>
+                <%- icon(n[3]) %><span class="nav-text"><%= n[2] %></span>
+            </a>
+        <% }) %>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <a href="/admin/settings" title="Settings"
+           class="nav-link <%= current === 'settings' ? 'active' : '' %>"
+           <%- current === 'settings' ? 'aria-current="page"' : '' %>>
+            <%- icon('gear') %><span class="nav-text">Settings</span>
+        </a>
+
+        <a href="/admin/profile" title="My profile: <%= me.full_name || 'Administrator' %>"
+           class="profile-card <%= current === 'profile' ? 'active' : '' %>">
+            <%- avatar(me.full_name, me.profile_image) %>
+            <span class="profile-info">
+                <strong><%= me.full_name || 'Administrator' %></strong>
+                <small>Administrator</small>
+            </span>
+        </a>
+
+        <a href="/admin/logout" class="nav-link logout" title="Logout">
+            <%- icon('logout') %><span class="nav-text">Logout</span>
+        </a>
+    </div>
+</aside>

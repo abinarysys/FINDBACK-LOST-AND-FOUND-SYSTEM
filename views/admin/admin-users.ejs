@@ -1,284 +1,61 @@
-```ejs
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Manage Users | FindBack</title>
-    <link rel="stylesheet" href="/css/admin-sidebar.css">
-    <link rel="stylesheet" href="/css/admin-users.css">
-</head>
+<%- include('partials/head', { title: 'Manage Users' }) %>
 <body>
-<div class="admin-layout">
+<%- include('partials/sidebar') %>
+<main class="main">
+    <%- include('partials/flash') %>
 
-    <%- include('partials/admin-sidebar', { activePage: 'users' }) %>
+    <header class="page-head">
+        <div><h1>Manage Users</h1><p>View registered users and activate or deactivate accounts.</p></div>
+    </header>
 
-    <main class="admin-main">
-        <header class="page-heading">
-            <h1>ADMIN MANAGE USERS</h1>
-        </header>
-
-        <section class="panel">
-            <div class="panel-heading">
-                <h2>
-                    <span class="purple-icon">♟</span>
-                    User Management
-                </h2>
-
-                <input
-                    type="search"
-                    id="userSearch"
-                    class="admin-users-search"
-                    placeholder="Search users..."
-                    aria-label="Search users">
+    <%
+        const nActive = users.filter(u => u.account_status === 'active').length;
+        const nInactive = users.length - nActive;
+    %>
+    <section class="panel">
+        <div class="toolbar">
+            <label class="search">
+                <%- icon('search') %>
+                <input class="input" type="search" placeholder="Search name, email or number" data-search="usersTable" aria-label="Search users">
+            </label>
+            <div class="chips">
+                <button type="button" class="chip active" data-filter="usersTable" data-key="status" data-value="">All <em><%= users.length %></em></button>
+                <button type="button" class="chip" data-filter="usersTable" data-key="status" data-value="active">Active <em><%= nActive %></em></button>
+                <button type="button" class="chip" data-filter="usersTable" data-key="status" data-value="inactive">Inactive <em><%= nInactive %></em></button>
             </div>
+            <button type="button" class="btn btn-ghost btn-sm spacer" data-export="usersTable" data-name="users"><%- icon('download') %>Export CSV</button>
+        </div>
 
-            <div class="table-wrap">
-                <table class="admin-table" id="usersTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Date Created</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                    <% if (typeof users !== 'undefined' && users.length) { %>
-                        <% users.forEach(user => {
-                            const status = String(
-                                user.account_status || 'unknown'
-                            ).toLowerCase();
-
-                            const isActive = status === 'active';
-
-                            const isSelf = Number(user.user_id) === Number(
-                                typeof currentAdminId !== 'undefined'
-                                    ? currentAdminId
-                                    : -1
-                            );
-                        %>
-                            <tr>
-                                <td><%= user.user_id %></td>
-
-                                <td class="user-name">
-                                    <%= user.full_name || '—' %>
-                                </td>
-
-                                <td><%= user.email || '—' %></td>
-
-                                <td>
-                                    <%= user.created_at
-                                        ? new Date(user.created_at)
-                                            .toLocaleDateString('en-US', {
-                                                month: 'short',
-                                                day: '2-digit',
-                                                year: 'numeric'
-                                            })
-                                        : '—' %>
-                                </td>
-
-                                <td>
-                                    <span class="status <%= status %>">
-                                        <%= status === 'unknown'
-                                            ? 'Unknown'
-                                            : status.charAt(0).toUpperCase()
-                                                + status.slice(1) %>
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <div class="action-buttons">
-                                        <button
-                                            type="button"
-                                            class="action-btn edit-btn view-user-btn"
-                                            title="View user details"
-                                            aria-label="View user details"
-                                            data-id="<%= user.user_id %>"
-                                            data-name="<%= user.full_name || '' %>"
-                                            data-email="<%= user.email || '' %>"
-                                            data-contact="<%= user.contact_number || '' %>"
-                                            data-role="<%= user.role || 'user' %>"
-                                            data-status="<%= status %>">
-                                            ✎
-                                        </button>
-
-                                        <button
-                                            type="button"
-                                            class="action-btn <%= isActive ? 'deactivate-btn' : 'activate-btn' %> status-btn"
-                                            title="<%= isActive ? 'Deactivate account' : 'Activate account' %>"
-                                            aria-label="<%= isActive ? 'Deactivate account' : 'Activate account' %>"
-                                            data-id="<%= user.user_id %>"
-                                            data-name="<%= user.full_name || '' %>"
-                                            data-status="<%= isActive ? 'inactive' : 'active' %>"
-                                            <%= isSelf ? 'disabled' : '' %>>
-                                            <%= isActive ? '⊘' : '✓' %>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        <% }) %>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="6" class="empty-state">
-                                No users found.
-                            </td>
-                        </tr>
-                    <% } %>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="table-footer">
-                <p class="table-count" id="userCount">
-                    Total users: <%= users ? users.length : 0 %>
-                </p>
-
-                <div class="pagination">
-                    <button type="button" id="previousPage" disabled>
-                        Previous
-                    </button>
-                    <span id="pageNumber">1</span>
-                    <button type="button" id="nextPage" disabled>
-                        Next
-                    </button>
-                </div>
-            </div>
-        </section>
-    </main>
-</div>
-
-<script>
-    const search = document.getElementById('userSearch');
-    const tableBody = document.querySelector('#usersTable tbody');
-    const count = document.getElementById('userCount');
-
-    const previousPage = document.getElementById('previousPage');
-    const nextPage = document.getElementById('nextPage');
-    const pageNumber = document.getElementById('pageNumber');
-
-    const rows = Array.from(tableBody.querySelectorAll('tr'))
-        .filter(row => !row.querySelector('.empty-state'));
-
-    const rowsPerPage = 10;
-    let currentPage = 1;
-    let filteredRows = [...rows];
-
-    function renderTable() {
-        const totalPages = Math.max(
-            1,
-            Math.ceil(filteredRows.length / rowsPerPage)
-        );
-
-        if (currentPage > totalPages) {
-            currentPage = totalPages;
-        }
-
-        rows.forEach(row => {
-            row.hidden = true;
-        });
-
-        const start = (currentPage - 1) * rowsPerPage;
-        const visibleRows = filteredRows.slice(start, start + rowsPerPage);
-
-        visibleRows.forEach(row => {
-            row.hidden = false;
-        });
-
-        count.textContent = search.value
-            ? 'Matching users: ' + filteredRows.length
-            : 'Total users: ' + rows.length;
-
-        pageNumber.textContent = currentPage;
-        previousPage.disabled = currentPage <= 1;
-        nextPage.disabled = currentPage >= totalPages;
-    }
-
-    search.addEventListener('input', function () {
-        const term = this.value.trim().toLowerCase();
-
-        filteredRows = rows.filter(row =>
-            row.innerText.toLowerCase().includes(term)
-        );
-
-        currentPage = 1;
-        renderTable();
-    });
-
-    previousPage.addEventListener('click', function () {
-        if (currentPage > 1) {
-            currentPage--;
-            renderTable();
-        }
-    });
-
-    nextPage.addEventListener('click', function () {
-        if (currentPage < Math.ceil(filteredRows.length / rowsPerPage)) {
-            currentPage++;
-            renderTable();
-        }
-    });
-
-    document.querySelectorAll('.view-user-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            alert(
-                'USER DETAILS\n\n' +
-                'ID: ' + this.dataset.id + '\n' +
-                'Name: ' + this.dataset.name + '\n' +
-                'Email: ' + this.dataset.email + '\n' +
-                'Contact: ' + this.dataset.contact + '\n' +
-                'Role: ' + this.dataset.role + '\n' +
-                'Status: ' + this.dataset.status
-            );
-        });
-    });
-
-    document.querySelectorAll('.status-btn').forEach(button => {
-        button.addEventListener('click', async function () {
-            const id = this.dataset.id;
-            const name = this.dataset.name;
-            const newStatus = this.dataset.status;
-            const action = newStatus === 'active' ? 'activate' : 'deactivate';
-
-            if (!confirm(
-                'Are you sure you want to ' + action + ' ' + name + '?'
-            )) {
-                return;
-            }
-
-            try {
-                const response = await fetch(
-                    '/admin/users/' + encodeURIComponent(id) + '/status',
-                    {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ status: newStatus })
-                    }
-                );
-
-                const result = await response.json();
-
-                if (!response.ok || !result.success) {
-                    alert(result.message || 'Could not update account status.');
-                    return;
-                }
-
-                alert('User account status updated successfully.');
-                window.location.reload();
-            } catch (error) {
-                console.error('Update status error:', error);
-                alert('Could not connect to the server. Please try again.');
-            }
-        });
-    });
-
-    renderTable();
-</script>
-</body>
-</html>
-```
+        <div class="table-wrap">
+            <table class="table" id="usersTable">
+                <thead><tr><th>User</th><th>Contact</th><th>Joined</th><th>Verification</th><th>Status</th><th class="num">Action</th></tr></thead>
+                <tbody>
+                <% users.forEach(function (u) { %>
+                    <tr data-row data-status="<%= u.account_status %>">
+                        <td><div class="cell-user"><%- avatar(u.full_name, u.profile_image) %><div><strong><%= u.full_name %></strong><small><%= u.email %></small></div></div></td>
+                        <td><%= u.contact_number || '—' %></td>
+                        <td><%= fmtDate(u.created_at) %></td>
+                        <td><span class="badge <%= badge(u.verification_status) %>"><%= u.verification_status %></span></td>
+                        <td><span class="badge <%= badge(u.account_status) %>"><%= u.account_status %></span></td>
+                        <td>
+                            <div class="row-actions">
+                            <% if (u.account_status === 'active') { %>
+                                <button class="btn btn-danger btn-sm" data-action data-method="PATCH"
+                                        data-url="/admin/users/<%= u.user_id %>/status" data-body='{"status":"inactive"}'
+                                        data-confirm="Deactivate <%= u.full_name %>? They will not be able to sign in.">Deactivate</button>
+                            <% } else { %>
+                                <button class="btn btn-success btn-sm" data-action data-method="PATCH"
+                                        data-url="/admin/users/<%= u.user_id %>/status" data-body='{"status":"active"}'>Activate</button>
+                            <% } %>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+        </div>
+        <div class="empty" data-empty="usersTable" <%= users.length ? 'hidden' : '' %>><%- icon('users') %><p>No users found.</p></div>
+        <div class="panel-foot"><span>Showing <b data-count="usersTable"><%= users.length %></b> of <%= users.length %> users</span></div>
+    </section>
+</main>
+<%- include('partials/foot') %>
