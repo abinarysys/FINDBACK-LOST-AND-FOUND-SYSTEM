@@ -1,5 +1,5 @@
-
 require('dotenv').config();
+
 const mysql = require('mysql2');
 const fs = require('fs');
 const path = require('path');
@@ -10,14 +10,18 @@ const sslEnabled =
 let ssl;
 
 if (sslEnabled) {
-    if (!process.env.DB_SSL_CA) {
-        throw new Error('DB_SSL_CA is missing from .env');
+    const caValue = process.env.DB_SSL_CA;
+
+    if (!caValue) {
+        throw new Error('DB_SSL_CA is missing from environment variables');
     }
 
-    const caPath = path.resolve(process.cwd(), process.env.DB_SSL_CA);
+    const ca = caValue.includes('-----BEGIN CERTIFICATE-----')
+        ? caValue.replace(/\\n/g, '\n')
+        : fs.readFileSync(path.resolve(process.cwd(), caValue), 'utf8');
 
     ssl = {
-        ca: fs.readFileSync(caPath, 'utf8'),
+        ca,
         rejectUnauthorized: true
     };
 }
