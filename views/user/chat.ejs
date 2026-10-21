@@ -1,8 +1,8 @@
+<%# Provides the chat layout; browser JavaScript loads conversations and messages. %>
 <%
-    /* Chat page. Expects: user, activePage ('chat'), openId (conversation to open, or null),
-       draft (text to prefill in the message box, or ''). The conversations and messages are loaded by
-       /js/chat.js from the JSON API, so this file only holds the page skeleton. */
+    /* The route may preselect a conversation and prefill its first message. */
 %>
+<%# The server renders the shell while the browser fills in live chat data. %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/css/user/chat.css">
 </head>
 <body>
+    <%# Shared account navigation; activePage selects the Chat tab. %>
     <%- include('partials/user-header', { user: user, activePage: 'chat' }) %>
 
     <main class="u-main">
@@ -29,12 +30,13 @@
             </div>
         </header>
 
+        <%# The root ID lets chat.js find the page; data attributes pass initial server values to browser JavaScript. %>
         <section class="panel chat" id="chat"
                  data-me="<%= user.user_id %>"
                  data-open="<%= openId || '' %>"
                  data-draft="<%= draft || '' %>">
 
-            <!-- left: conversation list -->
+            <%# The left pane contains search and a conversation list populated from the chat API. %>
             <aside class="chat-list-pane" aria-label="Conversations">
                 <div class="chat-list-head">
                     <div class="search">
@@ -47,7 +49,7 @@
                 </div>
             </aside>
 
-            <!-- right: the open conversation -->
+            <%# The right pane switches between the empty prompt and the selected conversation thread. %>
             <section class="chat-thread-pane" aria-label="Messages">
                 <div class="chat-empty" id="chatEmpty">
                     <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -72,6 +74,7 @@
 
                     <p class="chat-error" id="chatError" role="alert" hidden></p>
 
+                    <%# The browser script submits this form to the authenticated chat API. %>
                     <form class="chat-compose" id="chatForm" autocomplete="off">
                         <label class="sr-only" for="chatInput">Message</label>
                         <textarea class="textarea" id="chatInput" rows="1" maxlength="1000" placeholder="Write a message…"></textarea>
@@ -82,6 +85,7 @@
         </section>
     </main>
 
+    <%# Load the Socket.IO client first, then the page script that uses it. %>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chat.js" defer></script>
 </body>

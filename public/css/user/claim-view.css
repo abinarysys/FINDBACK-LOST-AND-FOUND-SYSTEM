@@ -1,83 +1,100 @@
+/* Claim detail and review status styles. */
 /* public/css/user/claim-view.css
    Extra styles for /user/claims/:id. Reuses the classes from notif.css. */
 
 .claim-back {
-    text-decoration: none;
-    align-self: flex-start;
+  text-decoration: none;
+  align-self: flex-start;
 }
 
 .claim-banner {
-    border-radius: 16px;
-    padding: 20px 24px;
-    margin-bottom: 20px;
-    border: 1px solid var(--notif-border);
-    background: var(--notif-white);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--notif-border);
+  background: var(--notif-white);
 }
 
 .claim-banner h2 {
-    margin: 0 0 6px;
-    font-size: 18px;
+  margin: 0 0 6px;
+  font-size: 18px;
 }
 
 .claim-banner p {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--notif-text-secondary);
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--notif-text-secondary);
 }
 
 .claim-banner .claim-banner-note {
-    margin-top: 10px;
-    font-size: 13px;
-    color: var(--notif-text-muted);
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--notif-text-muted);
 }
 
-.claim-banner.verified { background: var(--notif-success-bg); border-color: var(--notif-success); }
-.claim-banner.verified h2 { color: var(--notif-success); }
+.claim-banner.verified {
+  background: var(--notif-success-bg);
+  border-color: var(--notif-success);
+}
+.claim-banner.verified h2 {
+  color: var(--notif-success);
+}
 
-.claim-banner.rejected { background: var(--notif-danger-bg); border-color: var(--notif-danger); }
-.claim-banner.rejected h2 { color: var(--notif-danger); }
+.claim-banner.rejected {
+  background: var(--notif-danger-bg);
+  border-color: var(--notif-danger);
+}
+.claim-banner.rejected h2 {
+  color: var(--notif-danger);
+}
 
-.claim-banner.pending h2 { color: var(--notif-primary); }
+.claim-banner.pending h2 {
+  color: var(--notif-primary);
+}
 
 .claim-card {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .claim-item {
-    margin: 0 24px 24px;
+  margin: 0 24px 24px;
 }
 
 .claim-facts {
-    margin: 0;
-    padding: 0 24px 24px;
-    display: grid;
-    gap: 16px;
+  margin: 0;
+  padding: 0 24px 24px;
+  display: grid;
+  gap: 16px;
 }
 
 .claim-facts dt {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--notif-text-muted);
-    margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--notif-text-muted);
+  margin-bottom: 4px;
 }
 
 .claim-facts dd {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--notif-text);
-    overflow-wrap: anywhere;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--notif-text);
+  overflow-wrap: anywhere;
 }
 
 .claim-status.pending {
-    background: var(--notif-primary-light);
-    color: var(--notif-primary);
+  background: var(--notif-primary-light);
+  color: var(--notif-primary);
 }
 
 @media (max-width: 600px) {
-    .claim-item { margin: 0 14px 18px; }
-    .claim-facts { padding: 0 14px 18px; }
+  .claim-item {
+    margin: 0 14px 18px;
+  }
+  .claim-facts {
+    padding: 0 14px 18px;
+  }
 }

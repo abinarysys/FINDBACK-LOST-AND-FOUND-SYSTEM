@@ -1,19 +1,27 @@
+<%# Displays the signed-in user's profile information and account links. %>
 <%
+    // This setup prepares display values before HTML is sent; locals come from routers/userprofile-router.js.
+    // EJS statements calculate values; escaped output displays text safely; includes insert reusable templates.
+    // Use the first character as a fallback when no profile photo exists.
     const initial = user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U';
 
+    // Convert stored dates to a short display date; missing values show a dash.
     const fmtDate = (value) => value
         ? new Date(value).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' })
         : '—';
 
-    // claim status -> badge colour + the wording used in notifications
+    // These maps turn database claim states into CSS badge classes and readable labels.
     const claimBadge = { pending: 'badge-warning', verified: 'badge-success', rejected: 'badge-danger' };
     const claimLabel = { pending: 'Pending', verified: 'Approved', rejected: 'Not approved' };
 
+    // These helpers return CSS class names; the stylesheet determines each badge color.
     const accountBadge = (status) => status === 'active' ? 'badge-success' : 'badge-danger';
     const verifyBadge = { pending: 'badge-warning', verified: 'badge-success', rejected: 'badge-danger' };
 %>
+<%# The browser receives this HTML after EJS evaluates the template on the server. %>
 <!DOCTYPE html>
 <html lang="en">
+<%# The head declares browser metadata, the page title/icon, fonts, and the CSS files that style this page. %>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,11 +34,14 @@
     <link rel="stylesheet" href="/css/user/user-ui.css">
     <link rel="stylesheet" href="/css/user/user-shell.css">
 </head>
+<%# The body holds visible page content. The shared header is rendered first, then this page main content. %>
 <body>
+    <%# Reuse the account header, passing the user and telling it the Profile tab is active. %>
     <%- include('partials/user-header', { user: user, activePage: 'profile' }) %>
 
     <main class="u-main">
 
+        <%# The controller/flash middleware supplies message arrays; forEach renders each message separately. %>
         <!-- Flash messages (e.g. "Profile updated successfully.") -->
         <% (typeof success !== 'undefined' ? success : []).forEach(function (msg) { %>
             <div class="alert alert-success" role="status"><%= msg %></div>
@@ -39,6 +50,7 @@
             <div class="alert alert-error" role="alert"><%= msg %></div>
         <% }) %>
 
+        <%# The heading introduces the page; this anchor opens the edit-profile route. %>
         <header class="page-head">
             <div>
                 <h1>My Profile</h1>
@@ -52,6 +64,7 @@
             </div>
         </header>
 
+        <%# Each summary card prints one count from the stats object prepared by the profile route. %>
         <!-- Quick numbers -->
         <section class="stats" aria-label="Your activity summary">
             <div class="stat">
@@ -80,6 +93,7 @@
             </div>
         </section>
 
+        <%# This two-column section pairs account fields with a profile identity card. %>
         <!-- Personal information + identity card -->
         <section class="grid-2">
             <article class="panel">
@@ -90,6 +104,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
+                    <%# A definition list pairs each dt label with its dd value. %>
                     <dl class="detail-list">
                         <dt>Full name</dt>
                         <dd><%= user.full_name || 'Not provided' %></dd>
@@ -119,6 +134,7 @@
             </article>
 
             <article class="panel">
+                <%# Show the uploaded profile image, or the generated first initial as a fallback. %>
                 <div class="panel-body user-hero">
                     <% if (user.profile_image) { %>
                         <img class="avatar av-lg" src="<%= user.profile_image %>" alt="Profile picture of <%= user.full_name %>">
@@ -136,6 +152,7 @@
             </article>
         </section>
 
+        <%# Claims arrive from the route ordered by submission time; the conditional chooses a table or empty state. %>
         <!-- Claim history -->
         <section class="panel" style="margin-bottom:20px">
             <div class="panel-head">
@@ -146,6 +163,7 @@
                 <a class="btn btn-ghost btn-sm" href="/user/notifications">Notifications</a>
             </div>
 
+            <%# Choose the table when claims exist; otherwise show the empty state below. %>
             <% if (claims.length) { %>
                 <div class="table-wrap">
                     <table class="table">
@@ -159,6 +177,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <%# Render one row for each claim; c is the current claim in this loop. %>
                             <% claims.forEach(function (c) { %>
                                 <tr>
                                     <td><strong style="color:var(--text);font-weight:600"><%= c.item_name %></strong></td>
@@ -175,6 +194,7 @@
                         </tbody>
                     </table>
                 </div>
+                <%# The profile shows up to five claims, so this note appears when more exist. %>
                 <% if (stats.claims > claims.length) { %>
                     <div class="panel-foot"><span>Showing the latest <%= claims.length %> of <%= stats.claims %> claims.</span></div>
                 <% } %>
@@ -186,6 +206,7 @@
             <% } %>
         </section>
 
+        <%# Recent lost and found reports are combined into the items array by the profile route. %>
         <!-- Reported items -->
         <section class="panel">
             <div class="panel-head">
@@ -196,8 +217,10 @@
                 <a class="btn btn-ghost btn-sm" href="/user/items">All items</a>
             </div>
 
+            <%# Choose the recent-item list when rows exist; otherwise show the empty state. %>
             <% if (items.length) { %>
                 <ul class="list">
+                    <%# Render one item card row; type/status values control the visible badges and labels. %>
                     <% items.forEach(function (item) { %>
                         <li>
                             <span class="badge <%= item.type === 'found' ? 'badge-success' : 'badge-warning' %> type-chip"><%= item.type %></span>
@@ -207,6 +230,7 @@
                                     <%= item.category_name ? item.category_name + ' · ' : '' %><%= item.location ? item.location + ' · ' : '' %><%= fmtDate(item.created_at) %>
                                 </small>
                             </div>
+                            <%# Only render a status badge when this database row has a status value. %>
                             <% if (item.status) { %>
                                 <span class="badge <%= item.status === 'available' ? 'badge-success' : (item.status === 'claimed' ? 'badge-primary' : 'badge-neutral') %>"><%= item.status %></span>
                             <% } %>

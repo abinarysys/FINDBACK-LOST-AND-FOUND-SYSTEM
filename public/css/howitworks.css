@@ -1,129 +1,204 @@
+/* Layout for the illustrated steps on the How It Works page. */
 /* public/css/howitworks.css  -  How It Works page
    Colours come from tokens.css (accent + dark mode). Nav and footer styles live in
    site-nav.css and public-base.css. */
 
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap");
 
-body.page-hiw { background: var(--tint); }
+body.page-hiw {
+  background: var(--tint);
+}
 
 /* ===== PAGE WRAPPER ===== */
-.hiw-page { max-width: 1000px; margin: 0 auto; padding: 0 20px 50px; }
+.hiw-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px 50px;
+}
 
 .hiw-pill {
-    display: inline-block;
-    padding: 6px 18px;
-    border-radius: 20px;
-    background: var(--surface);
-    color: var(--primary);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
 }
 
 /* ===== HEADING ===== */
-.hiw-hero { padding: 36px 0 34px; text-align: center; }
-.hiw-hero h1 {
-    margin: 14px 0 10px;
-    font-size: clamp(28px, 5vw, 36px);
-    font-weight: 700;
-    line-height: 1.2;
-    color: var(--text);
+.hiw-hero {
+  padding: 36px 0 34px;
+  text-align: center;
 }
-.hiw-hero h1 span { color: var(--primary); }
-.hiw-hero p { margin: 0; font-size: 13px; color: var(--text-2); }
+.hiw-hero h1 {
+  margin: 14px 0 10px;
+  font-size: clamp(28px, 5vw, 36px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+}
+.hiw-hero h1 span {
+  color: var(--primary);
+}
+.hiw-hero p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-2);
+}
 
 /* ===== STEP CARDS ===== */
-.hiw-steps { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; }
-.hiw-card {
-    flex: 0 0 calc((100% - 36px) / 3);   /* 3 per row, leftovers centred */
-    min-width: 0;
-    padding: 18px 18px 22px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: var(--shadow);
+.hiw-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
 }
-.hiw-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; min-height: 90px; }
+.hiw-card {
+  flex: 0 0 calc((100% - 36px) / 3); /* 3 per row, leftovers centred */
+  min-width: 0;
+  padding: 18px 18px 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+.hiw-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 90px;
+}
 .hiw-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: var(--on-primary);
-    font-size: 13px;
-    font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 13px;
+  font-weight: 600;
 }
 .hiw-card-top img {
-    display: block;
-    max-width: 62%;
-    max-height: 100px;
-    margin-left: auto;
-    object-fit: contain;
-    border-radius: 8px;
+  display: block;
+  max-width: 62%;
+  max-height: 100px;
+  margin-left: auto;
+  object-fit: contain;
+  border-radius: 8px;
 }
-.hiw-card h3 { margin: 14px 0 8px; font-size: 13px; font-weight: 600; color: var(--primary); }
-.hiw-card p  { margin: 0; font-size: 12px; line-height: 1.6; color: var(--text-2); }
+.hiw-card h3 {
+  margin: 14px 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+}
+.hiw-card p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-2);
+}
 
 /* ===== TAGLINE ===== */
 .hiw-tagline {
-    margin: 38px 0 30px;
-    text-align: center;
-    font-family: 'Dancing Script', cursive;
-    font-size: clamp(20px, 3.5vw, 26px);
-    font-weight: 500;
-    color: var(--primary);
+  margin: 38px 0 30px;
+  text-align: center;
+  font-family: "Dancing Script", cursive;
+  font-size: clamp(20px, 3.5vw, 26px);
+  font-weight: 500;
+  color: var(--primary);
 }
 
 /* ===== ABOUT CARD ===== */
 .hiw-about {
-    padding: 36px 44px 40px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    box-shadow: var(--shadow);
+  padding: 36px 44px 40px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
 }
 .hiw-about h2 {
-    margin: 22px 0 18px;
-    font-size: clamp(22px, 4vw, 28px);
-    font-weight: 600;
-    line-height: 1.25;
-    color: var(--text);
+  margin: 22px 0 18px;
+  font-size: clamp(22px, 4vw, 28px);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text);
 }
-.hiw-about h2 span { display: block; color: var(--primary); }
-.hiw-about-text { max-width: 720px; margin: 0 0 16px; font-size: 12px; line-height: 2; color: var(--text-2); }
+.hiw-about h2 span {
+  display: block;
+  color: var(--primary);
+}
+.hiw-about-text {
+  max-width: 720px;
+  margin: 0 0 16px;
+  font-size: 12px;
+  line-height: 2;
+  color: var(--text-2);
+}
 
 /* mission on the left, four features on the right */
 .hiw-about-bottom {
-    display: grid;
-    grid-template-columns: 1.2fr 2fr;
-    gap: 40px;
-    align-items: end;
-    margin-top: 64px;
+  display: grid;
+  grid-template-columns: 1.2fr 2fr;
+  gap: 40px;
+  align-items: end;
+  margin-top: 64px;
 }
-.hiw-mission { margin: 0; font-size: 12px; line-height: 2.2; color: var(--text-2); }
+.hiw-mission {
+  margin: 0;
+  font-size: 12px;
+  line-height: 2.2;
+  color: var(--text-2);
+}
 .hiw-features {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-flow: column;
-    grid-template-rows: repeat(2, auto);
-    gap: 22px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(2, auto);
+  gap: 22px 40px;
 }
-.hiw-feature h4 { margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--text); }
-.hiw-feature p  { margin: 0; font-size: 10px; line-height: 1.6; color: var(--text-2); }
+.hiw-feature h4 {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+.hiw-feature p {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--text-2);
+}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
-    .hiw-card { flex: 0 0 calc((100% - 18px) / 2); }   /* 2 per row */
-    .hiw-about-bottom { grid-template-columns: 1fr; gap: 28px; margin-top: 36px; }
+  .hiw-card {
+    flex: 0 0 calc((100% - 18px) / 2);
+  } /* 2 per row */
+  .hiw-about-bottom {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-top: 36px;
+  }
 }
 @media (max-width: 700px) {
-    .hiw-about { padding: 28px 22px 32px; }
+  .hiw-about {
+    padding: 28px 22px 32px;
+  }
 }
 @media (max-width: 600px) {
-    .hiw-card { flex: 0 0 100%; }
-    .hiw-features { grid-template-columns: 1fr; grid-auto-flow: row; grid-template-rows: none; }
+  .hiw-card {
+    flex: 0 0 100%;
+  }
+  .hiw-features {
+    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+    grid-template-rows: none;
+  }
 }

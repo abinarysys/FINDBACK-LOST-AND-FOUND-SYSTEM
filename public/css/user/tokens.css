@@ -1,3 +1,4 @@
+/* Shared color, spacing, and typography values used by the stylesheets. */
 /* public/css/user/tokens.css
    ONE source of truth for FindBack colours. Loaded by site-nav.css and user-ui.css.
    To use the same palette in the admin dashboard, copy these two blocks over the
@@ -11,51 +12,57 @@
      --accent (set on <html>)        -> accent colour; --primary follows it. */
 
 :root {
-    --accent: #4F46E5;                                   /* user-selectable accent */
-    --primary: var(--accent);
-    --on-primary: #FFFFFF;                               /* text on top of --primary */
-    --primary-600: color-mix(in srgb, var(--primary) 84%, #000);
-    --primary-soft: color-mix(in srgb, var(--primary) 9%, var(--surface));
-    --primary-ring: color-mix(in srgb, var(--primary) 24%, transparent);
+  --accent: #4f46e5; /* user-selectable accent */
+  --primary: var(--accent);
+  --on-primary: #ffffff; /* text on top of --primary */
+  --primary-600: color-mix(in srgb, var(--primary) 84%, #000);
+  --primary-soft: color-mix(in srgb, var(--primary) 9%, var(--surface));
+  --primary-ring: color-mix(in srgb, var(--primary) 24%, transparent);
 
-    --bg: #F6F7FB;
-    --surface: #FFFFFF;
-    --surface-2: #F9FAFC;
-    --border: #E3E7EF;
-    --text: #0F172A;
-    --text-2: #475569;
-    --muted: #64748B;
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --surface-2: #f9fafc;
+  --border: #e3e7ef;
+  --text: #0f172a;
+  --text-2: #475569;
+  --muted: #64748b;
 
-    --success: #047857; --success-soft: #E6F6EF;
-    --warning: #B45309; --warning-soft: #FEF3C7;
-    --danger:  #DC2626; --danger-soft:  #FDECEC;
+  --success: #047857;
+  --success-soft: #e6f6ef;
+  --warning: #b45309;
+  --warning-soft: #fef3c7;
+  --danger: #dc2626;
+  --danger-soft: #fdecec;
 
-    --radius: 14px;
-    --radius-sm: 10px;
-    --shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 6px 20px rgba(15, 23, 42, .06);
-    --sidebar-w: 264px;
-    --font: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 20px rgba(15, 23, 42, 0.06);
+  --sidebar-w: 264px;
+  --font: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 [data-theme="dark"] {
-    /* In dark mode the accent is lightened so it stays readable on dark surfaces,
+  /* In dark mode the accent is lightened so it stays readable on dark surfaces,
        and the text placed on it becomes dark. */
-    --primary: color-mix(in srgb, var(--accent) 55%, #FFFFFF);
-    --on-primary: #0B1020;
-    --primary-600: color-mix(in srgb, var(--primary) 84%, #FFFFFF);
+  --primary: color-mix(in srgb, var(--accent) 55%, #ffffff);
+  --on-primary: #0b1020;
+  --primary-600: color-mix(in srgb, var(--primary) 84%, #ffffff);
 
-    --bg: #0B1020;
-    --surface: #121A2E;
-    --surface-2: #18223A;
-    --border: #26324D;
-    --text: #E8ECF6;
-    --text-2: #B5BFD6;
-    --muted: #8D99B5;
+  --bg: #0b1020;
+  --surface: #121a2e;
+  --surface-2: #18223a;
+  --border: #26324d;
+  --text: #e8ecf6;
+  --text-2: #b5bfd6;
+  --muted: #8d99b5;
 
-    --success: #34D399; --success-soft: rgba(52, 211, 153, .14);
-    --warning: #FBBF24; --warning-soft: rgba(251, 191, 36, .14);
-    --danger:  #F87171; --danger-soft:  rgba(248, 113, 113, .15);
+  --success: #34d399;
+  --success-soft: rgba(52, 211, 153, 0.14);
+  --warning: #fbbf24;
+  --warning-soft: rgba(251, 191, 36, 0.14);
+  --danger: #f87171;
+  --danger-soft: rgba(248, 113, 113, 0.15);
 
-    --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 6px 20px rgba(0, 0, 0, .3);
-    color-scheme: dark;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 6px 20px rgba(0, 0, 0, 0.3);
+  color-scheme: dark;
 }

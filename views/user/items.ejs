@@ -1,8 +1,11 @@
+<%# Lists the signed-in user's lost and found reports, with counts and type filters. %>
 <%
+    // Format database dates for this page; a missing value is shown as a dash.
     const fmtDate = (value) => value
         ? new Date(value).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' })
         : '—';
 %>
+<%# The server fills this template with the account's item data before sending the page. %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,10 +17,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;500;600&display=swap" rel="stylesheet">
+    <%# These CSS files provide shared controls and the responsive account-page layout. %>
     <link rel="stylesheet" href="/css/user/user-ui.css">
     <link rel="stylesheet" href="/css/user/user-shell.css">
 </head>
 <body>
+    <%# Reuse the shared header and highlight the My Items account tab. %>
     <%- include('partials/user-header', { user: user, activePage: 'items' }) %>
 
     <main class="u-main">
@@ -28,6 +33,7 @@
             </div>
         </header>
 
+        <%# These cards print the total/lost/found counts supplied by GET /user/items. %>
         <section class="stats" aria-label="Summary">
             <div class="stat">
                 <div class="stat-icon">
@@ -52,6 +58,7 @@
         <section class="panel">
             <% if (items.length) { %>
                 <div class="toolbar">
+                    <%# Each button data-filter value is read below to hide other row types. %>
                     <div class="chips" role="group" aria-label="Filter items">
                         <button type="button" class="chip active" data-filter="all">All <em><%= stats.total %></em></button>
                         <button type="button" class="chip" data-filter="lost">Lost <em><%= stats.lost %></em></button>
@@ -59,6 +66,7 @@
                     </div>
                 </div>
 
+                <%# One database-backed item appears per row; the wrapper allows horizontal scrolling. %>
                 <div class="table-wrap">
                     <table class="table">
                         <thead>
@@ -105,17 +113,20 @@
     </main>
 
     <script>
+    // This immediately invoked function keeps filter variables out of the global scope.
     (function () {
         var chips = document.querySelectorAll('.chip[data-filter]');
         var rows = document.querySelectorAll('#itemsBody tr');
         var empty = document.getElementById('itemsEmpty');
         if (!chips.length) return;
 
+        // Attach a click handler to each filter button.
         chips.forEach(function (chip) {
             chip.addEventListener('click', function () {
                 var f = chip.getAttribute('data-filter');
                 var shown = 0;
                 chips.forEach(function (c) { c.classList.toggle('active', c === chip); });
+                // Compare each row data-type with the selected filter and hide non-matches.
                 rows.forEach(function (row) {
                     var show = f === 'all' || row.getAttribute('data-type') === f;
                     row.hidden = !show;

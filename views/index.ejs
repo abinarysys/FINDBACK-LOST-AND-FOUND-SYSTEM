@@ -1,3 +1,4 @@
+<%# Landing page that introduces FindBack and its main actions. %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +29,7 @@
         </div>
     <% } %>
 
-    <!-- HERO -->
+    <!-- Introductory banner with the main actions. -->
     <div class="top-layer">
         <div class="left">
             <div class="header">
@@ -72,7 +73,7 @@
         </div>
     </div>
 
-    <!-- CATEGORIES -->
+    <!-- Shortcuts to item categories. -->
     <div class="categories">
         <% categories.forEach(category => { %>
             <a href="/<%= category.category_name %>">
@@ -82,7 +83,7 @@
         <% }) %>
     </div>
 
-    <!-- RECENT ITEMS -->
+    <!-- A small selection of recently posted reports. -->
     <div class="recent-items">
         <div class="recent-head">
             <div>
@@ -135,7 +136,7 @@
         </div>
     </div>
 
-    <!-- FEEDBACK FORM -->
+    <!-- Form for visitors to send feedback. -->
     <section class="feedback">
         <h2>Help us make FINDBACK better. Share your ideas with us!</h2>
         <form action="/fb/feedback" method="POST" class="feedback-form">
@@ -156,7 +157,7 @@
         </form>
     </section>
 
-    <!-- CUSTOMER FEEDBACK: one card per feedback -->
+    <!-- Feedback cards loaded for the landing page. -->
     <section class="feedback-list">
         <h3>Customer Feedback</h3>
         <p class="feedback-sub">Know that your feedbacks are prioritized!</p>
@@ -176,7 +177,7 @@
         <% } %>
     </section>
 
-    <!-- FOOTER -->
+    <!-- Shared links at the bottom of the page. -->
     <footer class="footer">
         <div class="help-band">
             <div class="help-item help-main">

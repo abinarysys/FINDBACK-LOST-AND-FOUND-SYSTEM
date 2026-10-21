@@ -1,257 +1,305 @@
+/* Notification bell, unread badge, and notification panel styles. */
 /* public/css/user/bell.css
    Global floating notification bell (bottom-right, always visible while scrolling).
    Colours use the shared design tokens (--primary, --surface...) with fallbacks, so the
    bell also looks right on pages that don't load user-ui.css (home, browse...). */
 
-.notif-bell-wrap [hidden] { display: none !important; }
+.notif-bell-wrap [hidden] {
+  display: none !important;
+}
 
 .notif-bell-wrap {
-    position: fixed;
-    right: 24px;
-    bottom: 24px;
-    z-index: 1100;
-    font-family: var(--font, 'Poppins', system-ui, sans-serif);
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1100;
+  font-family: var(--font, "Poppins", system-ui, sans-serif);
 }
 
 .notif-bell-wrap .notif-bell {
-    position: relative;
-    width: 54px;
-    height: 54px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    border: 0;
-    background: var(--primary, #4F46E5);
-    color: var(--on-primary, #fff);
-    cursor: pointer;
-    box-shadow: 0 8px 22px color-mix(in srgb, var(--primary, #4F46E5) 40%, transparent);
-    transition: transform 0.15s ease, background 0.15s ease;
+  position: relative;
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 0;
+  background: var(--primary, #4f46e5);
+  color: var(--on-primary, #fff);
+  cursor: pointer;
+  box-shadow: 0 8px 22px
+    color-mix(in srgb, var(--primary, #4f46e5) 40%, transparent);
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
 }
 
-.notif-bell-wrap .notif-bell:hover { transform: translateY(-2px); background: var(--primary-600, #4338CA); }
-.notif-bell-wrap .notif-bell:active { transform: translateY(0); }
+.notif-bell-wrap .notif-bell:hover {
+  transform: translateY(-2px);
+  background: var(--primary-600, #4338ca);
+}
+.notif-bell-wrap .notif-bell:active {
+  transform: translateY(0);
+}
 
 .notif-bell-wrap .notif-bell:focus-visible {
-    outline: 3px solid var(--primary-ring, rgba(79, 70, 229, 0.3));
-    outline-offset: 3px;
+  outline: 3px solid var(--primary-ring, rgba(79, 70, 229, 0.3));
+  outline-offset: 3px;
 }
 
 .notif-bell-wrap .notif-badge {
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    min-width: 22px;
-    height: 22px;
-    padding: 0 6px;
-    display: grid;
-    place-items: center;
-    border-radius: 999px;
-    background: var(--danger, #EF4444);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 1;
-    border: 2px solid var(--surface, #fff);
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--danger, #ef4444);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  border: 2px solid var(--surface, #fff);
 }
 
 /* ---------- Dropdown panel (opens upward, above the bell) ---------- */
 
 .notif-bell-wrap .notif-panel {
-    position: absolute;
-    right: 0;
-    bottom: calc(100% + 14px);
-    width: 370px;
-    max-width: calc(100vw - 32px);
-    background: var(--surface, #fff);
-    border: 1px solid var(--border, #E3E7EF);
-    border-radius: var(--radius, 14px);
-    box-shadow: 0 16px 40px rgba(23, 19, 29, 0.18);
-    overflow: hidden;
-    color: var(--text, #0F172A);
-    text-align: left;
-    animation: notif-pop 0.16s ease;
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 14px);
+  width: 370px;
+  max-width: calc(100vw - 32px);
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, #e3e7ef);
+  border-radius: var(--radius, 14px);
+  box-shadow: 0 16px 40px rgba(23, 19, 29, 0.18);
+  overflow: hidden;
+  color: var(--text, #0f172a);
+  text-align: left;
+  animation: notif-pop 0.16s ease;
 }
 
 @keyframes notif-pop {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .notif-bell-wrap .notif-panel-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border, #E3E7EF);
-    font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border, #e3e7ef);
+  font-size: 14px;
 }
 
 .notif-bell-wrap .notif-link-btn {
-    background: none;
-    border: 0;
-    padding: 0;
-    font: inherit;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--primary, #4F46E5);
-    cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary, #4f46e5);
+  cursor: pointer;
 }
 
-.notif-bell-wrap .notif-link-btn:hover { text-decoration: underline; }
+.notif-bell-wrap .notif-link-btn:hover {
+  text-decoration: underline;
+}
 
 .notif-bell-wrap .notif-panel-list {
-    max-height: min(380px, 55vh);
-    overflow-y: auto;
+  max-height: min(380px, 55vh);
+  overflow-y: auto;
 }
 
 .notif-bell-wrap .notif-row {
-    margin: 0;
-    font-size: 13px;
-    font-weight: 400;
-    display: flex;
-    gap: 10px;
-    padding: 12px 16px;
-    text-decoration: none;
-    color: inherit;
-    border-bottom: 1px solid var(--border, #E3E7EF);
-    transition: background 0.15s ease;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid var(--border, #e3e7ef);
+  transition: background 0.15s ease;
 }
 
-.notif-bell-wrap .notif-row:hover { background: var(--surface-2, #F9FAFC); }
-.notif-bell-wrap .notif-row.unread { background: var(--primary-soft, #EEF0FF); }
+.notif-bell-wrap .notif-row:hover {
+  background: var(--surface-2, #f9fafc);
+}
+.notif-bell-wrap .notif-row.unread {
+  background: var(--primary-soft, #eef0ff);
+}
 
 .notif-bell-wrap .notif-row-dot {
-    flex: 0 0 8px;
-    height: 8px;
-    margin-top: 6px;
-    border-radius: 50%;
-    background: transparent;
+  flex: 0 0 8px;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: transparent;
 }
 
-.notif-bell-wrap .notif-row.unread .notif-row-dot { background: var(--primary, #4F46E5); }
+.notif-bell-wrap .notif-row.unread .notif-row-dot {
+  background: var(--primary, #4f46e5);
+}
 
 .notif-bell-wrap .notif-row-body {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
 }
 
-.notif-bell-wrap .notif-row-body strong { font-size: 13px; font-weight: 600; }
+.notif-bell-wrap .notif-row-body strong {
+  font-size: 13px;
+  font-weight: 600;
+}
 
 .notif-bell-wrap .notif-row-msg {
-    font-size: 12px;
-    line-height: 1.5;
-    color: var(--text-2, #475569);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-2, #475569);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .notif-bell-wrap .notif-row-time {
-    font-size: 11px;
-    color: var(--muted, #64748B);
+  font-size: 11px;
+  color: var(--muted, #64748b);
 }
 
 .notif-bell-wrap .notif-empty {
-    padding: 36px 16px;
-    text-align: center;
-    font-size: 13px;
-    color: var(--muted, #64748B);
+  padding: 36px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted, #64748b);
 }
 
 .notif-bell-wrap .notif-panel-foot {
-    margin: 0;
-    display: block;
-    padding: 12px 16px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--primary, #4F46E5);
-    text-decoration: none;
+  margin: 0;
+  display: block;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary, #4f46e5);
+  text-decoration: none;
 }
 
-.notif-bell-wrap .notif-panel-foot:hover { background: var(--surface-2, #F9FAFC); }
+.notif-bell-wrap .notif-panel-foot:hover {
+  background: var(--surface-2, #f9fafc);
+}
 
 /* ---------- Phones: smaller bell, panel spans the screen width ---------- */
 @media (max-width: 600px) {
-    .notif-bell-wrap { right: 16px; bottom: 16px; }
-    .notif-bell-wrap .notif-bell { width: 50px; height: 50px; }
-    .notif-bell-wrap .notif-panel {
-        position: fixed;
-        left: 12px;
-        right: 12px;
-        bottom: 80px;
-        width: auto;
-        max-width: none;
-    }
+  .notif-bell-wrap {
+    right: 16px;
+    bottom: 16px;
+  }
+  .notif-bell-wrap .notif-bell {
+    width: 50px;
+    height: 50px;
+  }
+  .notif-bell-wrap .notif-panel {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 80px;
+    width: auto;
+    max-width: none;
+  }
 }
 
-@media print { .notif-bell-wrap { display: none; } }
+@media print {
+  .notif-bell-wrap {
+    display: none;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-    .notif-bell-wrap .notif-bell,
-.notif-bell-wrap .notif-panel { transition: none; animation: none; }
+  .notif-bell-wrap .notif-bell,
+  .notif-bell-wrap .notif-panel {
+    transition: none;
+    animation: none;
+  }
 }
 
 /* ---------- Inline mode: the bell sits inside the top navigation ---------- */
 
 .notif-bell-wrap.inline {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    display: inline-flex;
-    align-items: center;
-    align-self: center;
-    margin-left: 12px;
+  position: relative;
+  right: auto;
+  bottom: auto;
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  margin-left: 12px;
 }
 
-.u-nav-actions .notif-bell-wrap.inline { margin-left: 0; }
+.u-nav-actions .notif-bell-wrap.inline {
+  margin-left: 0;
+}
 
 .notif-bell-wrap.inline .notif-bell {
-    width: 42px;
-    height: 42px;
-    background: var(--surface, #fff);
-    color: var(--text, #0F172A);
-    border: 1px solid var(--border, #E3E7EF);
-    box-shadow: none;
+  width: 42px;
+  height: 42px;
+  background: var(--surface, #fff);
+  color: var(--text, #0f172a);
+  border: 1px solid var(--border, #e3e7ef);
+  box-shadow: none;
 }
 
 .notif-bell-wrap.inline .notif-bell:hover {
-    transform: none;
-    background: var(--primary-soft, #EEF0FF);
-    color: var(--primary, #4F46E5);
-    border-color: var(--primary, #4F46E5);
+  transform: none;
+  background: var(--primary-soft, #eef0ff);
+  color: var(--primary, #4f46e5);
+  border-color: var(--primary, #4f46e5);
 }
 
-.notif-bell-wrap.inline .notif-badge { top: -5px; right: -5px; }
+.notif-bell-wrap.inline .notif-badge {
+  top: -5px;
+  right: -5px;
+}
 
 /* the panel opens DOWNWARD from the nav */
 .notif-bell-wrap.inline .notif-panel {
-    bottom: auto;
-    top: calc(100% + 12px);
+  bottom: auto;
+  top: calc(100% + 12px);
 }
 
 /* the public site's own navbar: keep it (and the bell) on screen while scrolling */
 header.navbar.has-bell {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    padding-bottom: 12px;
-    background: var(--surface, #fff);
-    box-shadow: 0 1px 0 var(--border, #E3E7EF);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding-bottom: 12px;
+  background: var(--surface, #fff);
+  box-shadow: 0 1px 0 var(--border, #e3e7ef);
 }
 
 @media (max-width: 600px) {
-    .notif-bell-wrap.inline .notif-panel {
-        position: fixed;
-        top: 72px;
-        bottom: auto;
-        left: 12px;
-        right: 12px;
-        width: auto;
-        max-width: none;
-    }
+  .notif-bell-wrap.inline .notif-panel {
+    position: fixed;
+    top: 72px;
+    bottom: auto;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: none;
+  }
 }

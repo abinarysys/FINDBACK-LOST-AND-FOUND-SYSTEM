@@ -1,210 +1,308 @@
+/* Shared site navigation, including responsive menu behavior. */
 /* public/css/user/site-nav.css
    The FindBack top navigation, used on EVERY page (public site + account pages).
    Self-contained: it only styles .u-* classes, so it can't restyle the page around it. */
 
-@import url('/css/user/tokens.css');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url("/css/user/tokens.css");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
-:root { --nav-h: 60px; }
+:root {
+  --nav-h: 60px;
+}
 
 .u-wrap {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 0 clamp(16px, 4vw, 36px);
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 36px);
 }
 
 .u-nav,
-.u-nav * { box-sizing: border-box; }
+.u-nav * {
+  box-sizing: border-box;
+}
 
 .u-nav {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    height: var(--nav-h);
-    font-family: var(--font);
-    background: color-mix(in srgb, var(--surface) 55%, transparent);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid transparent;
-    transition: background 0.2s ease, border-color 0.2s ease;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  font-family: var(--font);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .u-nav.scrolled {
-    background: color-mix(in srgb, var(--surface) 93%, transparent);
-    border-bottom-color: var(--border);
+  background: color-mix(in srgb, var(--surface) 93%, transparent);
+  border-bottom-color: var(--border);
 }
 
-.u-nav a { text-decoration: none; }
+.u-nav a {
+  text-decoration: none;
+}
 
 .u-nav-in {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 }
 
-.u-brand { display: flex; align-items: center; }
-.u-brand img { display: block; height: 22px; width: auto; }
-[data-theme="dark"] .u-brand img { filter: brightness(0) invert(1); }   /* dark logo -> white on dark */
+.u-brand {
+  display: flex;
+  align-items: center;
+}
+.u-brand img {
+  display: block;
+  height: 22px;
+  width: auto;
+}
+[data-theme="dark"] .u-brand img {
+  filter: brightness(0) invert(1);
+} /* dark logo -> white on dark */
 
-.u-links { display: flex; align-items: center; gap: 2px; }
+.u-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
 
 .u-links a {
-    padding: 8px 14px;
-    border-radius: 999px;
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--text-2);
-    transition: background 0.15s, color 0.15s;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-2);
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
-.u-links a:hover { background: var(--primary-soft); color: var(--primary); }
-.u-links a.active { background: var(--primary-soft); color: var(--primary); font-weight: 600; }
+.u-links a:hover {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+.u-links a.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-weight: 600;
+}
 
-.u-nav-actions { display: flex; align-items: center; gap: 10px; }
+.u-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
 /* ---------- Login / Get started (guests) ---------- */
 
 .u-nav .u-btn {
-    display: inline-flex;
-    align-items: center;
-    height: 40px;
-    padding: 0 18px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    font-size: 13.5px;
-    font-weight: 600;
-    transition: border-color 0.15s, background 0.15s;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 }
 
-.u-nav .u-btn:hover { border-color: var(--primary); }
-.u-nav .u-btn-primary { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
-.u-nav .u-btn-primary:hover { background: var(--primary-600); border-color: var(--primary-600); }
+.u-nav .u-btn:hover {
+  border-color: var(--primary);
+}
+.u-nav .u-btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+.u-nav .u-btn-primary:hover {
+  background: var(--primary-600);
+  border-color: var(--primary-600);
+}
 
 /* ---------- Account dropdown (<details>: works without JavaScript) ---------- */
 
-.u-account { position: relative; }
-
-.u-account summary {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    height: 40px;
-    padding: 0 14px 0 4px;
-    border-radius: 999px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--text);
-    cursor: pointer;
-    user-select: none;
+.u-account {
+  position: relative;
 }
 
-.u-account summary::-webkit-details-marker { display: none; }
-.u-account summary:hover { border-color: var(--primary); }
-.u-chev { transition: transform 0.15s; }
-.u-account[open] .u-chev { transform: rotate(180deg); }
+.u-account summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 40px;
+  padding: 0 14px 0 4px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.u-account summary::-webkit-details-marker {
+  display: none;
+}
+.u-account summary:hover {
+  border-color: var(--primary);
+}
+.u-chev {
+  transition: transform 0.15s;
+}
+.u-account[open] .u-chev {
+  transform: rotate(180deg);
+}
 
 .u-account-av {
-    width: 30px;
-    height: 30px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    object-fit: cover;
-    background: var(--primary-soft);
-    color: var(--primary);
-    font-size: 12px;
-    font-weight: 700;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .u-menu {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 10px);
-    min-width: 230px;
-    padding: 8px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
-    z-index: 1200;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  min-width: 230px;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
+  z-index: 1200;
 }
 
-.u-menu-user { padding: 10px 12px 12px; margin-bottom: 6px; border-bottom: 1px solid var(--border); }
-.u-menu-user strong { display: block; font-size: 13.5px; color: var(--text); overflow-wrap: anywhere; }
-.u-menu-user small { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.u-menu-user {
+  padding: 10px 12px 12px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.u-menu-user strong {
+  display: block;
+  font-size: 13.5px;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.u-menu-user small {
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
 
 .u-menu a {
-    display: block;
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-size: 13.5px;
-    color: var(--text-2);
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  color: var(--text-2);
 }
 
-.u-menu a:hover { background: var(--primary-soft); color: var(--primary); }
-.u-menu a.u-menu-logout { color: var(--danger); }
-.u-menu a.u-menu-logout:hover { background: var(--danger-soft); color: var(--danger); }
+.u-menu a:hover {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+.u-menu a.u-menu-logout {
+  color: var(--danger);
+}
+.u-menu a.u-menu-logout:hover {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
 
 .u-burger {
-    display: none;
-    width: 40px;
-    height: 40px;
-    place-items: center;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    cursor: pointer;
+  display: none;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
 }
 
-.u-nav :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.u-nav :focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
 
 html {
-    overscroll-behavior-y: none;   /* no rubber-band bounce pulling the bar away */
+  overscroll-behavior-y: none; /* no rubber-band bounce pulling the bar away */
 }
 /* The old navbar.css (still linked by the navbar for its flash-message styles) adds 60px of
    top padding to <body> for the OLD fixed bar. This bar is sticky, so that padding left a
    gap above it. Resetting it keeps the bar glued to the top. */
 body {
-    padding-top: 0;          /* old navbar.css adds 60px for a fixed bar; this bar is sticky */
-    color: var(--text);      /* old navbar.css forces #2d2a4a, which is unreadable in dark mode */
+  padding-top: 0; /* old navbar.css adds 60px for a fixed bar; this bar is sticky */
+  color: var(
+    --text
+  ); /* old navbar.css forces #2d2a4a, which is unreadable in dark mode */
 }
 /* ---------- Tablets & phones ---------- */
 
 @media (max-width: 900px) {
-    .u-burger { display: grid; }
+  .u-burger {
+    display: grid;
+  }
 
-    .u-links {
-        display: none;
-        position: absolute;
-        top: calc(var(--nav-h) - 2px);
-        left: 12px;
-        right: 12px;
-        flex-direction: column;
-        align-items: stretch;
-        padding: 8px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
-    }
+  .u-links {
+    display: none;
+    position: absolute;
+    top: calc(var(--nav-h) - 2px);
+    left: 12px;
+    right: 12px;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
+  }
 
-    .u-links a { padding: 12px 14px; }
-    .u-nav.open .u-links { display: flex; }
+  .u-links a {
+    padding: 12px 14px;
+  }
+  .u-nav.open .u-links {
+    display: flex;
+  }
 }
 
 @media (max-width: 420px) {
-    .u-account-label { display: none; }
-    .u-account summary { padding-right: 10px; }
-    .u-nav .u-btn { padding: 0 14px; }
+  .u-account-label {
+    display: none;
+  }
+  .u-account summary {
+    padding-right: 10px;
+  }
+  .u-nav .u-btn {
+    padding: 0 14px;
+  }
 }
 
-@media print { .u-nav { display: none; } }
+@media print {
+  .u-nav {
+    display: none;
+  }
+}

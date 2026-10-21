@@ -1,3 +1,4 @@
+<%# Explains the account deletion action and presents its confirmation form. %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +38,7 @@
                 <% } %>
 
                 <form action="/user/settings/delete-account" method="POST">
-                    <!-- Include your existing CSRF hidden field here. -->
+                    <!-- This form has no CSRF token; the route currently relies on password confirmation. -->
 
                     <label for="password">Confirm your password</label>
                     <input

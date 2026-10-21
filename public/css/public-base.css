@@ -1,3 +1,4 @@
+/* Base typography, spacing, and shared layout for public pages. */
 /* public/css/public-base.css
    Shared by the public pages (Browse, How It Works, Contact):
    page base, flash messages and the footer.
@@ -5,135 +6,225 @@
    All colours come from tokens.css, so the user's accent colour (and dark mode, for
    logged-in users) apply automatically. */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 :root {
-    /* two soft tints of the accent colour, used for banners and section backgrounds */
-    --tint:      color-mix(in srgb, var(--primary) 18%, var(--surface));
-    --tint-soft: color-mix(in srgb, var(--primary) 7%, var(--surface));
+  /* two soft tints of the accent colour, used for banners and section backgrounds */
+  --tint: color-mix(in srgb, var(--primary) 18%, var(--surface));
+  --tint-soft: color-mix(in srgb, var(--primary) 7%, var(--surface));
 }
 
-*, *::before, *::after { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
-    margin: 0;
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font, 'Poppins', system-ui, sans-serif);
-    overflow-x: clip;          /* clip (not hidden) so the sticky navbar keeps working */
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font, "Poppins", system-ui, sans-serif);
+  overflow-x: clip; /* clip (not hidden) so the sticky navbar keeps working */
 }
 
-img { max-width: 100%; }
+img {
+  max-width: 100%;
+}
 
 /* =====================  FLASH MESSAGES  ===================== */
 .flash-message {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: fit-content;
-    min-width: 280px;
-    max-width: 90%;
-    margin: 20px auto;
-    padding: 15px 18px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.5;
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  min-width: 280px;
+  max-width: 90%;
+  margin: 20px auto;
+  padding: 15px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
 }
-.flash-success { background: #ecfdf3; color: #166534; border: 1px solid #bbf7d0; border-left: 5px solid #22c55e; }
-.flash-error   { background: #fff1f2; color: #9f1239; border: 1px solid #fecdd3; border-left: 5px solid #f43f5e; }
+.flash-success {
+  background: #ecfdf3;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  border-left: 5px solid #22c55e;
+}
+.flash-error {
+  background: #fff1f2;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+  border-left: 5px solid #f43f5e;
+}
 .flash-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    font-size: 15px;
-    font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  font-size: 15px;
+  font-weight: 700;
 }
-.flash-success .flash-icon { background: #dcfce7; color: #15803d; }
-.flash-error .flash-icon   { background: #ffe4e6; color: #be123c; }
-.flash-text { flex: 1; overflow-wrap: anywhere; }
+.flash-success .flash-icon {
+  background: #dcfce7;
+  color: #15803d;
+}
+.flash-error .flash-icon {
+  background: #ffe4e6;
+  color: #be123c;
+}
+.flash-text {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
 .flash-close {
-    flex-shrink: 0;
-    padding: 0 2px;
-    border: none;
-    background: transparent;
-    color: inherit;
-    font-size: 23px;
-    cursor: pointer;
-    opacity: 0.65;
+  flex-shrink: 0;
+  padding: 0 2px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 23px;
+  cursor: pointer;
+  opacity: 0.65;
 }
-.flash-close:hover { opacity: 1; }
+.flash-close:hover {
+  opacity: 1;
+}
 
 @media (max-width: 480px) {
-    .flash-message { width: calc(100% - 30px); min-width: 0; max-width: none; margin: 15px auto; padding: 12px; }
+  .flash-message {
+    width: calc(100% - 30px);
+    min-width: 0;
+    max-width: none;
+    margin: 15px auto;
+    padding: 12px;
+  }
 }
 
 /* =====================  FOOTER (views/user/partials/public-footer.ejs)  ===================== */
-.footer { margin-top: 20px; }
+.footer {
+  margin-top: 20px;
+}
 
 .help-band {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 18px 5%;
-    background: var(--tint);
-    border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 5%;
+  background: var(--tint);
+  border-top: 1px solid var(--border);
 }
-.help-item { display: flex; align-items: center; gap: 14px; }
-.help-main { flex: 1.6; min-width: 0; }
+.help-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.help-main {
+  flex: 1.6;
+  min-width: 0;
+}
 .help-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: #fff;          /* stays white so the icon images are visible in dark mode too */
-    font-size: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #fff; /* stays white so the icon images are visible in dark mode too */
+  font-size: 0;
 }
-.help-icon img { display: block; width: 75px; height: 75px; object-fit: contain; }
-.help-main h4 { margin: 0 0 4px; font-size: 13px; font-weight: 700; color: var(--text); }
-.help-main p  { margin: 0; font-size: 10px; line-height: 1.5; color: var(--text-2); }
-.help-label   { font-size: 12px; color: var(--text); }
+.help-icon img {
+  display: block;
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+}
+.help-main h4 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+.help-main p {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.help-label {
+  font-size: 12px;
+  color: var(--text);
+}
 .help-btn {
-    flex-shrink: 0;
-    padding: 10px 20px;
-    border-radius: 8px;
-    background: var(--primary);
-    color: var(--on-primary);
-    font-size: 12px;
-    font-weight: 500;
-    text-decoration: none;
-    white-space: nowrap;
+  flex-shrink: 0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
 }
-.help-btn:hover { background: var(--primary-600); }
+.help-btn:hover {
+  background: var(--primary-600);
+}
 
-.footer-bar { padding: 22px 5%; background: #1b2559; color: #fff; }
-.footer-bar h4 { margin: 0 0 4px; font-size: 13px; }
-.footer-bar p  { margin: 0; font-size: 10px; opacity: 0.85; }
+.footer-bar {
+  padding: 22px 5%;
+  background: #1b2559;
+  color: #fff;
+}
+.footer-bar h4 {
+  margin: 0 0 4px;
+  font-size: 13px;
+}
+.footer-bar p {
+  margin: 0;
+  font-size: 10px;
+  opacity: 0.85;
+}
 
 @media (max-width: 900px) {
-    .help-band { flex-wrap: wrap; justify-content: flex-start; }
-    .help-main { flex: 1 1 100%; }
+  .help-band {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .help-main {
+    flex: 1 1 100%;
+  }
 }
 @media (max-width: 600px) {
-    .help-item { flex: 1 1 45%; }
-    .help-btn { width: 100%; text-align: center; }
+  .help-item {
+    flex: 1 1 45%;
+  }
+  .help-btn {
+    width: 100%;
+    text-align: center;
+  }
 }
 @media (max-width: 400px) {
-    .help-item { flex: 1 1 100%; }
+  .help-item {
+    flex: 1 1 100%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; animation: none !important; }
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }

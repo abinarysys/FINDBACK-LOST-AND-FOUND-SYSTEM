@@ -1,3 +1,4 @@
+<%# Displays one-time success or error messages in admin pages. %>
 <% const _ok = [].concat(locals.success || []).filter(Boolean);
    const _err = [].concat(locals.error || []).filter(Boolean); %>
 <% _ok.forEach(function (m) { %>

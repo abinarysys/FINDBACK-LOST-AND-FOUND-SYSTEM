@@ -1,370 +1,367 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+/* Navigation bar styles for signed-in user pages. */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 /* =====================================================
    ORIGINAL CODE (unchanged)
    ===================================================== */
-body{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.nav{
-    display: flex;
-    justify-content: space-between;
-}
-.nav .right-buttons{
-    width: 25%;
-    display: flex;
-    justify-content: end;
-    margin-right: 30px;
-    margin-top: 20px;
-}
-.nav .logo img{
-    margin-top: 20px;
-    margin-left: 30px;
-    height: 20px;
-    width: 85px;
-}
-.nav-links{
-    margin-top: 20px;
-    width: 40%;
-    
-}
-
-.nav-links a{
-    text-decoration: none;
-    margin-right: 12px;
-    font-size: 12px;
-    color: black;
-    font-weight: 600;
-}
-
-.right-buttons a{
-    text-decoration: none;
-    margin-left: 12px;
-    font-size: 12px;
-    color: black;
-    font-weight: 600;
-}
-.profilepic img{
-    height: 30px;
-    width: 30px;
-    border-radius: 50px;
-}
-
-
-.flash-message {
-    width: fit-content;
-    max-width: 90%;
-    min-width: 280px;
-    box-sizing: border-box;
-
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    padding: 15px 18px;
-    margin: 20px auto;
-
-    border-radius: 12px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.5;
-
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
-    animation: flashSlideIn 0.35s ease-out;
-}
-
-.flash-success {
-    background-color: #ecfdf3;
-    color: #166534;
-    border: 1px solid #bbf7d0;
-    border-left: 5px solid #22c55e;
-}
-
-.flash-error {
-    background-color: #fff1f2;
-    color: #9f1239;
-    border: 1px solid #fecdd3;
-    border-left: 5px solid #f43f5e;
-}
-
-.flash-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-
-    font-size: 15px;
-    font-weight: 700;
-}
-
-.flash-success .flash-icon {
-    background-color: #dcfce7;
-    color: #15803d;
-}
-
-.flash-error .flash-icon {
-    background-color: #ffe4e6;
-    color: #be123c;
-}
-
-.flash-text {
-    flex: 1;
-    overflow-wrap: anywhere;
-}
-
-.flash-close {
-    flex-shrink: 0;
-    border: none;
-    background: transparent;
-    color: inherit;
-    font-size: 23px;
-    cursor: pointer;
-    opacity: 0.65;
-    padding: 0 2px;
-}
-
-.flash-close:hover {
-    opacity: 1;
-}
-
-
 body {
-    padding-top: 60px; /* room for the fixed bar */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .nav {
-    box-sizing: border-box;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    padding: 0 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #FFFFFF;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    z-index: 1000;
-}
-.nav .logo img {
-    display: block;
-    height: 24px;
-    width: auto;
-    margin: 0;
-}
-.nav-links {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: block;
-    width: auto;
-    margin: 0;
-    white-space: nowrap;
-    text-align: center;
-}
-.nav-links a {
-    margin: 0 14px;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    color: #2d2a4a;
+  display: flex;
+  justify-content: space-between;
 }
 .nav .right-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 12px;
-    width: auto;
-    margin: 0;
+  width: 25%;
+  display: flex;
+  justify-content: end;
+  margin-right: 30px;
+  margin-top: 20px;
 }
+.nav .logo img {
+  margin-top: 20px;
+  margin-left: 30px;
+  height: 20px;
+  width: 85px;
+}
+.nav-links {
+  margin-top: 20px;
+  width: 40%;
+}
+
+.nav-links a {
+  text-decoration: none;
+  margin-right: 12px;
+  font-size: 12px;
+  color: black;
+  font-weight: 600;
+}
+
 .right-buttons a {
-    margin: 0;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    color: #2d2a4a;
-}
-.right-buttons > a:last-child {
-    background: #7C18FF;
-    color: #FFFFFF;
-    padding: 8px 18px;
-    border-radius: 6px;
-}
-.profilepic {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  text-decoration: none;
+  margin-left: 12px;
+  font-size: 12px;
+  color: black;
+  font-weight: 600;
 }
 .profilepic img {
-    display: block;
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-.nav-links a:hover,
-.right-buttons a:hover {
-    color: #7C18FF;
-}
-.right-buttons > a:last-child:hover {
-    color: #FFFFFF;
-    opacity: 0.85;
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
 }
 
-.admin-dashboard-btn {
-    display: inline-block;
-    padding: 10px 16px;
-    margin-right: 12px;
-    background: #2563eb;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: background 0.2s ease;
+.flash-message {
+  width: fit-content;
+  max-width: 90%;
+  min-width: 280px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 15px 18px;
+  margin: 20px auto;
+
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+  animation: flashSlideIn 0.35s ease-out;
 }
 
-.admin-dashboard-btn:hover {
-    background: #1d4ed8;
+.flash-success {
+  background-color: #ecfdf3;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  border-left: 5px solid #22c55e;
 }
 
+.flash-error {
+  background-color: #fff1f2;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+  border-left: 5px solid #f43f5e;
+}
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+.flash-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 
-/* ===== BASE (needed by the navbar) ===== */
-* {
-    box-sizing: border-box;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.flash-success .flash-icon {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.flash-error .flash-icon {
+  background-color: #ffe4e6;
+  color: #be123c;
+}
+
+.flash-text {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+
+.flash-close {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 23px;
+  cursor: pointer;
+  opacity: 0.65;
+  padding: 0 2px;
+}
+
+.flash-close:hover {
+  opacity: 1;
 }
 
 body {
-    margin: 0;
-    padding: 60px 0 0;               /* space for the fixed navbar */
-    font-family: 'Poppins', sans-serif;
-    color: #2d2a4a;
+  padding-top: 60px; /* room for the fixed bar */
+}
+
+.nav {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  padding: 0 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+}
+.nav .logo img {
+  display: block;
+  height: 24px;
+  width: auto;
+  margin: 0;
+}
+.nav-links {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: auto;
+  margin: 0;
+  white-space: nowrap;
+  text-align: center;
+}
+.nav-links a {
+  margin: 0 14px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  color: #2d2a4a;
+}
+.nav .right-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  width: auto;
+  margin: 0;
+}
+.right-buttons a {
+  margin: 0;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  color: #2d2a4a;
+}
+.right-buttons > a:last-child {
+  background: #7c18ff;
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 6px;
+}
+.profilepic {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.profilepic img {
+  display: block;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.nav-links a:hover,
+.right-buttons a:hover {
+  color: #7c18ff;
+}
+.right-buttons > a:last-child:hover {
+  color: #ffffff;
+  opacity: 0.85;
+}
+
+.admin-dashboard-btn {
+  display: inline-block;
+  padding: 10px 16px;
+  margin-right: 12px;
+  background: #2563eb;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.admin-dashboard-btn:hover {
+  background: #1d4ed8;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+/* ===== BASE (needed by the navbar) ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 60px 0 0; /* space for the fixed navbar */
+  font-family: "Poppins", sans-serif;
+  color: #2d2a4a;
 }
 
 /* ===== NAVBAR ===== */
 .nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    padding: 0 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #FFFFFF;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  padding: 0 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
 }
 .nav .logo img {
-    display: block;
-    height: 24px;
-    width: auto;
+  display: block;
+  height: 24px;
+  width: auto;
 }
 .nav .nav-links {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-    text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  text-align: center;
 }
 .nav-links a {
-    margin: 0 14px;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    color: #2d2a4a;
+  margin: 0 14px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  color: #2d2a4a;
 }
 .nav .right-buttons {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 .right-buttons a {
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    color: #2d2a4a;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  color: #2d2a4a;
 }
 .profilepic {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 .profilepic img {
-    display: block;
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    object-fit: cover;
+  display: block;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .nav-links a:hover,
 .right-buttons a:hover {
-    color: #7C18FF;
+  color: #7c18ff;
 }
 .right-buttons > a:last-child {
-    background: #7C18FF;
-    color: #FFFFFF;
-    padding: 8px 18px;
-    border-radius: 6px;
+  background: #7c18ff;
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 6px;
 }
 .right-buttons > a:last-child:hover {
-    color: #FFFFFF;
-    opacity: 0.85;
+  color: #ffffff;
+  opacity: 0.85;
 }
 
 /* ===== NAVBAR RESPONSIVE ===== */
 @media (max-width: 900px) {
-    .nav-links a {
-        margin: 0 8px;
-    }
+  .nav-links a {
+    margin: 0 8px;
+  }
 }
 
 @media (max-width: 700px) {
-    body {
-        padding-top: 100px;          /* navbar wraps to two rows */
-    }
-    .nav {
-        height: auto;
-        flex-wrap: wrap;
-        padding: 10px 15px;
-    }
-    .nav .nav-links {
-        position: static;
-        transform: none;
-        order: 3;
-        width: 100%;
-        margin-top: 8px;
-        white-space: normal;
-    }
-    .nav-links a {
-        display: inline-block;
-        margin: 2px 8px;
-    }
+  body {
+    padding-top: 100px; /* navbar wraps to two rows */
+  }
+  .nav {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 10px 15px;
+  }
+  .nav .nav-links {
+    position: static;
+    transform: none;
+    order: 3;
+    width: 100%;
+    margin-top: 8px;
+    white-space: normal;
+  }
+  .nav-links a {
+    display: inline-block;
+    margin: 2px 8px;
+  }
 }
 
 @media (max-width: 360px) {
-    .nav-links a {
-        font-size: 11px;
-        margin: 2px 5px;
-    }
-    .right-buttons {
-        gap: 8px;
-    }
-    .right-buttons > a:last-child {
-        padding: 6px 12px;
-    }
+  .nav-links a {
+    font-size: 11px;
+    margin: 2px 5px;
+  }
+  .right-buttons {
+    gap: 8px;
+  }
+  .right-buttons > a:last-child {
+    padding: 6px 12px;
+  }
 }
