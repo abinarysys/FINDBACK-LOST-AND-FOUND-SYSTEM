@@ -476,7 +476,7 @@ body {
 }
 
 /* Submit button */
-.foundtItem-form button[type="submit"] {
+.foundItem-form button[type="submit"] {
   display: block;
   width: 100%;
   margin-top: 20px;
@@ -489,6 +489,33 @@ body {
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
+}
+
+/* Clear, consistent primary action for the report form. */
+.foundItem-form button[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(110deg, #6d28d9, #8b5cf6);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow: 0 10px 22px rgba(109, 40, 217, 0.2);
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+.foundItem-form button[type="submit"]:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow: 0 14px 26px rgba(109, 40, 217, 0.26);
+}
+
+.foundItem-form button[type="submit"]:active {
+  transform: translateY(0);
 }
 .foundItem-form button[type="submit"]:hover {
   opacity: 0.85;
