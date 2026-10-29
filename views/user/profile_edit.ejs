@@ -1,7 +1,8 @@
 <%# Lets the signed-in user update their name, phone number, and profile photo. %>
 <%
-    // Provide a letter fallback when the account has no saved profile image.
-    const initial = user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U';
+    // Provide initials when the account has no working profile image.
+    const nameParts = String(user.full_name || '').trim().split(/\s+/).filter(Boolean);
+    const initial = (nameParts.length > 1 ? nameParts[0][0] + nameParts[nameParts.length - 1][0] : (nameParts[0] || 'U').slice(0, 2)).toUpperCase();
 %>
 <%# EJS inserts the current account values into the form before sending the page. %>
 <!DOCTYPE html>
@@ -84,12 +85,8 @@
                     </div>
                 </div>
                 <div class="panel-body user-hero">
-                    <% if (user.profile_image) { %>
-                        <img class="avatar av-lg" id="avatarPreview" src="<%= user.profile_image %>" alt="Current profile photo">
-                    <% } else { %>
-                        <span class="avatar av-lg" id="avatarInitial"><%= initial %></span>
-                        <img class="avatar av-lg" id="avatarPreview" alt="New profile photo preview" hidden>
-                    <% } %>
+                    <span class="avatar av-lg" id="avatarInitial"><%= initial %></span>
+                    <img class="avatar av-lg profile-avatar-photo" id="avatarPreview" alt="Current profile photo" <%= user.profile_image ? 'src="' + user.profile_image + '"' : 'hidden' %> onerror="this.hidden=true">
 
                     <label class="btn btn-ghost btn-block" for="profile_image" style="cursor:pointer">Choose a new photo</label>
                     <input type="file" id="profile_image" name="profile_image" accept="image/*" class="sr-only">
@@ -110,7 +107,7 @@
         // Run whenever the selected file changes.
         input.addEventListener('change', function () {
             var file = input.files && input.files[0];
-            if (!file) { label.textContent = 'No new photo selected.'; return; }
+            if (!file) { label.textContent = 'No new photo selected.'; preview.hidden = !preview.src; return; }
             if (file.type.indexOf('image/') !== 0) {
                 input.value = '';
                 label.textContent = 'Please choose an image file.';
@@ -118,6 +115,8 @@
             }
             // Create a temporary browser URL so the selected image can be previewed before upload.
             preview.src = URL.createObjectURL(file);
+            preview.hidden = false;
+            if (initial) initial.hidden = true;
             preview.hidden = false;
             if (initial) initial.hidden = true;
             label.textContent = file.name;

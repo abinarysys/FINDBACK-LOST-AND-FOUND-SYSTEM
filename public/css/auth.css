@@ -120,6 +120,8 @@ body.auth-page {
   border-radius: 50%;
   object-fit: cover;
 }
+.auth-nav-avatar { position: relative; display: inline-grid; place-items: center; width: 30px; height: 30px; overflow: hidden; border-radius: 50%; background: var(--a-soft); color: var(--a-primary); font-size: 12px; font-weight: 700; text-decoration: none; }
+.auth-nav-avatar img { position: absolute; inset: 0; }
 
 /* ===================== FLASH ===================== */
 .flash-message {

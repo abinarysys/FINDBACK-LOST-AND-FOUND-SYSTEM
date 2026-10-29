@@ -6,7 +6,10 @@
     const navUser = (typeof user !== 'undefined' && user) ? user : null;
     const navPath = (typeof currentPath !== 'undefined' && currentPath) ? currentPath : '';
     const navActive = (href) => href === '/' ? navPath === '/' : (navPath === href || navPath.indexOf(href + '/') === 0);
-    const navInitial = navUser && navUser.full_name ? navUser.full_name.charAt(0).toUpperCase() : 'U';
+    const navInitials = (name) => {
+        const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+        return (parts.length > 1 ? parts[0][0] + parts[parts.length - 1][0] : (parts[0] || 'U').slice(0, 2)).toUpperCase();
+    };
 %>
 <!-- navbar.css is kept because other pages rely on its .flash-message styles -->
 <link rel="stylesheet" href="/css/user/navbar.css">
@@ -31,11 +34,10 @@
             <% if (navUser) { %>
                 <details class="u-account" id="uAccount">
                     <summary>
-                        <% if (navUser.profile_image) { %>
-                            <img class="u-account-av" src="<%= navUser.profile_image %>" alt="">
-                        <% } else { %>
-                            <span class="u-account-av"><%= navInitial %></span>
-                        <% } %>
+                        <span class="u-account-avatar-wrap">
+                            <span class="u-account-av"><%= navInitials(navUser.full_name) %></span>
+                            <% if (navUser.profile_image) { %><img class="u-account-av u-account-photo" src="<%= navUser.profile_image %>" alt="" onerror="this.remove()"><% } %>
+                        </span>
                         <span class="u-account-label">Account</span>
                         <svg class="u-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
                     </summary>

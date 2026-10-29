@@ -248,7 +248,6 @@ exports.register = async (req, res) => {
 
     if (!name || !email || !num || !pw)
       return fail("Please fill in every field.");
-    if (!req.file) return fail("Please add a profile picture.");
     if (!validName(name))
       return fail("Please enter your real full name (letters only).");
     if (!validEmail(email)) return fail("Please enter a valid email address.");
@@ -269,7 +268,7 @@ exports.register = async (req, res) => {
         name,
         email,
         await hashPassword(pw),
-        "/uploads/" + req.file.filename,
+        req.file ? "/uploads/" + req.file.filename : null,
         num,
       ],
     );

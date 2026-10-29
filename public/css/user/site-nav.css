@@ -178,6 +178,8 @@
   font-size: 12px;
   font-weight: 700;
 }
+.u-account-avatar-wrap { position: relative; display: inline-flex; width: 30px; height: 30px; }
+.u-account-photo { position: absolute; inset: 0; }
 
 .u-menu {
   position: absolute;

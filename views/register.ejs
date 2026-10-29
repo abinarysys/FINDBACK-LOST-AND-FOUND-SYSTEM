@@ -37,9 +37,9 @@
                 <div class="avatar-row">
                     <div class="avatar" id="avatarPreview" aria-hidden="true">+</div>
                     <div>
-                        <label for="pfp">Profile picture</label>
-                        <input class="file" id="pfp" name="pfp" type="file" accept="image/png,image/jpeg,image/webp" required>
-                        <p class="hint">JPG, PNG or WebP, up to 2 MB.</p>
+                        <label for="pfp">Profile picture <span class="hint">(optional)</span></label>
+                        <input class="file" id="pfp" name="pfp" type="file" accept="image/png,image/jpeg,image/webp">
+                        <p class="hint">You can add one now or later. JPG, PNG or WebP, up to 2 MB.</p>
                     </div>
                 </div>
 
@@ -123,11 +123,11 @@
             // picture preview + quick client check (the server checks again)
             pfp.addEventListener('change', function () {
                 var file = pfp.files[0];
-                if (!file) { avatar.style.backgroundImage = ''; avatar.textContent = '+'; update(); return; }
+                if (!file) { avatar.style.backgroundImage = ''; avatar.textContent = initials(nameEl.value); update(); return; }
                 if (['image/jpeg', 'image/png', 'image/webp'].indexOf(file.type) === -1 || file.size > 2 * 1024 * 1024) {
                     pfp.value = '';
                     avatar.style.backgroundImage = '';
-                    avatar.textContent = '+';
+                    avatar.textContent = initials(nameEl.value);
                     alert('Please choose a JPG, PNG or WebP picture up to 2 MB.');
                     update();
                     return;
@@ -135,6 +135,16 @@
                 avatar.style.backgroundImage = 'url(' + URL.createObjectURL(file) + ')';
                 avatar.textContent = '';
                 update();
+            });
+
+            function initials(name) {
+                var parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+                return parts.length > 1
+                    ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+                    : (parts[0] ? parts[0].slice(0, 2) : '?').toUpperCase();
+            }
+            nameEl.addEventListener('input', function () {
+                if (!pfp.files.length) avatar.textContent = initials(nameEl.value);
             });
 
             // ---- same rules as the server (the server is the one that really enforces them) ----
@@ -209,7 +219,7 @@
                 matchHint.textContent = confirmPw.value.length === 0 ? '' : match ? 'Passwords match.' : 'Passwords do not match.';
                 matchHint.className = 'hint ' + (confirmPw.value.length === 0 ? '' : match ? 'good' : 'bad');
 
-                var ready = passed === keys.length && match && pfp.files.length > 0 &&
+                var ready = passed === keys.length && match &&
                     nameEl.value.trim().length >= 2 && emailEl.validity.valid && /^\d{10,11}$/.test(numEl.value);
                 btn.disabled = !ready;
             }

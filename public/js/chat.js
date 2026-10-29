@@ -110,12 +110,12 @@
       target.textContent = initial(name);
     }
   }
-  const initial = (name) =>
-    (
-      String(name || "?")
-        .trim()
-        .charAt(0) || "?"
-    ).toUpperCase();
+  const initial = (name) => {
+    const parts = String(name || "?").trim().split(/\s+/).filter(Boolean);
+    return (parts.length > 1
+      ? parts[0][0] + parts[parts.length - 1][0]
+      : (parts[0] || "?").slice(0, 2)).toUpperCase();
+  };
 
   function showError(message) {
     errorEl.textContent = message || "";

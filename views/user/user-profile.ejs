@@ -2,8 +2,9 @@
 <%
     // This setup prepares display values before HTML is sent; locals come from routers/userprofile-router.js.
     // EJS statements calculate values; escaped output displays text safely; includes insert reusable templates.
-    // Use the first character as a fallback when no profile photo exists.
-    const initial = user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U';
+    // Use the first and last initials when no profile photo exists.
+    const nameParts = String(user.full_name || '').trim().split(/\s+/).filter(Boolean);
+    const initial = (nameParts.length > 1 ? nameParts[0][0] + nameParts[nameParts.length - 1][0] : (nameParts[0] || 'U').slice(0, 2)).toUpperCase();
 
     // Convert stored dates to a short display date; missing values show a dash.
     const fmtDate = (value) => value
@@ -136,11 +137,8 @@
             <article class="panel">
                 <%# Show the uploaded profile image, or the generated first initial as a fallback. %>
                 <div class="panel-body user-hero">
-                    <% if (user.profile_image) { %>
-                        <img class="avatar av-lg" src="<%= user.profile_image %>" alt="Profile picture of <%= user.full_name %>">
-                    <% } else { %>
-                        <span class="avatar av-lg"><%= initial %></span>
-                    <% } %>
+                    <span class="avatar av-lg profile-avatar-fallback"><%= initial %></span>
+                    <% if (user.profile_image) { %><img class="avatar av-lg profile-avatar-photo" src="<%= user.profile_image %>" alt="Profile picture of <%= user.full_name %>" onerror="this.remove()"><% } %>
                     <h2><%= user.full_name || 'User' %></h2>
                     <p class="muted"><%= user.email || '' %></p>
                     <div class="badges">

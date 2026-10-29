@@ -74,6 +74,7 @@ body {
 }
 
 .u-hero-avatar {
+  position: relative;
   width: 100px;
   height: 100px;
   flex-shrink: 0;
@@ -91,6 +92,8 @@ body {
 }
 
 .u-hero-avatar img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -314,6 +317,8 @@ body {
   height: 92px;
   font-size: 30px;
 }
+.u-main .profile-avatar-photo { position: absolute; }
+.u-main .user-hero { position: relative; }
 .u-main .avatar img {
   width: 100%;
   height: 100%;

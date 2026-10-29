@@ -1,5 +1,5 @@
 <%# Shared navigation for sign-in and registration pages. %>
-<% const navUser = locals.user; %>
+<% const navUser = locals.user; const navParts = String(navUser && navUser.full_name || '').trim().split(/\s+/).filter(Boolean); const navInitials = (navParts.length > 1 ? navParts[0][0] + navParts[navParts.length - 1][0] : (navParts[0] || 'U').slice(0, 2)).toUpperCase(); %>
 <header class="nav">
     <a class="logo" href="/"><img src="/img/logo.png" alt="FindBack Logo"></a>
     <nav class="nav-links" aria-label="Main">
@@ -11,7 +11,7 @@
     <div class="right-buttons">
         <% if (navUser) { %>
             <div class="profilepic">
-                <a href="/user/profile"><img src="<%= navUser.profile_image %>" alt="<%= navUser.full_name %> profile picture"></a>
+                <a href="/user/profile" class="auth-nav-avatar"><span><%= navInitials %></span><% if (navUser.profile_image) { %><img src="<%= navUser.profile_image %>" alt="<%= navUser.full_name %> profile picture" onerror="this.remove()"><% } %></a>
                 <a href="/auth/logout">Log Out</a>
             </div>
         <% } else { %>
