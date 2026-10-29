@@ -1272,3 +1272,102 @@ body { background: var(--bg); font-family: var(--font, "Segoe UI", Arial, sans-s
   .u-hero { padding-top: calc(var(--nav-h, 60px) + 30px); padding-bottom: 58px; }
   .u-hero-avatar { width: 76px; height: 76px; }
 }
+
+/* Stable shared account header and theme-aware surfaces. Keep this block last:
+   older account-page refinements above contain several overlapping hero rules. */
+.u-hero {
+  margin-top: 0;
+  padding: clamp(32px, 5vw, 58px) 0 clamp(50px, 7vw, 76px);
+  overflow: visible;
+  border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--border));
+  border-width: 0 0 1px;
+  border-radius: 0 0 30px 30px;
+  background:
+    radial-gradient(70% 150% at 0% 0%, color-mix(in srgb, var(--primary) 19%, transparent), transparent 72%),
+    radial-gradient(55% 130% at 100% 0%, color-mix(in srgb, var(--secondary) 15%, transparent), transparent 70%),
+    linear-gradient(135deg, var(--surface-2), var(--bg));
+}
+
+.u-hero-in {
+  min-width: 0;
+  align-items: center;
+  gap: clamp(16px, 3vw, 28px);
+  animation: none;
+}
+
+.u-hero-avatar {
+  flex: 0 0 clamp(64px, 8vw, 88px);
+  width: clamp(64px, 8vw, 88px);
+  height: clamp(64px, 8vw, 88px);
+  border: 3px solid var(--surface);
+  background: var(--primary-soft);
+  color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-ring), 0 8px 22px rgba(15, 23, 42, .12);
+}
+
+.u-hero-text { min-width: 0; }
+.u-hero-text h1 {
+  max-width: 100%;
+  font-size: clamp(24px, 3.2vw, 38px);
+  line-height: 1.18;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.u-hero-text p { color: var(--text-2); line-height: 1.5; }
+
+.u-tabs {
+  position: relative;
+  z-index: 2;
+  margin-top: -22px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.u-main :is(.panel, .stat, .card, .profile-card, .settings-card, .claim-card, .chat, .notifications-card) {
+  background-color: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+.u-main :is(.panel-head, .panel-body, .panel-foot, .setting-row) { color: var(--text); }
+.u-main :is(.page-head p, .panel-head p, .setting-row .d, .help, .muted) { color: var(--text-2); }
+.u-main :is(a:not(.btn), .link, .text-primary) { color: var(--primary); }
+.u-main :is(.badge-primary, .chip.active, .pill.active) {
+  background: var(--primary-soft);
+  border-color: color-mix(in srgb, var(--primary) 30%, var(--border));
+  color: var(--primary);
+}
+.u-main :is(.btn-primary, .btn.primary) {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+.u-main :is(input, select, textarea, .input, .textarea) {
+  background-color: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+[data-theme="dark"] .u-hero {
+  background:
+    radial-gradient(70% 150% at 0% 0%, color-mix(in srgb, var(--primary) 22%, transparent), transparent 72%),
+    radial-gradient(55% 130% at 100% 0%, color-mix(in srgb, var(--secondary) 16%, transparent), transparent 70%),
+    linear-gradient(135deg, var(--surface-2), var(--bg));
+}
+[data-theme="dark"] .u-main :is(.panel, .stat, .card, .profile-card, .settings-card, .claim-card, .chat, .notifications-card) {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+}
+
+@media (max-width: 700px) {
+  .u-hero { padding: 30px 0 52px; border-radius: 0 0 22px 22px; }
+  .u-hero-in { gap: 14px; }
+  .u-hero-avatar { flex-basis: 64px; width: 64px; height: 64px; }
+  .u-hero-text h1 { font-size: clamp(22px, 6vw, 30px); }
+  .u-hero-text p { margin-top: 5px; font-size: 13px; }
+}
+
+@media (max-width: 360px) {
+  .u-hero-in { align-items: flex-start; gap: 11px; }
+  .u-hero-avatar { flex-basis: 54px; width: 54px; height: 54px; }
+  .u-hero-text h1 { font-size: 21px; }
+}
