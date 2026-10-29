@@ -2082,3 +2082,14 @@ body.page-home {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* Keep the category heading close to the hero on phone screens. */
+@media (max-width: 600px) {
+  .page-home .top-layer {
+    padding-bottom: 8px;
+  }
+
+  .page-home .categories {
+    padding-top: 8px;
+  }
+}
