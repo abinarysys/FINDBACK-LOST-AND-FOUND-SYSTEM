@@ -2074,3 +2074,61 @@ body.page-home {
   .page-home .item-card,
   .page-home .feedback-card { transition: none; }
 }
+
+/* Tighten the hero-to-category spacing and keep touch layouts scroll friendly. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
+.page-home .top-layer {
+  padding-top: clamp(36px, 4.5vw, 56px);
+  padding-bottom: 28px;
+}
+
+.page-home .top-layer .right {
+  min-height: 360px;
+}
+
+.page-home .top-layer .right img {
+  min-height: 100%;
+}
+
+.page-home .categories {
+  padding-top: 28px;
+}
+
+@media (max-width: 900px) {
+  .page-home .top-layer {
+    gap: 22px;
+    padding-top: 34px;
+    padding-bottom: 20px;
+  }
+
+  .page-home .top-layer .right {
+    min-height: clamp(220px, 36vw, 320px);
+  }
+
+  .page-home .categories {
+    padding-top: 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-home .top-layer {
+    gap: 18px;
+    padding: 28px 18px 16px;
+  }
+
+  .page-home .top-layer .right {
+    min-height: clamp(190px, 55vw, 260px);
+  }
+
+  .page-home .categories {
+    padding-top: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

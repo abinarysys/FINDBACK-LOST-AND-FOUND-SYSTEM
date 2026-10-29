@@ -1,0 +1,113 @@
+/* Shared visual finish for public, account, and admin pages. */
+@import url("/css/responsive.css");
+
+:root {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
+body {
+  font-family: var(--font, "Segoe UI", Arial, sans-serif);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body :is(h1, h2, h3) {
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+body :is(p, li) {
+  text-wrap: pretty;
+}
+
+/* A shared, soft glass treatment for both navigation systems. */
+body :is(.u-nav, .nav) {
+  border-bottom: 1px solid color-mix(in srgb, var(--border, #e5d9ed) 75%, transparent);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--primary, #7b4aa2) 7%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(145%);
+  backdrop-filter: blur(16px) saturate(145%);
+}
+
+body :is(.u-nav a, .nav a) {
+  transition: color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+/* Refine reusable surfaces without changing their page-specific colors. */
+body :is(
+  .hiw-card, .contact-info, .contact-form, .claim-card, .steps-and-tips,
+  .lostItem-form, .foundItem-form, .item-card, .feedback-card, .browse .card,
+  .panel, .stat, .stat-card, .settings-card, .settings-section, .profile-card,
+  .profile-info-card, .profile-edit-card, .notification-card, .chat-list-pane,
+  .chat-thread-pane, .auth-card, .ma-panel, .ma-modal-card
+) {
+  border-radius: 20px;
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--primary, #7b4aa2) 8%, transparent);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+body :is(
+  .hiw-card, .contact-info-item, .item-card, .feedback-card, .browse .card,
+  .category-card, .settings-card, .profile-card, .notification-item
+):hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--primary, #7b4aa2) 25%, var(--border, #e5d9ed));
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--primary, #7b4aa2) 12%, transparent);
+}
+
+body :is(button, .btn, .u-btn, .claim-btn, .submit-btn, .view-all-btn, .help-btn) {
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease, background-color 180ms ease;
+}
+
+body :is(button, .btn, .u-btn, .claim-btn, .submit-btn, .view-all-btn, .help-btn):hover {
+  filter: saturate(1.06);
+}
+
+body :is(input, select, textarea, .input, .textarea) {
+  transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+body :is(input, select, textarea, .input, .textarea):focus-visible {
+  outline: 0;
+  border-color: var(--primary, #7b4aa2);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary, #7b4aa2) 16%, transparent);
+}
+
+body :is(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--primary, #7b4aa2);
+  outline-offset: 3px;
+}
+
+/* Quick, gentle entrance motion that keeps the existing page structure intact. */
+@keyframes modern-ui-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+body.page-home .top-layer,
+body.page-hiw .hiw-hero,
+body.page-contact .contact-hero,
+body .browse .hero,
+body .category-banner,
+body .claim-container,
+body .auth-shell,
+body .admin-main > .page-head,
+body .admin-main > .page-heading {
+  animation: modern-ui-enter 520ms cubic-bezier(.2, .7, .2, 1) both;
+}
+
+@media (max-width: 700px) {
+  body :is(.hiw-card, .contact-info, .contact-form, .claim-card, .item-card, .browse .card):hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
