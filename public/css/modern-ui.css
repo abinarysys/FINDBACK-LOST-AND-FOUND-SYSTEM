@@ -96,9 +96,168 @@ body .admin-main > .page-heading {
   animation: modern-ui-enter 520ms cubic-bezier(.2, .7, .2, 1) both;
 }
 
-@media (max-width: 700px) {
+/* Compact the landing hero so the category section follows it immediately. */
+body.page-home .top-layer {
+  padding-top: clamp(28px, 3.4vw, 42px);
+  padding-bottom: 12px;
+}
+
+body.page-home .top-layer .right {
+  min-height: clamp(260px, 30vw, 330px);
+}
+
+body.page-home .categories {
+  padding-top: 12px;
+}
+
+body.page-home .categories::before {
+  margin-bottom: 2px;
+}
+
+/* Home item actions should read as compact actions, not full-width bars. */
+body.page-home .item-actions {
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+body.page-home .item-actions :is(.claim-btn, .message-btn) {
+  flex: 0 1 auto;
+  width: auto;
+  min-width: 0;
+  min-height: 34px;
+  padding: 7px 11px;
+  border-radius: 10px;
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+body.page-home .item-actions .claim-btn.disabled {
+  background: var(--surface-2, var(--border));
+  border-color: var(--border);
+  color: var(--muted);
+  box-shadow: none;
+  cursor: default;
+}
+
+/* Auth navigation uses a real disclosure button on narrow screens. */
+.auth-page .nav-toggle {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  body.page-home .top-layer {
+    gap: 18px;
+    padding-top: 24px;
+    padding-bottom: 8px;
+  }
+
+  body.page-home .top-layer .right {
+    min-height: clamp(210px, 48vw, 270px);
+  }
+
+  body.page-home .categories {
+    padding-top: 8px;
+  }
+
+  .auth-page > .nav {
+    height: 60px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+
+  .auth-page .nav-toggle {
+    display: flex;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0;
+    border: 1px solid var(--border, #e5d9ed);
+    border-radius: 12px;
+    background: var(--surface, #fff);
+    color: var(--text, #332744);
+    cursor: pointer;
+  }
+
+  .auth-page .nav-toggle span {
+    display: block;
+    width: 17px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 180ms ease, opacity 180ms ease;
+  }
+
+  .auth-page .nav.open .nav-toggle span:first-child {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .auth-page .nav.open .nav-toggle span:nth-child(2) { opacity: 0; }
+  .auth-page .nav.open .nav-toggle span:last-child {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  body.auth-page > .nav .nav-links,
+  body.auth-page > .nav.open .nav-links {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 14px;
+    right: 14px;
+    z-index: 5;
+    display: none;
+    width: auto;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    border: 1px solid var(--border, #e5d9ed);
+    border-radius: 16px;
+    background: var(--surface, #fff);
+    box-shadow: 0 16px 36px color-mix(in srgb, var(--primary, #7b4aa2) 14%, transparent);
+    transform: none;
+    white-space: normal;
+    max-height: min(70dvh, 460px);
+    overflow-y: auto;
+  }
+
+  body.auth-page > .nav.open .nav-links { display: flex; }
+
+  body.auth-login > .nav .right-buttons > a[href="/auth/login"],
+  body.auth-register > .nav .right-buttons > a[href="/auth/register"] {
+    display: none;
+  }
+
+  body.auth-page > .nav .nav-links a {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    margin: 0;
+    padding: 0 12px;
+    border-radius: 10px;
+    color: var(--text, #332744);
+  }
+
+  body.auth-page > .nav .nav-links a:hover {
+    background: var(--surface-2, #f2eaf7);
+    color: var(--primary, #7b4aa2);
+  }
+
   body :is(.hiw-card, .contact-info, .contact-form, .claim-card, .item-card, .browse .card):hover {
     transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  body.page-home .top-layer { padding: 20px 16px 6px; }
+  body.page-home .item-actions { flex-direction: row; }
+  body.page-home .item-actions :is(.claim-btn, .message-btn) {
+    flex: 0 1 auto;
+    width: auto;
   }
 }
 

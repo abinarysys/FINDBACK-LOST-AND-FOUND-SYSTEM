@@ -2,7 +2,10 @@
 <% const navUser = locals.user; %>
 <header class="nav">
     <a class="logo" href="/"><img src="/img/logo.png" alt="FindBack Logo"></a>
-    <nav class="nav-links" aria-label="Main">
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="authMainNav">
+        <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" id="authMainNav" aria-label="Main">
         <a href="/">Home</a>
         <a href="/browse">Browse Items</a>
         <a href="/howitworks">How It Works</a>
@@ -20,3 +23,32 @@
         <% } %>
     </div>
 </header>
+
+<script>
+(function () {
+    var nav = document.querySelector('.auth-page .nav');
+    var toggle = nav && nav.querySelector('.nav-toggle');
+    if (!nav || !toggle) return;
+
+    function closeMenu() {
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open menu');
+    }
+
+    toggle.addEventListener('click', function () {
+        var open = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    nav.querySelectorAll('.nav-links a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+    });
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeMenu();
+    });
+    document.addEventListener('click', function (event) {
+        if (!nav.contains(event.target)) closeMenu();
+    });
+})();
+</script>
