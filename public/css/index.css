@@ -2084,9 +2084,15 @@ body.page-home {
 }
 
 /* Keep the category heading close to the hero on phone screens. */
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .page-home .top-layer {
+    padding-top: 24px;
     padding-bottom: 8px;
+  }
+
+  /* The poster is blank on narrow layouts, so don't reserve its tall desktop space. */
+  .page-home .top-layer .right {
+    display: none;
   }
 
   .page-home .categories {
