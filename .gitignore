@@ -1,18 +1,4 @@
 node_modules/
 .vscode/
 .env
-.env.*
-!.env.example
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-error.log*
-lerna-debug.log*
-
-# Common generated files
-coverage/
-.nyc_output/
-.cache/
-dist/
+docs

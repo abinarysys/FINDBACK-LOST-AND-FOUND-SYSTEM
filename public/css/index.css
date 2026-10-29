@@ -47,7 +47,7 @@ img {
   min-width: 0;
   display: flex;
   border-radius: 20px;
-  overflow: hidden;
+  background: url("/img/local-img/index.png") center / cover no-repeat;
 }
 .top-layer .right img {
   width: 100%;
@@ -55,6 +55,7 @@ img {
   object-fit: cover;
   border-radius: 20px;
   display: block;
+  visibility: hidden; /* poster comes from the CSS background above */
 }
 
 .header h3 {
