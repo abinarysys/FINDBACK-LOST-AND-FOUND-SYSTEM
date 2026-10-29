@@ -1,0 +1,64 @@
+@import url("/css/user/scroll-reveal.css");
+@import url("/css/responsive.css");
+
+/* Shared finishing styles loaded after each signed-in user's page CSS. */
+body {
+  font-family: var(--font, "Segoe UI", Arial, sans-serif);
+}
+body .u-main h1,
+body .u-main h2,
+body .u-main h3,
+body .u-main h4,
+body .u-main .page-head h1,
+body .u-main .panel-head h2,
+body .u-main .user-hero h2 {
+  font-family: var(--font, "Segoe UI", Arial, sans-serif);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+body .u-main .btn,
+body .u-main label,
+body .u-main .badge,
+body .u-main .table th {
+  font-weight: 500;
+}
+body .u-main .panel,
+body .u-main .stat,
+body .u-main .notification-card,
+body .u-main .claim-card,
+body .u-main .chat {
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+}
+body .u-main .btn-primary {
+  background: var(--primary);
+  box-shadow: none;
+}
+body .u-main .btn-primary:hover {
+  background: var(--primary-600);
+  filter: none;
+  transform: translateY(-1px);
+}
+body .u-main input,
+body .u-main textarea,
+body .u-main select {
+  font-family: var(--font, "Segoe UI", Arial, sans-serif);
+}
+
+/* Keep the account tabs above the welcome banner's rounded lower edge. */
+.u-hero {
+  position: relative;
+  z-index: 0;
+}
+.u-tabs {
+  position: relative;
+  z-index: 2;
+  margin-top: -18px;
+}
+.u-tabs .u-tab {
+  text-decoration: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  body .u-main * { scroll-behavior: auto !important; }
+  body .u-main .btn-primary:hover { transform: none; }
+}

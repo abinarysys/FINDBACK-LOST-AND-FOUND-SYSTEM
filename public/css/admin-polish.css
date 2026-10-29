@@ -1,0 +1,58 @@
+@import url("/css/user/scroll-reveal.css");
+@import url("/css/responsive.css");
+
+/* Keep the admin tools clear and familiar, with FindBack's purple accent. */
+:root {
+  --accent: #7b4aa2;
+  --primary: var(--accent);
+  --secondary: #aa8cc5;
+  --accent-gradient: linear-gradient(135deg, var(--primary), var(--primary));
+  --bg: #f8f3fb;
+  --surface-2: #f2eaf7;
+  --border: #e5d9ed;
+  --text: #332744;
+  --text-2: #594d68;
+  --muted: #786b83;
+  --font: "Segoe UI", Arial, system-ui, sans-serif;
+}
+body {
+  font-family: "Segoe UI", Arial, system-ui, sans-serif;
+}
+body h1,
+body h2,
+body h3,
+body h4,
+body .page-head h1,
+body .panel-head h2 {
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+body .panel,
+body .stat,
+body .modal-card {
+  border-radius: 14px;
+  border-top: 3px solid #d5c0e5;
+  box-shadow: 0 7px 22px rgba(75, 48, 100, 0.08);
+}
+body .btn-primary,
+body .btn.primary {
+  background: var(--primary, #7c18ff);
+  box-shadow: none;
+  font-weight: 500;
+}
+body .btn-primary:hover,
+body .btn.primary:hover {
+  background: color-mix(in srgb, var(--primary, #7c18ff) 85%, #000);
+  filter: none;
+}
+body .auth-brand {
+  background: #eee5f5;
+  color: #3f3150;
+}
+body .auth-brand h1,
+body .auth-brand p { color: #3f3150; }
+@media (prefers-reduced-motion: reduce) {
+  body .btn-primary:hover,
+  body .btn.primary:hover { transform: none; }
+}

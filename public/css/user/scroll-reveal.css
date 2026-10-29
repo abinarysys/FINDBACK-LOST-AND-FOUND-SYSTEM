@@ -1,0 +1,56 @@
+/* Subtle in-view motion for meaningful page sections and cards. */
+body.page-entering {
+  animation: pageEnter 280ms ease both;
+}
+body.page-leaving {
+  animation: pageLeave 190ms ease both;
+  pointer-events: none;
+}
+@keyframes pageEnter {
+  from { opacity: 0.72; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pageLeave {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0.35; transform: translateY(-4px); }
+}
+.scroll-reveal {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0) scale(0.985);
+  filter: blur(2px);
+  transition:
+    opacity 620ms ease-out,
+    transform 700ms cubic-bezier(0.22, 0.68, 0, 1),
+    filter 620ms ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+body.page-home .scroll-reveal {
+  transform: translate3d(0, 38px, 0) scale(0.975);
+  transition-duration: 820ms;
+  transition-timing-function: cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+body.page-home .scroll-reveal.is-visible { transform: translate3d(0, 0, 0) scale(1); }
+.page-home .header,
+.page-home .search,
+.page-home .lostFound-button,
+.page-home .top-layer .right,
+.u-hero-in,
+.u-tabs,
+.auth-shell { animation: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  body.page-entering,
+  body.page-leaving { animation: none; }
+  /* Keep the requested scroll cue, but make it shorter and gentler. */
+  .scroll-reveal {
+    transform: translate3d(0, 12px, 0) scale(0.99);
+    filter: none;
+    transition-duration: 260ms !important;
+    transition-delay: 0ms !important;
+  }
+}
