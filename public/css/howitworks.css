@@ -390,69 +390,29 @@ body.page-hiw {
   }
 }
 
-/* Give the steps more room on desktop, then keep each card full sized on phones. */
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 84px;
-}
-
-.hiw-steps {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
-}
-
-.hiw-card {
-  min-width: 0;
-}
-
-.hiw-card:last-child {
-  grid-column: 1 / -1;
-  justify-self: center;
-  width: calc(50% - 11px);
-}
-
-.hiw-card-top img {
-  height: clamp(160px, 19vw, 220px);
-}
-
+/* Preserve swipe scrolling for the steps on narrow screens. */
 @media (max-width: 700px) {
-  .hiw-page {
-    padding-right: 18px;
-    padding-left: 18px;
-  }
-
   .hiw-steps {
-    display: flex;
     flex-wrap: nowrap;
     justify-content: flex-start;
-    gap: 14px;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     scrollbar-width: thin;
-    padding: 4px 2px 18px;
+    padding: 4px 4px 18px;
     -webkit-overflow-scrolling: touch;
   }
 
-  .hiw-card,
-  .hiw-card:last-child {
-    flex: 0 0 clamp(280px, 82vw, 380px);
-    width: auto;
-    grid-column: auto;
+  .hiw-card {
+    flex: 0 0 min(82vw, 340px);
     scroll-snap-align: start;
   }
+}
 
-  .hiw-card-top img {
-    height: 170px;
-  }
-
-  .hiw-hero {
-    padding: 40px 0 28px;
-  }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hiw-card { transition: none; }
 }
