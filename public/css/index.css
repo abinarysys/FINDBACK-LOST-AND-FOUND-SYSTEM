@@ -2099,3 +2099,28 @@ body.page-home {
     padding-top: 8px;
   }
 }
+
+/* Keep the recent items copy and its action on the same left edge on phones. */
+@media (max-width: 600px) {
+  .page-home .recent-head {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .page-home .recent-head > div {
+    width: 100%;
+    text-align: left;
+  }
+
+  .page-home .recent-head h3,
+  .page-home .recent-head p {
+    text-align: left;
+  }
+
+  .page-home .view-all-btn {
+    align-self: flex-start;
+    margin: 0;
+  }
+}
