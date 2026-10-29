@@ -1,4 +1,4 @@
-/* Base typography, spacing, and shared layout for public pages. */
+/* File guide: This stylesheet styles the p ub li c b as e interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 /* public/css/public-base.css
    Shared by the public pages (Browse, How It Works, Contact):
    page base, flash messages and the footer.
@@ -6,7 +6,6 @@
    All colours come from tokens.css, so the user's accent colour (and dark mode, for
    logged-in users) apply automatically. */
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 :root {
   /* two soft tints of the accent colour, used for banners and section backgrounds */
@@ -29,7 +28,7 @@ body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font, "Poppins", system-ui, sans-serif);
+  font-family: var(--font, Arial, Helvetica, sans-serif);
   overflow-x: clip; /* clip (not hidden) so the sticky navbar keeps working */
 }
 
@@ -222,9 +221,187 @@ img {
   }
 }
 
+/* Consistent keyboard focus for links and controls on shared public pages. */
+body a:focus-visible,
+body button:focus-visible,
+body summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =====================================================
+   MODERN SHARED LAYER — flash messages + footer
+   ===================================================== */
+
+::selection {
+  background: color-mix(in srgb, var(--primary) 26%, transparent);
+}
+
+.flash-message {
+  margin: 22px auto;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-lg);
+  font-weight: 600;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.flash-success {
+  background: color-mix(in srgb, var(--success-soft) 88%, var(--surface));
+  color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 24%, var(--border));
+}
+.flash-error {
+  background: color-mix(in srgb, var(--danger-soft) 88%, var(--surface));
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 24%, var(--border));
+}
+.flash-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+}
+.flash-success .flash-icon {
+  background: color-mix(in srgb, var(--success) 16%, transparent);
+  color: var(--success);
+}
+.flash-error .flash-icon {
+  background: color-mix(in srgb, var(--danger) 16%, transparent);
+  color: var(--danger);
+}
+
+.footer {
+  margin-top: 56px;
+}
+
+.help-band {
+  gap: 24px;
+  padding: 30px max(5%, calc((100% - 1180px) / 2));
+  background:
+    radial-gradient(60% 140% at 8% 0%, color-mix(in srgb, var(--primary) 55%, transparent), transparent 70%),
+    radial-gradient(50% 120% at 92% 100%, color-mix(in srgb, var(--secondary) 40%, transparent), transparent 72%),
+    linear-gradient(120deg, #0d1730 0%, #14224a 55%, #0d2f3f 100%);
+  border-top: 0;
+  border-radius: 28px 28px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.help-item {
+  gap: 12px;
+}
+.help-main {
+  flex: 1 1 340px;
+  gap: 16px;
+}
+.help-main h4 {
+  margin-bottom: 5px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+.help-main p {
+  max-width: 520px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+}
+.help-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.8);
+}
+.help-icon img {
+  width: 72px;
+  height: 72px;
+}
+.help-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.86);
+}
+.help-btn {
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #101b36;
+  font-size: 12.5px;
+  font-weight: 700;
+  box-shadow: 0 12px 26px -16px rgba(0, 0, 0, 0.9);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.help-btn:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -16px rgba(0, 0, 0, 0.9);
+}
+
+.footer-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  padding: 24px max(5%, calc((100% - 1180px) / 2));
+  background: #070c1c;
+  color: rgba(255, 255, 255, 0.62);
+}
+.footer-bar h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.footer-bar p {
+  margin: 0;
+  font-size: 12px;
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+@media (max-width: 900px) {
+  .help-main {
+    flex-basis: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .help-band {
+    padding: 24px 22px;
+    border-radius: 22px 22px 0 0;
+  }
+  .footer-bar {
+    padding: 22px;
+  }
+  .help-item {
+    flex: 1 1 40%;
+  }
+  .help-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Mobile: keep the footer help copy full-width above the contact links. */
+@media (max-width: 600px) {
+  .help-main {
+    flex: 1 1 100%;
   }
 }

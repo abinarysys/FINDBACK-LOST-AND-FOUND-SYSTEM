@@ -1,0 +1,206 @@
+@import url("/css/user/scroll-reveal.css");
+@import url("/css/responsive.css");
+
+/* Shared FindBack public-page finish: soft purple, clear type, familiar controls. */
+body {
+  color: #30263d;
+  font-family: "Segoe UI", Arial, system-ui, sans-serif;
+  background-color: var(--bg, #f8f3fb);
+  background-image: none !important;
+}
+body h1,
+body h2,
+body h3,
+body h4 {
+  font-family: "Segoe UI", Arial, system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+body .nav {
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid #eee7f7;
+  box-shadow: 0 3px 14px rgba(54, 33, 83, 0.06);
+}
+body .nav-links a,
+body .right-buttons a {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+}
+body .nav-links a:hover,
+body .right-buttons a:hover { color: #6b35b5; }
+body .right-buttons > a:last-child {
+  background: #7b4aa2;
+  border-radius: 9px;
+  color: #fff;
+  font-weight: 500;
+}
+body main,
+body .browse,
+body .category-page,
+body .claim-container,
+body .contact-page,
+body .hiw-page {
+  color: #30263d;
+}
+body .hero,
+body .contact-hero,
+body .hiw-hero,
+body .category-banner {
+  background: #f1eafa;
+  color: #30263d;
+}
+.browse .hero {
+  background: #8a68a8;
+  border-radius: 0 0 22px 22px;
+}
+.browse .hero::after { display: none; }
+.browse .hero h1 { color: #fff; font-weight: 500; }
+.browse .hero p { color: rgba(255, 255, 255, 0.9); }
+body .hero h1,
+body .contact-hero h1,
+body .hiw-hero h1,
+body .category-banner h1,
+body .claim-header h1 {
+  color: #39264f;
+  font-weight: 550;
+}
+body .hero p,
+body .contact-hero p,
+body .hiw-hero p { color: #655873; }
+body .contact-hero h1 span,
+body .hiw-hero h1 span {
+  background: none;
+  color: #7b4aa2;
+  -webkit-text-fill-color: currentColor;
+}
+body .contact-info,
+body .contact-form,
+body .hiw-card,
+body .claim-card,
+body .steps-and-tips,
+body .lostItem-form,
+body .foundItem-form,
+body .item-card,
+body .browse .card {
+  border: 1px solid #e5d9ed;
+  border-radius: 16px;
+  box-shadow: 0 7px 22px rgba(75, 48, 100, 0.08);
+}
+body .top { background: #f0e7f6; }
+body.page-submit-found .top {
+  background:
+    linear-gradient(90deg, rgba(245, 239, 250, 0.97) 0%, rgba(245, 239, 250, 0.88) 50%, rgba(245, 239, 250, 0.22) 100%),
+    url("/img/local-img/submitfound.png") right center / cover no-repeat;
+  color: #392b49;
+}
+body.page-submit-found .top h2,
+body.page-submit-found .top h4,
+body.page-submit-found .top p { color: #392b49; }
+body .steps .step,
+body .tips { border-radius: 12px; }
+body .contact-info,
+body .contact-form,
+body .hiw-card,
+body .claim-card,
+body .lostItem-form,
+body .foundItem-form,
+body .browse .card {
+  border-top: 3px solid #d5c0e5;
+}
+body .contact-info-item,
+body .hiw-card-top,
+body .search-bar,
+body .category-banner {
+  background-color: #f4ecf8;
+}
+body .contact-info {
+  background: #eee5f5;
+  border-color: #dfd1ea;
+  color: #392b49;
+}
+body .contact-info h2,
+body .contact-info-item h4 { color: #392b49; }
+body .contact-info-intro,
+body .contact-info-item p,
+body .contact-info-note { color: #695978; }
+body .contact-info-item {
+  background: #fff;
+  border-color: #e5d9ed;
+  backdrop-filter: none;
+}
+body .contact-info-item:hover {
+  background: #f7f1fa;
+  border-color: #d8c4e7;
+  transform: translateY(-1px);
+}
+body .contact-info-icon {
+  display: grid;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 12px;
+  background: #e8dcf0;
+  box-shadow: none;
+}
+body .contact-info-icon img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+body .hiw-card:hover,
+body .contact-info-item:hover,
+body .item-card:hover,
+body .browse .card:hover {
+  box-shadow: 0 10px 24px rgba(54, 33, 83, 0.1);
+}
+body .claim-btn,
+body .submit-btn,
+body .lostItem-form button[type="submit"],
+body .foundItem-form button[type="submit"],
+body .view-all-btn,
+body .contact-form button[type="submit"],
+body .feedback-form button[type="submit"] {
+  background: #7b4aa2;
+  border-color: #7b4aa2;
+  border-radius: 9px;
+  color: #fff;
+  font-family: inherit;
+  font-weight: 500;
+  box-shadow: none;
+}
+body .claim-btn:hover,
+body .submit-btn:hover,
+body .lostItem-form button[type="submit"]:hover,
+body .foundItem-form button[type="submit"]:hover,
+body .view-all-btn:hover,
+body .contact-form button[type="submit"]:hover,
+body .feedback-form button[type="submit"]:hover {
+  background: #684480;
+  border-color: #684480;
+  color: #fff;
+  transform: translateY(-1px);
+}
+body input,
+body select,
+body textarea {
+  font-family: "Segoe UI", Arial, system-ui, sans-serif;
+}
+body input:focus,
+body select:focus,
+body textarea:focus {
+  border-color: #9b6bce;
+  box-shadow: 0 0 0 3px rgba(124, 24, 255, 0.12);
+}
+body .help-band { background: #6d587d; }
+body .footer-bar { background: #392e43; }
+body .lostItem-form,
+body .foundItem-form,
+body .steps-and-tips { border-radius: 16px; }
+@media (prefers-reduced-motion: reduce) {
+  body .contact-info-item:hover,
+  body .hiw-card:hover,
+  body .item-card:hover,
+  body .browse .card:hover { transform: none; }
+}

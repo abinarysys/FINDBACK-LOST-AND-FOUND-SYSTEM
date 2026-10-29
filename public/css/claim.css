@@ -1,5 +1,4 @@
-/* Page styles for viewing and submitting item claims. */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+/* File guide: This stylesheet styles the c la im interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 
 /* ===== GENERAL ===== */
 
@@ -12,7 +11,7 @@ body {
   padding: 80px 20px 40px;
   min-height: 100vh;
   background-color: #f6f3ff;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   color: #2d2a4a;
 }
 
@@ -367,7 +366,7 @@ body {
   border: 1px solid #9f87f6;
   border-radius: 8px;
   background-color: #ffffff;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   line-height: 1.7;
   color: #2d2a4a;
@@ -406,7 +405,7 @@ body {
   border-radius: 8px;
   background-color: #7c18ff;
   color: #ffffff;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -682,5 +681,376 @@ body {
   .help-btn {
     width: 100%;
     text-align: center;
+  }
+}
+
+/* ---------- Keyboard focus ---------- */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+select:focus-visible {
+  outline: 2px solid #7c18ff;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Respect the visitor's reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================
+   MODERN CLAIM REFRESH
+   ========================================================= */
+
+:root {
+  --c-primary: #7b4aa2;
+  --c-secondary: #aa8cc5;
+  --c-text: #332744;
+  --c-text-2: #594d68;
+  --c-muted: #786b83;
+  --c-border: #e8dfee;
+  --c-surface: #ffffff;
+  --c-surface-2: #f6f1fa;
+  --c-gradient: linear-gradient(135deg, #7b4aa2, #7b4aa2);
+  --c-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 30px -12px rgba(15, 23, 42, 0.16);
+  --c-shadow-lg: 0 2px 4px rgba(15, 23, 42, 0.04), 0 28px 60px -24px rgba(15, 23, 42, 0.3);
+}
+
+body {
+  padding: 92px 24px 48px;
+  background:
+    radial-gradient(55% 38% at 4% 2%, rgba(79, 70, 229, 0.1), transparent 70%),
+    radial-gradient(45% 36% at 100% 8%, rgba(14, 165, 164, 0.08), transparent 70%),
+    #f7f8fc;
+  color: var(--c-text);
+  font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+/* Nav */
+.nav {
+  height: 64px;
+  padding: 0 max(4%, calc((100% - 1240px) / 2));
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.06);
+}
+.nav .logo img {
+  height: 24px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: #f1f3fa;
+  border: 1px solid rgba(15, 23, 42, 0.05);
+}
+.nav-links a {
+  margin: 0;
+  padding: 8px 15px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-text-2);
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
+}
+.nav-links a:hover {
+  background: #fff;
+  color: var(--c-primary);
+}
+.right-buttons a {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-text-2);
+}
+.right-buttons > a:last-child {
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--c-gradient);
+  box-shadow: 0 10px 22px -14px rgba(79, 70, 229, 0.9);
+}
+.right-buttons > a:last-child:hover {
+  opacity: 1;
+  filter: brightness(1.06);
+}
+
+/* Layout */
+.claim-container {
+  max-width: 1120px;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 9px 16px;
+  border: 1px solid var(--c-border);
+  border-radius: 999px;
+  background: var(--c-surface);
+  color: var(--c-primary);
+  font-size: 12.5px;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+.back-link:hover {
+  color: var(--c-primary);
+  text-decoration: none;
+  border-color: rgba(79, 70, 229, 0.4);
+  transform: translateX(-2px);
+}
+
+.claim-card {
+  gap: 24px;
+  padding: clamp(20px, 3vw, 34px);
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  border-radius: 28px;
+  box-shadow: var(--c-shadow-lg);
+}
+.claim-header {
+  padding-bottom: 24px;
+  border-bottom-color: var(--c-border);
+}
+.claim-header h1 {
+  font-size: clamp(30px, 3.6vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--c-text);
+}
+.claim-header p {
+  font-size: 13.5px;
+  color: var(--c-text-2);
+}
+
+/* Item details */
+.item-details {
+  padding: 22px;
+  border-color: var(--c-border);
+  border-radius: 20px;
+  background: var(--c-surface-2);
+}
+.item-details h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--c-text);
+}
+.item-image {
+  height: 260px;
+  border-color: var(--c-border);
+  border-radius: 16px;
+  background: var(--c-surface);
+}
+.no-image {
+  height: 200px;
+  border-color: rgba(79, 70, 229, 0.35);
+  border-radius: 16px;
+  background: rgba(79, 70, 229, 0.06);
+  color: var(--c-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.detail-row {
+  padding: 13px 0;
+  border-bottom-color: var(--c-border);
+}
+.detail-row span,
+.description > span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--c-muted);
+}
+.detail-row strong {
+  font-size: 14px;
+  color: var(--c-text);
+}
+.description p {
+  font-size: 13px;
+  color: var(--c-text-2);
+}
+
+/* Form */
+.claim-form {
+  padding: 22px;
+  border-color: var(--c-border);
+  border-radius: 20px;
+}
+.claim-form h2 {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--c-text);
+}
+.form-instruction {
+  font-size: 12.5px;
+  color: var(--c-text-2);
+}
+.claim-form label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+.claim-form textarea {
+  min-height: 200px;
+  padding: 14px 16px;
+  border-color: var(--c-border);
+  border-radius: 14px;
+  background: var(--c-surface-2);
+  font-family: inherit;
+  font-size: 13.5px;
+  color: var(--c-text);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+.claim-form textarea:focus {
+  background: var(--c-surface);
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+}
+.claim-form small {
+  color: var(--c-muted);
+}
+.submit-btn {
+  min-height: 52px;
+  border-radius: 14px;
+  background: var(--c-gradient);
+  box-shadow: 0 14px 28px -16px rgba(79, 70, 229, 0.9);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+.submit-btn:hover {
+  background-color: transparent;
+  background: var(--c-gradient);
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+.cancel-link {
+  color: var(--c-muted);
+  font-size: 12.5px;
+}
+.cancel-link:hover {
+  color: var(--c-primary);
+  text-decoration: none;
+}
+
+/* Footer */
+.footer {
+  margin-top: 44px;
+}
+.help-band {
+  gap: 24px;
+  padding: 30px max(5%, calc((100% - 1180px) / 2));
+  background:
+    radial-gradient(60% 140% at 8% 0%, rgba(79, 70, 229, 0.55), transparent 70%),
+    radial-gradient(50% 120% at 92% 100%, rgba(14, 165, 164, 0.38), transparent 72%),
+    linear-gradient(120deg, #0d1730 0%, #14224a 55%, #0d2f3f 100%);
+  border-radius: 28px 28px 0 0;
+}
+.help-main h4 {
+  color: #fff;
+  font-size: 15px;
+}
+.help-main p {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12.5px;
+}
+.help-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.96);
+}
+.help-icon img {
+  width: 72px;
+  height: 72px;
+}
+.help-label {
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 600;
+}
+.help-btn {
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #fff;
+  color: #101b36;
+  font-weight: 700;
+}
+.help-btn:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+.footer-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  padding: 24px max(5%, calc((100% - 1180px) / 2));
+  background: #070c1c;
+}
+.footer-bar h4 {
+  font-size: 15px;
+  font-weight: 800;
+}
+.footer-bar p {
+  font-size: 12px;
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+@media (max-width: 700px) {
+  .nav {
+    height: auto;
+    min-height: 64px;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.9);
+  }
+  .nav-links {
+    border-radius: 14px;
+  }
+}
+@media (max-width: 650px) {
+  body {
+    padding: 88px 14px 36px;
+  }
+  .claim-card {
+    border-radius: 22px;
+  }
+  .item-details,
+  .claim-form {
+    padding: 18px;
+    border-radius: 18px;
+  }
+  .help-band {
+    padding: 24px 20px;
+    border-radius: 22px 22px 0 0;
+  }
+  .footer-bar {
+    padding: 22px 20px;
+  }
+}
+
+/* Mobile: keep the footer help copy full-width above the contact links. */
+@media (max-width: 600px) {
+  .help-main {
+    flex: 1 1 100%;
   }
 }

@@ -1,0 +1,528 @@
+/* Applied after page styles so saved accent and dark mode stay consistent everywhere. */
+:root {
+  --primary: var(--accent, #7b4aa2);
+  --primary-600: color-mix(in srgb, var(--primary) 84%, #000);
+  --primary-soft: color-mix(in srgb, var(--primary) 12%, var(--surface, #fff));
+  --primary-light: var(--primary-soft);
+  --primary-ring: color-mix(in srgb, var(--primary) 24%, transparent);
+  --accent-gradient: linear-gradient(135deg, var(--primary), var(--primary));
+  --cat-gradient: linear-gradient(135deg, var(--primary), var(--primary));
+  --secondary: color-mix(in srgb, var(--accent, #7b4aa2) 44%, #fff);
+  --secondary-soft: color-mix(in srgb, var(--secondary) 14%, var(--surface, #fff));
+  --on-primary: #fff;
+}
+
+body {
+  --purple: var(--primary);
+  --brand: var(--primary);
+  --brand-color: var(--primary);
+}
+
+body :is(.category-page, .category-content, .claim-page, .claim-container) {
+  --purple: var(--primary);
+  --brand: var(--primary);
+  --brand-color: var(--primary);
+}
+
+:root[data-theme="dark"] {
+  --primary: color-mix(in srgb, var(--accent, #7b4aa2) 56%, #fff);
+  --primary-600: color-mix(in srgb, var(--primary) 90%, #fff);
+  --primary-soft: color-mix(in srgb, var(--accent, #7b4aa2) 24%, var(--surface));
+  --primary-light: var(--primary-soft);
+  --primary-ring: color-mix(in srgb, var(--primary) 34%, transparent);
+  --accent-gradient: linear-gradient(135deg, var(--primary), var(--primary));
+  --cat-gradient: linear-gradient(135deg, var(--primary), var(--primary));
+  --secondary: color-mix(in srgb, var(--accent, #7b4aa2) 42%, var(--surface));
+  --secondary-soft: color-mix(in srgb, var(--secondary) 20%, var(--surface));
+  --on-primary: #211a28;
+
+  --bg: #17131c;
+  --surface: #211b28;
+  --surface-2: #2a2232;
+  --border: #41354b;
+  --text: #f5eff8;
+  --text-2: #d0c5d8;
+  --muted: #ac9fb5;
+  --success: #54d6a0;
+  --success-soft: #203a31;
+  --warning: #f3c45e;
+  --warning-soft: #3b3020;
+  --danger: #ff8b91;
+  --danger-soft: #3d252b;
+  --cat-bg: var(--bg);
+  --cat-surface: var(--surface);
+  --cat-text-2: var(--text-2);
+  color-scheme: dark;
+}
+
+/* Bring old pages with fixed accent declarations into the selected palette. */
+body .btn-primary,
+body .btn.primary,
+body .u-btn-primary,
+body .auth-card .btn,
+body .right-buttons > a:last-child,
+body .u-nav .u-btn-primary,
+body .claim-btn,
+body .badge-primary,
+body .chip.active,
+body .pill.active,
+body .category-filter.active,
+body .submit-btn,
+body .lostItem-form button[type="submit"],
+body .foundItem-form button[type="submit"],
+body .contact-form button[type="submit"],
+body .feedback-form button[type="submit"],
+body .nav-link.active,
+body .sidebar-nav a.active,
+body .u-tab.active,
+body .notification-filter.active {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: var(--on-primary) !important;
+}
+
+body :is(
+  .auth-submit,
+  .login-btn,
+  .register-btn,
+  .submit-button,
+  .primary-button,
+  .btn-main,
+  .category-page button[type="submit"],
+  .claim-page button[type="submit"],
+  .claim-container button[type="submit"]
+) {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: var(--on-primary) !important;
+}
+
+/* Older templates still have page-specific purple hex values. Keep their key
+   controls and accents connected to the same saved account color. */
+body :is(
+  .claim-page .btn-primary,
+  .claim-page button[type="submit"],
+  .claim-card button[type="submit"],
+  .claim-form button[type="submit"],
+  .profile-page .btn-primary,
+  .profile-edit .btn-primary,
+  .category-filter.active,
+  .filter-btn.active,
+  .pagination .active,
+  .page-link.active,
+  .tab-button.active,
+  .user-sidebar a.active,
+  .u-sidebar a.active
+) {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: var(--on-primary) !important;
+}
+
+body :is(
+  .claim-page a:not(.btn),
+  .claim-card a:not(.btn),
+  .profile-page a:not(.btn),
+  .profile-edit a:not(.btn),
+  .category-title,
+  .filter-title,
+  .claim-title,
+  .profile-title
+) {
+  color: var(--primary);
+}
+
+body .btn-primary:hover,
+body .btn.primary:hover,
+body .u-btn-primary:hover,
+body .claim-btn:hover,
+body .submit-btn:hover {
+  background: var(--primary-600) !important;
+  border-color: var(--primary-600) !important;
+  color: var(--on-primary) !important;
+}
+
+body .browse .hero {
+  background: var(--primary) !important;
+}
+body .browse .hero :is(h1, p) {
+  color: var(--on-primary) !important;
+}
+body .help-band {
+  background: color-mix(in srgb, var(--accent) 55%, #44354e) !important;
+}
+body .footer-bar {
+  background: color-mix(in srgb, var(--accent) 34%, #241d2b) !important;
+}
+body :is(.contact-hero h1 span, .hiw-hero h1 span, .category-banner h1 span) {
+  color: var(--primary) !important;
+  -webkit-text-fill-color: var(--primary) !important;
+  background: none !important;
+}
+body .auth-aside {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 78%, #211b28), var(--accent)) !important;
+}
+
+body a:hover,
+body .nav-links a:hover,
+body .u-links a:hover,
+body .u-menu a:hover,
+body .link,
+body .text-primary,
+body .page-head h1,
+body .page-heading h1 {
+  color: var(--primary);
+}
+
+body :is(input, select, textarea, .input, .textarea):focus {
+  border-color: var(--primary) !important;
+  outline-color: var(--primary-ring);
+  box-shadow: 0 0 0 3px var(--primary-ring);
+}
+
+/* Keep the chosen accent visible in standard active and focus states. */
+body :is(button, a, input, select, textarea):focus-visible {
+  outline-color: var(--primary);
+}
+body .u-tabs .u-tab.active {
+  color: var(--on-primary) !important;
+}
+body .swatch.active {
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--primary) !important;
+}
+
+body .auth-foot a,
+body .u-main a:not(.btn):not(.u-tab),
+body .page-head a,
+body .page-heading a,
+body .contact-info a,
+body .hiw-about a {
+  color: var(--primary);
+}
+
+html[data-theme="dark"] body {
+  background: var(--bg) !important;
+  background-image: none !important;
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"] body :is(
+  .u-nav,
+  .nav,
+  .u-menu,
+  .u-tabs,
+  .sidebar,
+  .admin-sidebar,
+  .admin-main,
+  .main,
+  .panel,
+  .stat,
+  .stat-card,
+  .card,
+  .item-card,
+  .feedback,
+  .feedback-card,
+  .feedback-list,
+  .empty,
+  .chat-empty,
+  .notification-empty,
+  .claim-empty,
+  .notifications-content,
+  .category-banner,
+  .category-content,
+  .category-content .item-card,
+  .category-content .empty-state,
+  .category-content .filter-panel,
+  .category-content .item-details,
+  .search-filter-section,
+  .search-box,
+  .filter-panel,
+  .filter-card,
+  .item-details,
+  .claim-form,
+  .claim-details,
+  .claim-item-card,
+  .profile-card,
+  .profile-info-card,
+  .profile-edit-card,
+  .settings-card,
+  .settings-section,
+  .table-wrap,
+  .table-container,
+  .modal-content,
+  .dropdown-menu,
+  .notification-dropdown,
+  .chat-message,
+  .chat-input-wrap,
+  .item-image-wrap,
+  .image-placeholder,
+  .no-image,
+  .category-card,
+  .step-card,
+  .tip-card,
+  .steps,
+  .tips,
+  .steps .step,
+  .u-main .user-hero,
+  .contact-info,
+  .contact-form,
+  .hiw-card,
+  .claim-card,
+  .steps-and-tips,
+  .lostItem-form,
+  .foundItem-form,
+  .notifications-card,
+  .notification-item,
+  .chat,
+  .chat-list-pane,
+  .chat-thread-pane,
+  .auth-shell,
+  .auth-card,
+  .modal-card,
+  .modal-head,
+  .ma-modal,
+  .ma-panel,
+  .ma-modal-card
+) {
+  background-color: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22);
+}
+
+html[data-theme="dark"] body :is(.page-heading, .page-head, .panel-head, .panel-body, .panel-foot, .toolbar, .setting-row) {
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"] body :is(
+  .search-filter-section, .search-box, .filter-panel, .filter-card,
+  .item-details, .claim-form, .claim-details, .claim-item-card,
+  .profile-card, .profile-info-card, .profile-edit-card, .settings-card,
+  .settings-section, .table-wrap, .table-container, .modal-content,
+  .dropdown-menu, .notification-dropdown, .chat-message, .chat-input-wrap,
+  .category-card, .step-card, .tip-card, .item-image-wrap
+) {
+  background-color: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"] body :is(table, tbody, tr, td, th) {
+  border-color: var(--border) !important;
+  color: var(--text-2);
+}
+html[data-theme="dark"] body tbody tr:nth-child(even) {
+  background-color: color-mix(in srgb, var(--surface-2) 70%, transparent);
+}
+
+html[data-theme="dark"] body :is(
+  .contact-page,
+  .hiw-page,
+  .category-page,
+  .claim-container,
+  .browse .posts,
+  .u-main
+) {
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"] body :is(
+  .contact-hero,
+  .hiw-hero,
+  .category-banner,
+  .u-hero
+) {
+  background: var(--surface-2) !important;
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"] body :is(
+  .contact-hero h1,
+  .hiw-hero h1,
+  .category-banner h1,
+  .contact-info h2,
+  .contact-info-item h4,
+  .contact-form h2,
+  .auth-card h2,
+  .auth-card label,
+  .u-main h1,
+  .u-main h2,
+  .u-main h3,
+  .u-main h4
+) {
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"] body :is(p, small, .muted, .hint, .help, .auth-sub, .auth-foot, .feedback-sub) {
+  color: var(--text-2);
+}
+
+html[data-theme="dark"] body :is(input, select, textarea, .input, .textarea, .search, .search-bar) {
+  background-color: var(--surface-2) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"] body :is(label, legend, .form-label, .field-label, .detail-label, .item-meta) {
+  color: var(--text-2);
+}
+
+html[data-theme="dark"] body :is(.item-title, .item-name, .card-title, .section-title, .claim-title, .profile-title) {
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"] body :is(input, textarea)::placeholder {
+  color: var(--muted) !important;
+}
+
+html[data-theme="dark"] body .auth-aside {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 58%, #211b28), #34283d) !important;
+  color: #fff !important;
+}
+
+html[data-theme="dark"] body .auth-aside :is(h1, p, li) {
+  color: #fff !important;
+}
+
+html[data-theme="dark"] body .browse .hero {
+  background: var(--primary) !important;
+  color: var(--on-primary) !important;
+}
+
+html[data-theme="dark"] body .browse .hero :is(h1, p) {
+  color: var(--on-primary) !important;
+}
+
+html[data-theme="dark"] body :is(.categories a, .browse .cat, .browse .empty) {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"] body .help-band {
+  background: color-mix(in srgb, var(--accent) 48%, #211b28) !important;
+  color: var(--text) !important;
+}
+html[data-theme="dark"] body .footer-bar {
+  background: color-mix(in srgb, var(--accent) 28%, #17131c) !important;
+  color: var(--text) !important;
+}
+
+html[data-theme="dark"] body :is(.table th, thead, .panel-head, .modal-head) {
+  background-color: var(--surface-2);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+html[data-theme="dark"] body :is(.flash-success, .alert-success, .settings-alert-success) {
+  background: color-mix(in srgb, var(--success) 15%, var(--surface)) !important;
+  border-color: color-mix(in srgb, var(--success) 42%, var(--border)) !important;
+  color: var(--success) !important;
+}
+html[data-theme="dark"] body :is(.flash-error, .alert-error, .settings-alert-error) {
+  background: color-mix(in srgb, var(--danger) 14%, var(--surface)) !important;
+  border-color: color-mix(in srgb, var(--danger) 40%, var(--border)) !important;
+  color: var(--danger) !important;
+}
+html[data-theme="dark"] body :is(.flash-warning, .alert-warning) {
+  background: color-mix(in srgb, var(--warning) 14%, var(--surface)) !important;
+  border-color: color-mix(in srgb, var(--warning) 40%, var(--border)) !important;
+  color: var(--warning) !important;
+}
+
+html[data-theme="dark"] body .contact-info-item,
+html[data-theme="dark"] body .contact-info-note {
+  background: var(--surface-2) !important;
+  border-color: var(--border) !important;
+  color: var(--text-2) !important;
+}
+
+html[data-theme="dark"] body .contact-info-item :is(h4, p) {
+  color: var(--text-2) !important;
+}
+
+html[data-theme="dark"] body .contact-info-item h4 {
+  color: var(--text) !important;
+}
+
+/* Keep page sections from reading as one large stack of dark rectangles. */
+html[data-theme="dark"] body :is(.contact-hero, .hiw-hero, .category-banner) {
+  margin: 24px 0 28px !important;
+  padding: clamp(26px, 4vw, 44px) 24px !important;
+  border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--border)) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16) !important;
+}
+
+html[data-theme="dark"] body :is(.hiw-steps, .contact-content, .category-content, .grid-eq, .stats-grid, .cards-grid) {
+  gap: 20px !important;
+}
+
+html[data-theme="dark"] body :is(.grid, .hiw-grid, .claim-grid, .contact-grid, .form-grid, .information-grid) {
+  gap: 18px !important;
+}
+
+html[data-theme="dark"] body :is(.notification-list, .act-list, .notif-panel-list, .chat-list, .item-list) {
+  gap: 12px !important;
+}
+
+html[data-theme="dark"] body :is(.hiw-card, .contact-info, .contact-form, .claim-card, .item-card, .settings-card, .profile-card) {
+  border: 1px solid var(--border) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16) !important;
+}
+
+html[data-theme="dark"] body .hiw-card-top {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  gap: 14px;
+}
+
+html[data-theme="dark"] body .hiw-card-top img {
+  border-radius: 14px !important;
+  background: var(--surface-2) !important;
+}
+
+html[data-theme="dark"] body :is(.category-content, .hiw-about, .contact-content, .u-main) {
+  margin-top: 20px;
+}
+
+/* Preserve semantic states: found/lost labels and success/warning/error colors stay distinct. */
+html[data-theme="dark"] body :is(.badge-success, .success, .flash-success) { color: var(--success, #34d399); }
+html[data-theme="dark"] body :is(.badge-warning, .warning, .flash-warning) { color: var(--warning, #fbbf24); }
+html[data-theme="dark"] body :is(.badge-danger, .danger, .flash-error) { color: var(--danger, #f87171); }
+
+/* Shared section spacing and card rhythm for both light and dark themes. */
+body :is(.contact-hero, .hiw-hero, .category-banner) {
+  margin: 24px 0 28px !important;
+  padding: clamp(26px, 4vw, 44px) 24px !important;
+  border: 1px solid color-mix(in srgb, var(--primary) 12%, var(--border)) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--primary) 8%, transparent);
+}
+
+body :is(.hiw-steps, .contact-content, .category-content, .grid-eq, .stats-grid, .cards-grid) {
+  gap: 20px;
+}
+
+body :is(.grid, .hiw-grid, .claim-grid, .contact-grid, .form-grid, .information-grid) {
+  gap: 18px;
+}
+
+body :is(.notification-list, .act-list, .notif-panel-list, .chat-list, .item-list) {
+  gap: 12px;
+}
+
+body :is(.hiw-card, .contact-info, .contact-form, .claim-card, .item-card, .settings-card, .profile-card) {
+  border-radius: 20px;
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--primary) 8%, transparent);
+}
+
+body .hiw-card-top {
+  background: transparent !important;
+}
+
+body .hiw-card-top img {
+  border-radius: 14px;
+}

@@ -1,5 +1,8 @@
-/* Account-page layout beneath the top navigation: hero, tabs, and content area.
-   Load after user-ui.css so shared colors and theme settings are available. */
+/* File guide: This stylesheet styles the u se r s he ll interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
+/* public/css/user/user-shell.css
+   The account-page layout under the top navigation: sky hero, pill tabs, content area.
+   Load AFTER user-ui.css. Only design tokens are used, so dark mode and the user's
+   accent colour apply automatically. */
 
 :root {
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
@@ -162,6 +165,10 @@ body {
 .u-tab.active .nav-count {
   background: var(--danger);
   color: #fff;
+}
+
+[data-theme="dark"] .u-tab.active .nav-count {
+  color: #0b1020;
 }
 
 /* ---------- Page content ---------- */
@@ -721,4 +728,547 @@ body {
   .u-main .page-actions .btn {
     width: 100%;
   }
+}
+
+/* ---------- Interaction polish (CSS only) ---------- */
+
+.u-main .chip,
+.u-main .table td,
+.u-main .list li,
+.u-main .input,
+.u-main .textarea,
+.u-main .stat {
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+/* Keep keyboard focus obvious without changing the layout. */
+.u-main a:focus-visible,
+.u-main button:focus-visible,
+.u-main summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* A gentle lift for summary cards on devices that support hover. */
+@media (hover: hover) {
+  .u-main .stat:hover {
+    border-color: color-mix(in srgb, var(--primary) 30%, var(--border));
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .u-main .stat:hover {
+    box-shadow: none;
+  }
+}
+
+/* Quiet account-page styling: the same clear type and restrained motion as the home page. */
+:root { --font-display: var(--font, "Segoe UI", Arial, sans-serif); }
+body {
+  background: var(--bg);
+  font-family: var(--font, "Segoe UI", Arial, sans-serif);
+}
+.u-hero {
+  padding: calc(var(--nav-h, 60px) + 34px) 0 68px;
+  background: color-mix(in srgb, var(--primary) 13%, var(--bg));
+  border-radius: 0 0 28px 28px;
+}
+[data-theme="dark"] .u-hero { background: color-mix(in srgb, var(--primary) 13%, var(--bg)); }
+.u-hero-in { gap: 24px; }
+.u-hero-avatar {
+  width: 88px;
+  height: 88px;
+  border: 2px solid var(--surface);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 22%, transparent);
+  font-weight: 500;
+}
+.u-hero-avatar:hover {
+  transform: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+.u-hero-text h1 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.4vw, 38px);
+  font-weight: 550;
+  letter-spacing: -0.035em;
+}
+.u-hero-text p { font-size: 15px; font-weight: 400; }
+.u-tabs {
+  gap: 2px;
+  margin-top: -22px;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  backdrop-filter: none;
+}
+.u-tab { font-weight: 500; }
+.u-tab.active {
+  background: var(--primary);
+  font-weight: 500;
+  box-shadow: none;
+}
+.u-main h1,
+.u-main .page-head h1 { font-weight: 550; letter-spacing: -0.03em; }
+.u-main .stat strong { font-weight: 600; }
+.u-main .panel,
+.u-main .stat {
+  border-radius: 14px;
+  border-top: 3px solid #d5c0e5;
+  box-shadow: 0 7px 22px rgba(75, 48, 100, 0.08);
+}
+.u-main .panel-head h2,
+.u-main .user-hero h2 { font-weight: 550; }
+.u-main .table th { font-weight: 550; letter-spacing: 0.025em; }
+.u-main .badge { font-weight: 500; }
+.u-main .btn,
+.u-main .field label { font-weight: 500; }
+.u-main .btn-primary {
+  background: var(--primary);
+  box-shadow: none;
+}
+.u-main .btn-primary:hover { background: var(--primary-600); filter: none; transform: translateY(-1px); }
+.u-main .input,
+.u-main .textarea { border-radius: 10px; }
+@media (max-width: 700px) {
+  .u-hero { padding-top: calc(var(--nav-h, 60px) + 30px); padding-bottom: 58px; }
+  .u-hero-avatar { width: 76px; height: 76px; }
+  .u-tabs { border-radius: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .u-hero-in,
+  .u-tabs { animation: none; }
+  .u-main .btn-primary:hover { transform: none; }
+}
+
+/* Tablet: keep all six dashboard tabs visible without changing their order. */
+@media (max-width: 900px) {
+  .u-tabs {
+    gap: 4px;
+  }
+
+  .u-tab {
+    height: 46px;
+    padding: 0 14px;
+    gap: 8px;
+    font-size: 13.5px;
+  }
+}
+
+/* =========================================================
+   MODERN ACCOUNT SHELL REFRESH
+   ========================================================= */
+
+:root {
+  --font-display: var(--font, "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif);
+}
+
+body {
+  background:
+    radial-gradient(60% 40% at 0% 0%, color-mix(in srgb, var(--primary) 7%, transparent), transparent 68%),
+    radial-gradient(50% 36% at 100% 4%, color-mix(in srgb, var(--secondary) 6%, transparent), transparent 70%),
+    var(--bg);
+}
+
+/* Hero */
+.u-hero {
+  position: relative;
+  padding: calc(var(--nav-h, 64px) + 58px) 0 92px;
+  background:
+    radial-gradient(55% 65% at 8% 0%, color-mix(in srgb, var(--primary) 20%, transparent) 0, transparent 66%),
+    radial-gradient(45% 60% at 92% 6%, color-mix(in srgb, var(--secondary) 16%, transparent) 0, transparent 68%),
+    linear-gradient(180deg, #eef1ff 0%, #f7f8fc 70%, var(--bg) 100%);
+  border-radius: 0 0 48px 48px;
+  overflow: hidden;
+}
+[data-theme="dark"] .u-hero {
+  background:
+    radial-gradient(55% 65% at 8% 0%, color-mix(in srgb, var(--primary) 24%, transparent) 0, transparent 66%),
+    radial-gradient(45% 60% at 92% 6%, color-mix(in srgb, var(--secondary) 18%, transparent) 0, transparent 68%),
+    linear-gradient(180deg, #101a33 0%, #0c1428 70%, var(--bg) 100%);
+}
+
+.u-hero-in {
+  gap: 32px;
+  animation: uRise 0.5s ease both;
+}
+@keyframes uRise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.u-hero-avatar {
+  width: 108px;
+  height: 108px;
+  border: 3px solid var(--surface);
+  background: var(--surface-2);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--primary) 42%, transparent),
+    0 22px 44px -20px color-mix(in srgb, var(--primary) 70%, transparent);
+  font-size: 40px;
+  font-weight: 800;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.u-hero-avatar:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--primary) 58%, transparent),
+    0 26px 50px -20px color-mix(in srgb, var(--primary) 75%, transparent);
+}
+
+.u-hero-text h1 {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.4vw, 50px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+.u-hero-text p {
+  margin-top: 10px;
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 500;
+  color: var(--text-2);
+}
+
+/* Tabs */
+.u-tabs {
+  width: fit-content;
+  max-width: 100%;
+  gap: 4px;
+  margin-top: -28px;
+  padding: 6px;
+  border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  box-shadow: var(--shadow);
+  animation: uRise 0.55s ease 0.05s both;
+}
+.u-tab {
+  height: 46px;
+  padding: 0 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-2);
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.u-tab:hover {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+.u-tab.active {
+  background: var(--accent-gradient);
+  color: var(--on-primary);
+  font-weight: 700;
+  box-shadow: 0 10px 22px -14px color-mix(in srgb, var(--primary) 90%, transparent);
+}
+.u-tab.active .nav-count {
+  background: rgba(255, 255, 255, 0.24);
+  color: #fff;
+}
+[data-theme="dark"] .u-tab.active .nav-count {
+  background: rgba(0, 0, 0, 0.28);
+  color: #fff;
+}
+
+/* Content area */
+.u-main {
+  padding-top: 40px;
+}
+.u-main h1,
+.u-main .page-head h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+.u-main .page-head p {
+  margin-top: 6px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* Stat cards */
+.u-main .stats {
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.u-main .stat {
+  padding: 20px;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 100%, transparent), var(--surface));
+  box-shadow: var(--shadow);
+}
+.u-main .stat-icon {
+  width: 44px;
+  height: 44px;
+  flex-basis: 44px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+  color: var(--primary);
+}
+.u-main .stat-icon.warn {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+.u-main .stat-icon.ok {
+  background: var(--success-soft);
+  color: var(--success);
+}
+.u-main .stat p {
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.u-main .stat strong {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+@media (hover: hover) {
+  .u-main .stat {
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .u-main .stat:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--primary) 30%, var(--border));
+    box-shadow: 0 18px 36px -20px rgba(15, 23, 42, 0.32);
+  }
+}
+
+/* Panels */
+.u-main .panel {
+  border: 1px solid color-mix(in srgb, var(--border) 90%, transparent);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.u-main .panel-head {
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.u-main .panel-head h2 {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.u-main .panel-body {
+  padding: 20px 24px 24px;
+}
+.u-main .panel-foot {
+  background: color-mix(in srgb, var(--surface-2) 55%, var(--surface));
+  border-top-color: var(--border);
+}
+.u-main .user-hero {
+  padding: 30px 24px;
+}
+.u-main .user-hero h2 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+.u-main .avatar.av-lg {
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--primary) 16%, transparent),
+    0 14px 30px -18px rgba(15, 23, 42, 0.5);
+}
+
+/* Tables, lists, badges */
+.u-main .table th {
+  padding: 13px 16px;
+  background: var(--surface-2);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.u-main .table td {
+  padding: 15px 16px;
+}
+.u-main .table th:first-child {
+  border-top-left-radius: 12px;
+}
+.u-main .table th:last-child {
+  border-top-right-radius: 12px;
+}
+.u-main .list li {
+  padding: 16px 22px;
+}
+.u-main .badge {
+  padding: 6px 11px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.u-main .chip {
+  padding: 9px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+.u-main .chip:hover {
+  transform: translateY(-1px);
+}
+.u-main .empty {
+  padding: 44px 20px;
+  gap: 12px;
+}
+.u-main .empty .ico {
+  width: 38px;
+  height: 38px;
+  opacity: 0.55;
+}
+
+/* Buttons and fields */
+.u-main .btn {
+  min-height: 42px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.u-main .btn-primary {
+  border-color: transparent;
+  background: var(--accent-gradient);
+  color: var(--on-primary);
+  box-shadow: 0 12px 24px -16px color-mix(in srgb, var(--primary) 90%, transparent);
+}
+.u-main .btn-primary:hover {
+  border-color: transparent;
+  background: var(--accent-gradient);
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+.u-main .page-actions .btn {
+  min-height: 44px;
+  border-radius: 12px;
+}
+.u-main .field label {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.u-main .input,
+.u-main .textarea {
+  min-height: 48px;
+  padding: 12px 15px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+.u-main .input:focus,
+.u-main .textarea:focus {
+  outline: none;
+  background: var(--surface);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-ring);
+}
+
+@media (max-width: 900px) {
+  .u-hero {
+    padding-bottom: 82px;
+    border-radius: 0 0 36px 36px;
+  }
+  .u-tabs {
+    width: 100%;
+  }
+}
+@media (max-width: 700px) {
+  .u-hero {
+    padding-top: calc(var(--nav-h, 64px) + 42px);
+    padding-bottom: 72px;
+  }
+  .u-hero-avatar {
+    width: 96px;
+    height: 96px;
+  }
+  .u-main {
+    padding-top: 30px;
+  }
+  .u-main .panel-head,
+  .u-main .panel-body {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .u-hero-in,
+  .u-tabs {
+    animation: none;
+  }
+  .u-main .stat:hover,
+  .u-main .chip:hover,
+  .u-hero-avatar:hover,
+  .u-main .btn-primary:hover {
+    transform: none;
+  }
+}
+
+/* Final account-page finish (kept after the base refresh rules above). */
+:root { --font-display: var(--font, "Segoe UI", Arial, sans-serif); }
+body { background: var(--bg); font-family: var(--font, "Segoe UI", Arial, sans-serif); }
+.u-hero {
+  padding: calc(var(--nav-h, 60px) + 34px) 0 68px;
+  background: color-mix(in srgb, var(--primary) 15%, var(--bg));
+  border-radius: 0 0 28px 28px;
+}
+[data-theme="dark"] .u-hero { background: color-mix(in srgb, var(--primary) 15%, var(--bg)); }
+.u-hero-in { gap: 24px; }
+.u-hero-avatar {
+  width: 88px;
+  height: 88px;
+  border: 2px solid var(--surface);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent);
+  font-weight: 500;
+}
+.u-hero-text h1 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.4vw, 38px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+.u-tabs {
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 6px 18px rgba(75, 48, 100, 0.08);
+  backdrop-filter: none;
+}
+.u-tab.active { background: var(--primary); box-shadow: none; font-weight: 500; }
+.u-main .panel,
+.u-main .stat {
+  border-top: 3px solid #d5c0e5;
+  border-radius: 14px;
+  box-shadow: 0 7px 22px rgba(75, 48, 100, 0.08);
+}
+.u-main .panel-head h2,
+.u-main .user-hero h2,
+.u-main .page-head h1 { font-weight: 500; }
+@media (max-width: 700px) {
+  .u-hero { padding-top: calc(var(--nav-h, 60px) + 30px); padding-bottom: 58px; }
+  .u-hero-avatar { width: 76px; height: 76px; }
 }

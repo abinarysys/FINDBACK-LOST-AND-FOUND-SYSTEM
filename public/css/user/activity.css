@@ -1,4 +1,4 @@
-/* Table and filter styles for user activity history. */
+/* File guide: This stylesheet styles the a ct iv it y interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 :root {
   --act-purple: #7c1cf6;
   --act-lost: #e5484d;

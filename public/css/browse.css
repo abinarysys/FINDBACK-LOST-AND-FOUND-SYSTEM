@@ -1,4 +1,4 @@
-/* Search, filter, and item-card styles for the browse page. */
+/* File guide: This stylesheet styles the b ro ws e interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 /* public/css/browse.css  -  Browse Items page
    NEW file. The old browseItem.css / browseItems.css are not touched, so any other page
    that still links them keeps working. Colours come from tokens.css (accent + dark mode). */
@@ -389,5 +389,358 @@
   .browse .message-btn:hover,
   .browse .cat:hover .cat-tile {
     transform: none;
+  }
+}
+
+/* =========================================================
+   MODERN BROWSE REFRESH
+   ========================================================= */
+
+body.page-browse {
+  background:
+    radial-gradient(55% 40% at 96% 2%, color-mix(in srgb, var(--secondary) 12%, transparent), transparent 70%),
+    radial-gradient(50% 40% at 2% 8%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 70%),
+    var(--bg);
+}
+
+/* Hero */
+.browse .hero {
+  position: relative;
+  padding: clamp(48px, 6vw, 76px) max(6%, calc((100% - 1180px) / 2)) clamp(64px, 7vw, 92px);
+  background:
+    radial-gradient(60% 120% at 0% 0%, rgba(255, 255, 255, 0.16), transparent 60%),
+    radial-gradient(50% 110% at 100% 100%, rgba(14, 165, 164, 0.4), transparent 65%),
+    linear-gradient(120deg, #111a36 0%, #312e81 52%, #4338ca 100%);
+  border-radius: 0 0 34px 34px;
+  overflow: hidden;
+}
+.browse .hero::after {
+  content: "";
+  position: absolute;
+  inset: auto -10% -60% 30%;
+  height: 260px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  filter: blur(10px);
+  pointer-events: none;
+}
+.browse .hero h1 {
+  font-size: clamp(34px, 4.4vw, 54px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: #fff;
+}
+.browse .hero p {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.74);
+}
+.browse .hero-deco {
+  width: 190px;
+  opacity: 0.34;
+}
+.browse .hero-text {
+  position: relative;
+  z-index: 1;
+}
+
+/* Floating search */
+.browse .search-wrap {
+  margin-top: -34px;
+  padding: 0 max(6%, calc((100% - 1180px) / 2));
+}
+.browse .search-bar {
+  max-width: 820px;
+  padding: 16px 24px;
+  border-radius: 999px;
+  border-color: color-mix(in srgb, var(--border) 80%, transparent);
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  box-shadow: var(--shadow-lg);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  color: var(--muted);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.browse .search-bar:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-ring), var(--shadow-lg);
+}
+.browse .search-bar input {
+  font-size: 14.5px;
+}
+
+/* Categories */
+.browse .categories {
+  grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+  gap: 18px 14px;
+  max-width: 1080px;
+  padding: 52px 6% 44px;
+}
+.browse .cat {
+  gap: 10px;
+  max-width: 132px;
+  border-radius: 20px;
+  transition: transform 0.2s ease;
+}
+.browse .cat:hover {
+  transform: translateY(-2px);
+}
+.browse .cat:hover .cat-tile {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 30px -18px rgba(15, 23, 42, 0.5);
+}
+.browse .cat-tile {
+  position: relative;
+  width: 82px;
+  height: 82px;
+  border-radius: 24px;
+  box-shadow: inset 0 0 0 100px rgba(255, 255, 255, 0.76), 0 10px 22px -16px rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+[data-theme="dark"] .browse .cat-tile {
+  box-shadow: inset 0 0 0 100px rgba(10, 15, 31, 0.7), 0 10px 22px -16px rgba(0, 0, 0, 0.7);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.browse .cat-icon {
+  font-size: 36px;
+  filter: saturate(1.05);
+}
+.browse .cat.active .cat-tile {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+.browse .cat-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+.browse .cat.active .cat-name {
+  color: var(--primary);
+}
+
+/* Posts area */
+.browse .posts {
+  min-height: 380px;
+  padding: 42px max(6%, calc((100% - 1180px) / 2)) 76px;
+  background: transparent;
+}
+.browse .posts-head {
+  gap: 18px;
+}
+.browse .posts h2 {
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.browse .filters {
+  gap: 6px;
+  padding: 5px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+.browse .pill {
+  padding: 8px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-2);
+  font-size: 12.5px;
+  font-weight: 600;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.browse .pill:hover {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+.browse .pill.active {
+  background: var(--accent-gradient);
+  color: var(--on-primary);
+  box-shadow: 0 8px 18px -10px color-mix(in srgb, var(--primary) 85%, transparent);
+}
+.browse .result-count {
+  margin: 14px 0 22px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Grid + cards */
+.browse .grid {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 22px;
+}
+.browse .card {
+  border-radius: 22px;
+  border-color: color-mix(in srgb, var(--border) 85%, transparent);
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.26s ease,
+    box-shadow 0.26s ease,
+    border-color 0.26s ease;
+}
+.browse .card:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--primary) 26%, var(--border));
+  box-shadow: var(--shadow-lg);
+}
+.browse .card-img {
+  height: 185px;
+  overflow: hidden;
+}
+.browse .card-img img {
+  transition: transform 0.35s ease;
+}
+.browse .card:hover .card-img img {
+  transform: scale(1.05);
+}
+.browse .card-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 58%, rgba(6, 12, 28, 0.24) 100%);
+  pointer-events: none;
+}
+.browse .badge {
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  padding: 6px 11px;
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.browse .badge-lost {
+  background: color-mix(in srgb, #ef4444 88%, transparent);
+}
+.browse .badge-found {
+  background: color-mix(in srgb, #0d9488 90%, transparent);
+}
+.browse .badge-claimed {
+  background: color-mix(in srgb, #475569 88%, transparent);
+}
+.browse .no-photo {
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.browse .card-body {
+  gap: 9px;
+  padding: 18px 18px 20px;
+}
+.browse .card-body h3 {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.browse .desc {
+  min-height: 38px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.browse .meta {
+  padding-top: 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.browse .meta-item {
+  gap: 5px;
+}
+.browse .meta-item svg {
+  color: var(--primary);
+}
+.browse .card-actions {
+  gap: 8px;
+  padding-top: 4px;
+}
+.browse .claim-btn,
+.browse .message-btn {
+  min-height: 38px;
+  border-radius: 11px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.browse .claim-btn {
+  background: var(--accent-gradient);
+  box-shadow: 0 10px 20px -14px color-mix(in srgb, var(--primary) 90%, transparent);
+}
+.browse .claim-btn:hover {
+  background: var(--accent-gradient);
+  filter: brightness(1.05);
+}
+.browse .message-btn {
+  background: var(--surface);
+  border-color: var(--border);
+}
+.browse .message-btn:hover {
+  background: var(--primary-soft);
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+}
+
+/* Empty state */
+.browse .empty {
+  gap: 8px;
+  padding: 64px 20px;
+  border: 1px dashed color-mix(in srgb, var(--primary) 30%, var(--border));
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+.browse .empty strong {
+  font-size: 17px;
+}
+.browse .empty .bi-btn {
+  margin-top: 14px;
+  padding: 11px 22px;
+  border-radius: 999px;
+  background: var(--accent-gradient);
+  font-weight: 700;
+}
+
+@media (hover: none) {
+  .browse .card:hover {
+    transform: none;
+  }
+  .browse .card:hover .card-img img {
+    transform: none;
+  }
+}
+@media (max-width: 760px) {
+  .browse .hero-deco {
+    width: 120px;
+  }
+  .browse .hero {
+    border-radius: 0 0 26px 26px;
+  }
+  .browse .categories {
+    padding-top: 42px;
+  }
+  .browse .posts {
+    padding-bottom: 56px;
+  }
+}
+@media (max-width: 560px) {
+  .browse .filters {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+  .browse .pill {
+    flex: 0 0 auto;
   }
 }

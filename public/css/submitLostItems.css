@@ -1,5 +1,4 @@
-/* Form layout for reporting a lost item. */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+/* File guide: This stylesheet styles the s ub mi tL os tI te ms interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 
 /* ===== BASE ===== */
 * {
@@ -10,7 +9,7 @@ body {
   margin: 0;
   padding: 60px 0 0;
   background-color: #f6f3ff;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   color: #2d2a4a;
   min-height: 100vh;
 }
@@ -203,7 +202,7 @@ body {
   padding: 6px 16px;
   border-radius: 20px;
   background: #d9ccff;
-  color: #7c18ff;
+  color: #5b0fc0;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 1.5px;
@@ -361,13 +360,13 @@ body {
   border: 1px solid #9f87f6;
   background: #ffffff;
   border-radius: 8px;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   color: #2d2a4a;
 }
 .lostItem-form input::placeholder,
 .lostItem-form textarea::placeholder {
-  color: #9a96ab;
+  color: #6b7280;
 }
 .lostItem-form textarea {
   resize: vertical;
@@ -388,7 +387,7 @@ body {
   border-radius: 6px;
   background: #7c18ff;
   color: #ffffff;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   cursor: pointer;
 }
@@ -420,7 +419,7 @@ body {
   border: none;
   border-radius: 8px;
   color: #ffffff;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
@@ -856,4 +855,877 @@ body::after {
   width: 75px;
   height: 75px;
   object-fit: contain;
+}
+
+/* =========================================================
+   DESIGN POLISH + ACCESSIBILITY + DARK MODE
+   Frontend styling only. No layout or behaviour is changed.
+   ========================================================= */
+
+/* Smooth, short transitions for interactive elements and cards. */
+.nav-links a,
+.right-buttons a,
+.profilepic img,
+.lostItem-form button,
+.lostItem-form > a,
+.flash-close,
+.help-btn,
+.help-icon,
+.help-icon img,
+.lostItem-form,
+.steps-and-tips,
+.tips,
+.lostItem-form input,
+.lostItem-form select,
+.lostItem-form textarea {
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    opacity 0.18s ease;
+}
+
+/* Clear keyboard focus everywhere. */
+.nav a:focus-visible,
+.nav button:focus-visible,
+.flash-close:focus-visible,
+.lostItem-form > a:focus-visible,
+.help-band a:focus-visible {
+  outline: 2px solid #7c18ff;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.lostItem-form button[type="submit"]:focus-visible {
+  outline: 3px solid #7c18ff;
+  outline-offset: 3px;
+}
+
+.lostItem-form input:focus-visible,
+.lostItem-form select:focus-visible,
+.lostItem-form textarea:focus-visible {
+  outline: 2px solid #7c18ff;
+  outline-offset: 1px;
+}
+
+/* Buttons: visible hover/active feedback instead of fading the label. */
+.lostItem-form button[type="submit"]:hover {
+  opacity: 1;
+  background-color: #6a13e0;
+}
+
+.lostItem-form button[type="submit"]:active {
+  background-color: #5a0fc0;
+}
+
+.lostItem-form input[type="file"]::file-selector-button {
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.lostItem-form input[type="file"]::file-selector-button:hover {
+  background: #6a13e0;
+}
+
+/* Disabled controls stay recognisable and readable. */
+.lostItem-form input:disabled,
+.lostItem-form select:disabled,
+.lostItem-form textarea:disabled {
+  background: #f3f1f8;
+  color: #6b7280;
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+/* Native validation uses the same red in both themes, with a text bubble. */
+.lostItem-form input:user-invalid,
+.lostItem-form select:user-invalid,
+.lostItem-form textarea:user-invalid {
+  border-color: #dc2626;
+}
+
+/* ---------- Dark mode ---------- */
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="dark"] body {
+  background-color: #0b1020;
+  color: #e8ecf6;
+}
+
+[data-theme="dark"] .nav {
+  background: #121a2e;
+  box-shadow: 0 1px 0 #26324d, 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .nav .logo img {
+  filter: brightness(0) invert(1);
+}
+
+[data-theme="dark"] .nav-links a,
+[data-theme="dark"] .right-buttons a {
+  color: #e8ecf6;
+}
+
+[data-theme="dark"] .nav-links a:hover,
+[data-theme="dark"] .right-buttons a:hover {
+  color: #c4b5fd;
+}
+
+[data-theme="dark"] .right-buttons > a:last-child {
+  background: #a78bfa;
+  color: #0b1020;
+}
+
+[data-theme="dark"] .right-buttons > a:last-child:hover {
+  background: #c4b5fd;
+  color: #0b1020;
+}
+
+[data-theme="dark"] .top {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(11, 16, 32, 0.96) 0%,
+      rgba(11, 16, 32, 0.9) 45%,
+      rgba(11, 16, 32, 0.75) 100%
+    ),
+    url("/img/local-img/submitlost.png") right center / cover no-repeat;
+}
+
+[data-theme="dark"] .top h4 {
+  background: rgba(167, 139, 250, 0.18);
+  color: #c4b5fd;
+}
+
+[data-theme="dark"] .top h2 {
+  background: linear-gradient(90deg, #e8ecf6 0 30%, #c4b5fd 70% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+[data-theme="dark"] .top p {
+  color: #b5bfd6;
+}
+
+[data-theme="dark"] .steps-and-tips {
+  background-color: #141d33;
+  border: 1px solid #26324d;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .steps {
+  border-bottom-color: #3a4666;
+}
+
+[data-theme="dark"] .steps h4,
+[data-theme="dark"] .tips h4 {
+  color: #e8ecf6;
+}
+
+[data-theme="dark"] .step p,
+[data-theme="dark"] .tips p {
+  color: #b5bfd6;
+}
+
+[data-theme="dark"] .steps-and-tips .step h3 {
+  background-color: #8b5cf6;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .tips {
+  background-color: #1b2547;
+  border: 1px solid #26324d;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .steps-and-tips > h3 {
+  color: #c4b5fd;
+}
+
+[data-theme="dark"] .lostItem-form {
+  background-color: #121a2e;
+  border: 1px solid #26324d;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .lostItem-form h2,
+[data-theme="dark"] .lostItem-form h4,
+[data-theme="dark"] .lostItem-form label {
+  color: #e8ecf6;
+}
+
+[data-theme="dark"] .lostItem-form input,
+[data-theme="dark"] .lostItem-form select,
+[data-theme="dark"] .lostItem-form textarea {
+  background: #18223a;
+  border-color: #3a4666;
+  color: #e8ecf6;
+}
+
+[data-theme="dark"] .lostItem-form input::placeholder,
+[data-theme="dark"] .lostItem-form textarea::placeholder {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .lostItem-form option {
+  background: #18223a;
+  color: #e8ecf6;
+}
+
+[data-theme="dark"] .lostItem-form input:focus,
+[data-theme="dark"] .lostItem-form select:focus,
+[data-theme="dark"] .lostItem-form textarea:focus {
+  border-color: #c4b5fd;
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.28);
+}
+
+[data-theme="dark"] .lostItem-form input[type="file"]::file-selector-button {
+  background: #a78bfa;
+  color: #0b1020;
+}
+
+[data-theme="dark"] .lostItem-form input[type="file"]::file-selector-button:hover {
+  background: #c4b5fd;
+}
+
+[data-theme="dark"] .lostItem-form form > p {
+  background: #18223a;
+  border-color: #3a4666;
+  color: #e8ecf6;
+}
+
+[data-theme="dark"] .lostItem-form button[type="submit"] {
+  background-color: #a78bfa;
+  color: #0b1020;
+}
+
+[data-theme="dark"] .lostItem-form button[type="submit"]:hover {
+  background-color: #c4b5fd;
+}
+
+[data-theme="dark"] .lostItem-form button[type="submit"]:active {
+  background-color: #b9a4ff;
+}
+
+[data-theme="dark"] .lostItem-form > a {
+  color: #c4b5fd;
+}
+
+[data-theme="dark"] .lostItem-form input:-webkit-autofill,
+[data-theme="dark"] .lostItem-form input:-webkit-autofill:hover,
+[data-theme="dark"] .lostItem-form input:-webkit-autofill:focus,
+[data-theme="dark"] .lostItem-form textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #18223a inset;
+  -webkit-text-fill-color: #e8ecf6;
+  caret-color: #e8ecf6;
+}
+
+[data-theme="dark"] .flash-success {
+  background-color: #0d2b22;
+  color: #a7f3d0;
+  border-color: #14532d;
+  border-left-color: #34d399;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .flash-success .flash-icon {
+  background-color: #14532d;
+  color: #a7f3d0;
+}
+
+[data-theme="dark"] .flash-error {
+  background-color: #3b1119;
+  color: #fecdd3;
+  border-color: #7f1d1d;
+  border-left-color: #f87171;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .flash-error .flash-icon {
+  background-color: #7f1d1d;
+  color: #fecdd3;
+}
+
+[data-theme="dark"] .help-band {
+  background: #141d33;
+  border-top: 1px solid #26324d;
+}
+
+[data-theme="dark"] .help-icon {
+  background: #e2e8f0;
+}
+
+[data-theme="dark"] .help-main h4,
+[data-theme="dark"] .help-main p,
+[data-theme="dark"] .help-label {
+  color: #e8ecf6;
+}
+
+[data-theme="dark"] .help-btn {
+  background: #a78bfa;
+  color: #0b1020;
+}
+
+[data-theme="dark"] .help-btn:hover {
+  background: #c4b5fd;
+}
+
+[data-theme="dark"] .footer-bar {
+  background: #070b14;
+}
+
+/* Dark-mode focus rings need a lighter colour on dark surfaces. */
+[data-theme="dark"] .nav a:focus-visible,
+[data-theme="dark"] .nav button:focus-visible,
+[data-theme="dark"] .flash-close:focus-visible,
+[data-theme="dark"] .lostItem-form > a:focus-visible,
+[data-theme="dark"] .help-band a:focus-visible,
+[data-theme="dark"] .lostItem-form button[type="submit"]:focus-visible,
+[data-theme="dark"] .lostItem-form input:focus-visible,
+[data-theme="dark"] .lostItem-form select:focus-visible,
+[data-theme="dark"] .lostItem-form textarea:focus-visible {
+  outline-color: #c4b5fd;
+}
+
+/* Respect the visitor's reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Phones: let the hero paragraph wrap naturally instead of forcing a break. */
+@media (max-width: 600px) {
+  .top p br {
+    display: none;
+  }
+
+  /* 16px keeps iOS Safari from zooming when a field is focused. */
+  .lostItem-form input,
+  .lostItem-form select,
+  .lostItem-form textarea {
+    font-size: 16px;
+  }
+}
+
+/* =========================================================
+   MODERN SUBMIT-ITEM REFRESH
+   ========================================================= */
+
+body {
+  background:
+    radial-gradient(55% 38% at 4% 2%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 70%),
+    radial-gradient(45% 36% at 100% 8%, color-mix(in srgb, var(--secondary) 9%, transparent), transparent 70%),
+    var(--bg);
+  color: var(--text);
+}
+
+/* Nav */
+.nav {
+  height: 64px;
+  padding: 0 max(4%, calc((100% - 1240px) / 2));
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--border) 80%, transparent);
+}
+.nav .logo img {
+  height: 24px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+.nav-links a {
+  margin: 0;
+  padding: 8px 15px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
+}
+.nav-links a:hover {
+  background: var(--surface);
+  color: var(--primary);
+}
+.right-buttons a {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+.right-buttons > a:last-child {
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--accent-gradient);
+  box-shadow: 0 10px 22px -14px color-mix(in srgb, var(--primary) 90%, transparent);
+}
+.right-buttons > a:last-child:hover {
+  opacity: 1;
+  filter: brightness(1.06);
+}
+
+/* Hero */
+.top {
+  position: relative;
+  padding: clamp(54px, 7vw, 84px) max(20px, calc((100% - 1200px) / 2 + 20px));
+  background:
+    linear-gradient(120deg, rgba(11, 19, 42, 0.94) 0%, rgba(49, 46, 129, 0.84) 55%, rgba(13, 47, 63, 0.76) 100%),
+    url("/img/local-img/submitlost.png") right center / cover no-repeat;
+  border-radius: 0 0 34px 34px;
+  overflow: hidden;
+}
+[data-theme="dark"] .top {
+  background:
+    linear-gradient(120deg, rgba(5, 9, 22, 0.96) 0%, rgba(30, 27, 75, 0.9) 55%, rgba(8, 33, 44, 0.86) 100%),
+    url("/img/local-img/submitlost.png") right center / cover no-repeat;
+}
+.top h4 {
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.13);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.top h2 {
+  font-size: clamp(34px, 4.6vw, 54px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  background: linear-gradient(95deg, #ffffff 0%, #ffffff 42%, #a5f3fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+[data-theme="dark"] .top h2 {
+  background: linear-gradient(95deg, #f8fafc 0%, #f8fafc 42%, #a5f3fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.top p {
+  max-width: 520px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.78);
+}
+[data-theme="dark"] .top p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* Two-column layout */
+.steps-and-form {
+  max-width: 1200px;
+  gap: 24px;
+  margin: 34px auto 64px;
+  padding: 0 20px;
+}
+
+/* Helper column */
+.steps-and-tips {
+  flex: 0 0 320px;
+  padding: 26px 22px;
+  border: 1px solid color-mix(in srgb, var(--primary) 16%, var(--border));
+  border-radius: 24px;
+  background:
+    radial-gradient(80% 100% at 0% 0%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 65%),
+    var(--surface);
+  box-shadow: var(--shadow);
+}
+[data-theme="dark"] .steps-and-tips {
+  background:
+    radial-gradient(80% 100% at 0% 0%, color-mix(in srgb, var(--primary) 16%, transparent), transparent 65%),
+    var(--surface);
+  box-shadow: var(--shadow);
+}
+.steps {
+  padding-bottom: 20px;
+  border-bottom-color: var(--border);
+}
+.steps h4,
+.tips h4 {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.step {
+  gap: 12px;
+  margin: 14px 0;
+}
+.steps-and-tips .step h3 {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: var(--accent-gradient);
+  box-shadow: 0 8px 16px -10px color-mix(in srgb, var(--primary) 90%, transparent);
+  font-size: 13px;
+  font-weight: 700;
+}
+.step p {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+.tips {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-2);
+  box-shadow: none;
+}
+.tips p {
+  margin: 7px 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.steps-and-tips > h3 {
+  margin-top: 22px;
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Form card */
+.lostItem-form {
+  padding: clamp(24px, 3vw, 36px);
+  border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+}
+[data-theme="dark"] .lostItem-form {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow-lg);
+}
+.lostItem-form h2 {
+  margin-bottom: 22px;
+  font-size: clamp(22px, 2.6vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+.lostItem-form label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+.lostItem-form input,
+.lostItem-form select,
+.lostItem-form textarea {
+  min-height: 48px;
+  padding: 12px 15px;
+  margin: 8px 0 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 13.5px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+[data-theme="dark"] .lostItem-form input,
+[data-theme="dark"] .lostItem-form select,
+[data-theme="dark"] .lostItem-form textarea {
+  background: var(--surface-2);
+  border-color: var(--border);
+  color: var(--text);
+}
+.lostItem-form textarea {
+  min-height: 118px;
+  padding-top: 14px;
+}
+.lostItem-form input:focus,
+.lostItem-form select:focus,
+.lostItem-form textarea:focus {
+  background: var(--surface);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-ring);
+}
+[data-theme="dark"] .lostItem-form input:focus,
+[data-theme="dark"] .lostItem-form select:focus,
+[data-theme="dark"] .lostItem-form textarea:focus {
+  background: var(--surface);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-ring);
+}
+.lostItem-form input[type="file"] {
+  padding: 10px 12px;
+  background: var(--surface-2);
+}
+.lostItem-form input[type="file"]::file-selector-button {
+  padding: 8px 14px;
+  border-radius: 9px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-weight: 700;
+}
+.lostItem-form h4 {
+  margin-top: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+.lostItem-form form > p {
+  margin: 8px 0 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-2);
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+.lostItem-form button[type="submit"] {
+  min-height: 52px;
+  margin-top: 22px;
+  border-radius: 14px;
+  background: var(--accent-gradient);
+  box-shadow: 0 14px 28px -16px color-mix(in srgb, var(--primary) 90%, transparent);
+  font-size: 14px;
+  font-weight: 700;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+.lostItem-form button[type="submit"]:hover {
+  opacity: 1;
+  background: var(--accent-gradient);
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+[data-theme="dark"] .lostItem-form button[type="submit"] {
+  background: var(--accent-gradient);
+  color: var(--on-primary);
+}
+.lostItem-form > a {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.lostItem-form > a:hover {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* Footer */
+.footer {
+  margin-top: 0;
+}
+.help-band {
+  gap: 24px;
+  padding: 30px max(5%, calc((100% - 1180px) / 2));
+  background:
+    radial-gradient(60% 140% at 8% 0%, rgba(79, 70, 229, 0.55), transparent 70%),
+    radial-gradient(50% 120% at 92% 100%, rgba(14, 165, 164, 0.38), transparent 72%),
+    linear-gradient(120deg, #0d1730 0%, #14224a 55%, #0d2f3f 100%);
+  border-radius: 28px 28px 0 0;
+}
+[data-theme="dark"] .help-band {
+  background:
+    radial-gradient(60% 140% at 8% 0%, rgba(79, 70, 229, 0.4), transparent 70%),
+    radial-gradient(50% 120% at 92% 100%, rgba(14, 165, 164, 0.28), transparent 72%),
+    linear-gradient(120deg, #070c1c 0%, #0f1830 55%, #081f2a 100%);
+}
+.help-main h4 {
+  color: #fff;
+  font-size: 15px;
+}
+.help-main p {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12.5px;
+}
+.help-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.96);
+}
+.help-icon img {
+  width: 72px;
+  height: 72px;
+}
+.help-label {
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 600;
+}
+.help-btn {
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #fff;
+  color: #101b36;
+  font-weight: 700;
+}
+.help-btn:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+.footer-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  padding: 24px max(5%, calc((100% - 1180px) / 2));
+  background: #070c1c;
+}
+.footer-bar h4 {
+  font-size: 15px;
+  font-weight: 800;
+}
+.footer-bar p {
+  font-size: 12px;
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+@media (max-width: 900px) {
+  .top {
+    background:
+      linear-gradient(120deg, rgba(11, 19, 42, 0.94), rgba(49, 46, 129, 0.88)),
+      url("/img/local-img/submitlost.png") center / cover no-repeat;
+    border-radius: 0 0 26px 26px;
+  }
+  .steps-and-form {
+    flex-direction: column;
+  }
+  .steps-and-tips {
+    flex: none;
+    width: 100%;
+  }
+}
+@media (max-width: 700px) {
+  body {
+    padding-top: 100px;
+  }
+  .nav {
+    height: auto;
+    padding: 10px 16px;
+  }
+  .nav-links {
+    border-radius: 14px;
+  }
+}
+@media (max-width: 600px) {
+  .steps-and-form {
+    padding: 0 12px;
+    gap: 18px;
+  }
+  .help-band {
+    padding: 24px 20px;
+    border-radius: 22px 22px 0 0;
+  }
+  .footer-bar {
+    padding: 22px 20px;
+  }
+}
+
+/* Mobile: keep the footer help copy full-width above the contact links. */
+@media (max-width: 600px) {
+  .help-main {
+    flex: 1 1 100%;
+  }
+}
+
+/* =========================================================
+   BANNER FIX
+   site-polish.css loads after this file and flattens the hero
+   to a pale background, leaving the white headline unreadable.
+   These page-scoped rules keep the intended dark hero.
+   ========================================================= */
+
+html body[data-theme-aware] .top {
+  padding: clamp(54px, 7vw, 84px) max(20px, calc((100% - 1200px) / 2 + 20px));
+  background:
+    linear-gradient(
+      120deg,
+      rgba(11, 19, 42, 0.94) 0%,
+      rgba(49, 46, 129, 0.84) 55%,
+      rgba(13, 47, 63, 0.76) 100%
+    ),
+    url("/img/local-img/submitlost.png") right center / cover no-repeat;
+  border-radius: 0 0 34px 34px;
+  overflow: hidden;
+  text-align: center;
+  color: #ffffff;
+}
+
+html body[data-theme-aware] .top h4 {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.13);
+  color: #ffffff;
+  -webkit-text-fill-color: currentColor;
+}
+
+html body[data-theme-aware] .top h2 {
+  background: linear-gradient(95deg, #ffffff 0%, #ffffff 42%, #a5f3fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+html body[data-theme-aware] .top p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+html[data-theme="dark"] body[data-theme-aware] .top {
+  background:
+    linear-gradient(
+      120deg,
+      rgba(5, 9, 22, 0.96) 0%,
+      rgba(30, 27, 75, 0.9) 55%,
+      rgba(8, 33, 44, 0.86) 100%
+    ),
+    url("/img/local-img/submitlost.png") right center / cover no-repeat;
+}
+
+html[data-theme="dark"] body[data-theme-aware] .top h2 {
+  background: linear-gradient(95deg, #f8fafc 0%, #f8fafc 42%, #a5f3fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Phones/tablets: stronger overlay so the heading stays readable. */
+@media (max-width: 900px) {
+  html body[data-theme-aware] .top {
+    padding: 48px 20px;
+    background:
+      linear-gradient(120deg, rgba(11, 19, 42, 0.94), rgba(49, 46, 129, 0.88)),
+      url("/img/local-img/submitlost.png") center / cover no-repeat;
+    border-radius: 0 0 26px 26px;
+  }
+
+  html[data-theme="dark"] body[data-theme-aware] .top {
+    background:
+      linear-gradient(120deg, rgba(5, 9, 22, 0.96), rgba(30, 27, 75, 0.9)),
+      url("/img/local-img/submitlost.png") center / cover no-repeat;
+  }
 }

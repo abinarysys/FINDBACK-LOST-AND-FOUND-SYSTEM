@@ -1,4 +1,4 @@
-/* Shared layout and component styles for administrator pages. */
+/* File guide: This stylesheet styles the a dm in interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 /* =====================================================================
    FindBack Admin — ONE stylesheet for the whole admin.
    Sections: 1 tokens · 2 base · 3 layout · 4 sidebar · 5 components ·
@@ -7,18 +7,18 @@
 
 /* 1. TOKENS ----------------------------------------------------------- */
 :root {
-  --primary: #7c18ff;
+  --primary: #7b4aa2;
   --primary-600: color-mix(in srgb, var(--primary) 85%, #000);
   --primary-soft: color-mix(in srgb, var(--primary) 11%, var(--surface));
   --primary-ring: color-mix(in srgb, var(--primary) 22%, transparent);
 
-  --bg: #f5f5f5;
+  --bg: #faf8fc;
   --surface: #ffffff;
-  --surface-2: #faf8fd;
-  --border: #e7e2ed;
-  --text: #17131d;
-  --text-2: #5e5669;
-  --muted: #81768c;
+  --surface-2: #f6f1fa;
+  --border: #e8dfee;
+  --text: #332744;
+  --text-2: #594d68;
+  --muted: #786b83;
 
   --success: #10b981;
   --success-soft: #e4f7f0;
@@ -31,7 +31,7 @@
   --radius-sm: 10px;
   --shadow: 0 1px 2px rgba(23, 19, 29, 0.04), 0 6px 20px rgba(23, 19, 29, 0.05);
   --sidebar-w: 264px;
-  --font: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font: "Segoe UI", Arial, system-ui, sans-serif;
 }
 
 [data-theme="dark"] {
@@ -1286,5 +1286,421 @@ table.table {
   }
   body {
     background: #fff;
+  }
+}
+
+/* Respect the visitor's reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================
+   ADMIN REFRESH
+   Unified soft-purple palette, gentler surfaces and clearer
+   hierarchy. Styling only — no markup or behaviour changes.
+   ========================================================= */
+
+:root {
+  --accent: #7b4aa2;
+  --primary: var(--accent);
+  --on-primary: #ffffff;
+  --primary-600: color-mix(in srgb, var(--primary) 84%, #000);
+  --primary-soft: color-mix(in srgb, var(--primary) 9%, var(--surface));
+  --primary-ring: color-mix(in srgb, var(--primary) 24%, transparent);
+
+  --secondary: #aa8cc5;
+  --accent-gradient: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    color-mix(in srgb, var(--primary) 88%, #fff) 55%,
+    var(--primary) 100%
+  );
+
+  --bg: #faf8fc;
+  --surface: #ffffff;
+  --surface-2: #f6f1fa;
+  --border: #e8dfee;
+  --text: #332744;
+  --text-2: #594d68;
+  --muted: #786b83;
+
+  --success: #047857;
+  --success-soft: #e6f6ef;
+  --warning: #b45309;
+  --warning-soft: #fef3c7;
+  --danger: #dc2626;
+  --danger-soft: #fdecec;
+
+  --radius: 16px;
+  --radius-sm: 11px;
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 30px -12px rgba(15, 23, 42, 0.14);
+  --shadow-lg: 0 2px 4px rgba(15, 23, 42, 0.04), 0 28px 60px -24px rgba(15, 23, 42, 0.28);
+  --font: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+[data-theme="dark"] {
+  --primary: color-mix(in srgb, var(--accent) 55%, #ffffff);
+  --on-primary: #0b1020;
+  --primary-600: color-mix(in srgb, var(--primary) 84%, #ffffff);
+
+  --bg: #0a0f1f;
+  --surface: #111a30;
+  --surface-2: #16203a;
+  --border: #26324f;
+  --text: #e9eefb;
+  --text-2: #b7c1d9;
+  --muted: #8d99b5;
+
+  --success: #34d399;
+  --success-soft: rgba(52, 211, 153, 0.14);
+  --warning: #fbbf24;
+  --warning-soft: rgba(251, 191, 36, 0.14);
+  --danger: #f87171;
+  --danger-soft: rgba(248, 113, 113, 0.15);
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px -12px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 2px 4px rgba(0, 0, 0, 0.35), 0 28px 60px -24px rgba(0, 0, 0, 0.7);
+}
+
+body {
+  background:
+    radial-gradient(55% 40% at 100% 0%, color-mix(in srgb, var(--primary) 7%, transparent), transparent 70%),
+    radial-gradient(45% 40% at 0% 100%, color-mix(in srgb, var(--secondary) 6%, transparent), transparent 72%),
+    var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Sidebar */
+.sidebar {
+  padding: 22px 16px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 100%, transparent), color-mix(in srgb, var(--surface) 92%, var(--surface-2)));
+  border-right: 1px solid color-mix(in srgb, var(--border) 90%, transparent);
+}
+.brand-mark {
+  border-radius: 14px;
+  background: var(--accent-gradient);
+  color: var(--on-primary);
+  box-shadow: 0 12px 24px -14px color-mix(in srgb, var(--primary) 90%, transparent);
+}
+.brand-text strong {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.nav-label {
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+.nav-link {
+  border-radius: 12px;
+  font-weight: 600;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+.nav-link:hover {
+  background: var(--primary-soft);
+  color: var(--primary);
+  transform: translateX(2px);
+}
+.nav-link.active {
+  background: var(--accent-gradient);
+  color: var(--on-primary);
+  box-shadow: 0 12px 24px -16px color-mix(in srgb, var(--primary) 90%, transparent);
+}
+.profile-card {
+  border-radius: 12px;
+}
+
+/* Page header */
+.page-head {
+  margin-bottom: 26px;
+}
+.page-head h1 {
+  font-size: clamp(24px, 2.5vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  background: linear-gradient(95deg, var(--text) 0%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--text);
+}
+[data-theme="dark"] .page-head h1 {
+  background: linear-gradient(95deg, var(--text) 0%, color-mix(in srgb, var(--primary) 72%, #fff) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Panels and stats */
+.panel {
+  border-radius: 20px;
+  border-color: color-mix(in srgb, var(--border) 90%, transparent);
+  box-shadow: var(--shadow);
+}
+.panel-head {
+  padding: 20px 22px;
+}
+.panel-head h2 {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.panel-body {
+  padding: 20px 22px;
+}
+.stat {
+  padding: 20px;
+  border-radius: 18px;
+  border-color: color-mix(in srgb, var(--border) 90%, transparent);
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+@media (hover: hover) {
+  .stat:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--primary) 28%, var(--border));
+    box-shadow: 0 18px 36px -20px rgba(15, 23, 42, 0.32);
+  }
+}
+.stat-icon {
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+  color: var(--primary);
+}
+.stat-icon.warn {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+.stat-icon.ok {
+  background: var(--success-soft);
+  color: var(--success);
+}
+.stat strong {
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+/* Buttons */
+.btn {
+  min-height: 42px;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    filter 0.18s ease,
+    transform 0.12s ease;
+}
+.btn-sm {
+  min-height: 34px;
+  border-radius: 9px;
+}
+.btn-primary {
+  background: var(--accent-gradient);
+  color: var(--on-primary);
+  box-shadow: 0 12px 24px -16px color-mix(in srgb, var(--primary) 90%, transparent);
+}
+.btn-primary:hover {
+  background: var(--accent-gradient);
+  filter: brightness(1.06);
+}
+.btn-ghost {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text-2);
+}
+.btn-ghost:hover {
+  background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+  color: var(--primary);
+}
+.btn:focus-visible {
+  outline: 3px solid var(--primary-ring);
+  outline-offset: 2px;
+}
+
+/* Inputs, chips, tabs */
+.input,
+.select,
+.textarea {
+  min-height: 46px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  border-color: var(--border);
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+.input:focus,
+.select:focus,
+.textarea:focus {
+  background: var(--surface);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-ring);
+}
+.chip {
+  padding: 8px 15px;
+  font-weight: 600;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+.chip:hover {
+  transform: translateY(-1px);
+}
+.chip.active {
+  background: var(--accent-gradient);
+  border-color: transparent;
+  color: var(--on-primary);
+  box-shadow: 0 10px 20px -14px color-mix(in srgb, var(--primary) 90%, transparent);
+}
+.tab {
+  font-weight: 700;
+}
+.tab.active {
+  border-bottom-color: transparent;
+  background: linear-gradient(180deg, transparent 62%, color-mix(in srgb, var(--primary) 14%, transparent));
+  border-radius: 10px 10px 0 0;
+}
+
+/* Tables */
+.table th {
+  padding: 13px 16px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.table td {
+  padding: 14px 16px;
+}
+.table tbody tr {
+  transition: background 0.15s ease;
+}
+.table tbody tr:hover {
+  background: color-mix(in srgb, var(--primary) 5%, var(--surface));
+}
+.badge {
+  padding: 5px 11px;
+  font-weight: 700;
+}
+.thumb {
+  border-radius: 12px;
+  box-shadow: 0 6px 14px -10px rgba(15, 23, 42, 0.5);
+}
+
+/* Toasts, modal, misc */
+.toast {
+  border-radius: 13px;
+  box-shadow: var(--shadow-lg);
+}
+.modal {
+  background: rgba(7, 11, 22, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.modal-card {
+  border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+  border-radius: 22px;
+  box-shadow: var(--shadow-lg);
+}
+.modal-head h2 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.modal-x {
+  border-radius: 10px;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
+}
+.modal-x:hover {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.empty .ico {
+  opacity: 0.55;
+}
+.bar {
+  background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+}
+.auth-brand {
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(255, 255, 255, 0.2), transparent 62%),
+    radial-gradient(90% 80% at 100% 100%, color-mix(in srgb, var(--secondary) 60%, transparent), transparent 70%),
+    linear-gradient(160deg, #745391 0%, #9475b2 100%);
+}
+.auth-brand h1 {
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+.auth-card {
+  border-radius: 22px;
+  box-shadow: var(--shadow-lg);
+  animation: adminRise 0.45s ease both;
+}
+@keyframes adminRise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.auth-card h2 {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.error-page .code {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Dark-mode corrections for accent-filled controls */
+[data-theme="dark"] .nav-link.active,
+[data-theme="dark"] .brand-mark,
+[data-theme="dark"] .btn-primary,
+[data-theme="dark"] .chip.active {
+  color: var(--on-primary);
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    padding: 16px 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .auth-card {
+    animation: none;
+  }
+  .stat:hover,
+  .chip:hover,
+  .nav-link:hover {
+    transform: none;
   }
 }

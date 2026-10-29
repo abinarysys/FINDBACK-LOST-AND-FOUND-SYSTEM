@@ -1,4 +1,4 @@
-/* Shared visual components used throughout the signed-in user interface. */
+/* File guide: This stylesheet styles the u se r u i interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 /* =========================================
    FINDBACK USER SETTINGS
    ========================================= */
@@ -153,8 +153,14 @@
 
 .btn:focus-visible,
 .swatch:focus-visible {
-  outline: 3px solid rgba(124, 24, 255, 0.25);
+  outline: 2px solid var(--primary, #7c18ff);
   outline-offset: 3px;
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Dark mode switch */
@@ -205,7 +211,7 @@
 }
 
 .switch input:focus-visible + i {
-  outline: 3px solid rgba(124, 24, 255, 0.25);
+  outline: 2px solid var(--primary, #7c18ff);
   outline-offset: 3px;
 }
 
@@ -356,5 +362,188 @@
 
   .swatches {
     gap: 10px;
+  }
+}
+
+/* ---------- Dark-mode corrections for settings controls ---------- */
+
+[data-theme="dark"] .switch i {
+  background: #3a4666;
+}
+
+[data-theme="dark"] .switch i::before {
+  background: #f8fafc;
+}
+
+[data-theme="dark"] .settings-alert-error {
+  color: #fca5a5;
+  background: rgba(248, 113, 113, 0.12);
+  border-color: rgba(248, 113, 113, 0.45);
+}
+
+[data-theme="dark"] .settings-alert-success {
+  color: #6ee7b7;
+  background: rgba(52, 211, 153, 0.12);
+  border-color: rgba(52, 211, 153, 0.45);
+}
+
+[data-theme="dark"] .delete-profile-row strong {
+  color: var(--danger, #f87171);
+}
+
+[data-theme="dark"] .delete-profile-row {
+  border-top-color: rgba(248, 113, 113, 0.3);
+}
+
+/* =========================================================
+   MODERN ACCOUNT CONTROLS REFRESH
+   ========================================================= */
+
+.page-head h1 {
+  letter-spacing: -0.035em;
+}
+.page-head p {
+  max-width: 62ch;
+  line-height: 1.7;
+}
+
+.panel {
+  border-radius: 22px;
+  border-color: color-mix(in srgb, var(--border, #e4e8f1) 90%, transparent);
+  box-shadow: var(--shadow, 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 30px -12px rgba(15, 23, 42, 0.14));
+}
+.panel-head {
+  padding: 22px 24px;
+}
+.panel-head h2 {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.panel-head p {
+  line-height: 1.65;
+}
+.panel-body {
+  padding: 18px 24px 24px;
+}
+.setting-row {
+  padding: 20px 0;
+}
+.setting-row strong {
+  font-weight: 700;
+}
+
+/* Buttons */
+.btn {
+  min-height: 42px;
+  padding: 10px 17px;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    filter 0.18s ease;
+}
+.btn:hover:not(:disabled):not([aria-disabled="true"]) {
+  transform: translateY(-1px);
+}
+.btn-sm {
+  min-height: 36px;
+  padding: 8px 14px;
+  border-radius: 10px;
+}
+.btn-ghost {
+  background: var(--surface, #fff);
+  border-color: var(--border, #e4e8f1);
+  color: var(--primary, #4f46e5);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--primary) 9%, var(--surface));
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+}
+.btn-danger {
+  background: var(--danger, #dc2626);
+  border-color: var(--danger, #dc2626);
+  color: #fff;
+  box-shadow: 0 12px 24px -16px color-mix(in srgb, var(--danger) 85%, transparent);
+}
+.btn-danger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--danger) 86%, #000);
+  border-color: color-mix(in srgb, var(--danger) 86%, #000);
+}
+
+/* Dark-mode switch */
+.switch i {
+  background: var(--border, #d8d2e1);
+}
+.switch input:checked + i {
+  background: var(--accent-gradient, var(--primary, #4f46e5));
+  box-shadow: 0 6px 14px -8px color-mix(in srgb, var(--primary) 90%, transparent);
+}
+.switch i::before {
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.22);
+}
+
+/* Accent swatches */
+.swatches {
+  gap: 13px;
+}
+.swatch {
+  width: 36px;
+  height: 36px;
+  border-width: 3px;
+  border-color: var(--surface, #fff);
+  box-shadow: 0 0 0 1px var(--border, #e4e8f1);
+}
+.swatch:hover {
+  transform: scale(1.1);
+}
+.swatch.active {
+  box-shadow:
+    0 0 0 2px var(--surface, #fff),
+    0 0 0 4px var(--primary, #4f46e5);
+}
+
+/* Alerts */
+.settings-alert {
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+[data-theme="dark"] .settings-alert-error {
+  color: #fca5a5;
+  background: rgba(248, 113, 113, 0.12);
+  border-color: rgba(248, 113, 113, 0.42);
+}
+[data-theme="dark"] .settings-alert-success {
+  color: #6ee7b7;
+  background: rgba(52, 211, 153, 0.12);
+  border-color: rgba(52, 211, 153, 0.42);
+}
+
+/* Delete row */
+.delete-profile-row {
+  margin: 6px 24px 26px;
+  padding-top: 24px;
+  border-top-color: color-mix(in srgb, var(--danger, #dc2626) 24%, transparent);
+}
+.delete-profile-row strong {
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .panel-head {
+    padding: 19px 18px;
+  }
+  .panel-body {
+    padding: 14px 18px 20px;
+  }
+  .delete-profile-row {
+    margin-left: 18px;
+    margin-right: 18px;
   }
 }

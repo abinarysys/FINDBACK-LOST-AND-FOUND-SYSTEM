@@ -1,4 +1,4 @@
-/* Claim detail and review status styles. */
+/* File guide: This stylesheet styles the c la im v ie w interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 /* public/css/user/claim-view.css
    Extra styles for /user/claims/:id. Reuses the classes from notif.css. */
 

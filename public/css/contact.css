@@ -1,4 +1,4 @@
-/* Layout and visual styles for the public contact page. */
+/* File guide: This stylesheet styles the c on ta ct interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 /* public/css/contact.css  -  Contact Us page
    Colours come from tokens.css (accent + dark mode). Nav and footer styles live in
    site-nav.css and public-base.css. */
@@ -235,5 +235,210 @@
   }
   .contact-form {
     padding: 18px;
+  }
+}
+
+/* =========================================================
+   MODERN CONTACT REFRESH
+   ========================================================= */
+
+body.page-contact {
+  background:
+    radial-gradient(55% 38% at 4% 4%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 70%),
+    radial-gradient(45% 36% at 100% 10%, color-mix(in srgb, var(--secondary) 11%, transparent), transparent 70%),
+    var(--bg);
+}
+
+.contact-page {
+  max-width: 1160px;
+  padding: 0 24px 72px;
+}
+
+.contact-pill {
+  padding: 8px 16px;
+  border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--border));
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.contact-hero {
+  padding: clamp(52px, 7vw, 84px) 0 40px;
+}
+.contact-hero h1 {
+  margin: 18px 0 12px;
+  font-size: clamp(38px, 5vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+}
+.contact-hero h1 span {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.contact-hero p {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.contact-layout {
+  gap: 24px;
+}
+
+/* Info panel */
+.contact-info {
+  flex: 0 0 370px;
+  padding: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  background:
+    radial-gradient(70% 120% at 0% 0%, rgba(255, 255, 255, 0.16), transparent 60%),
+    radial-gradient(60% 110% at 100% 100%, rgba(14, 165, 164, 0.38), transparent 65%),
+    linear-gradient(150deg, #131c3a 0%, #2b2a6e 60%, #1c3a5e 100%);
+  box-shadow: var(--shadow-lg);
+  color: #fff;
+}
+.contact-info h2 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.contact-info-intro {
+  margin-bottom: 22px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12.5px;
+}
+.contact-info-item {
+  gap: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.07);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.contact-info-item:hover {
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(255, 255, 255, 0.24);
+  transform: translateY(-1px);
+}
+.contact-info-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 10px 22px -14px rgba(0, 0, 0, 0.8);
+}
+.contact-info-icon img {
+  width: 72px;
+  height: 72px;
+}
+.contact-info-item h4 {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+.contact-info-item p {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12.5px;
+}
+.contact-info-note {
+  padding-top: 22px;
+  margin-top: auto;
+  font-family: var(--font);
+  font-size: 13px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Form card */
+.contact-form {
+  padding: clamp(24px, 3vw, 38px);
+  border-radius: 28px;
+  border-color: color-mix(in srgb, var(--border) 85%, transparent);
+  box-shadow: var(--shadow-lg);
+}
+.contact-form h2 {
+  margin-bottom: 24px;
+  font-size: clamp(22px, 2.4vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.contact-form label {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  min-height: 48px;
+  padding: 12px 15px;
+  margin: 8px 0 18px;
+  border-radius: 13px;
+  border-color: var(--border);
+  background: var(--surface-2);
+  font-size: 14px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+.contact-form textarea {
+  min-height: 130px;
+}
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  background: var(--surface);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-ring);
+}
+.contact-form button[type="submit"] {
+  min-height: 52px;
+  margin-top: 8px;
+  border-radius: 14px;
+  background: var(--accent-gradient);
+  box-shadow: 0 14px 28px -16px color-mix(in srgb, var(--primary) 90%, transparent);
+  font-size: 14px;
+  font-weight: 700;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+.contact-form button[type="submit"]:hover {
+  background: var(--accent-gradient);
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+  .contact-info {
+    flex: none;
+    width: 100%;
+  }
+}
+@media (max-width: 520px) {
+  .contact-page {
+    padding: 0 14px 52px;
+  }
+  .contact-info {
+    padding: 24px 20px;
+    border-radius: 22px;
+  }
+  .contact-form {
+    padding: 22px 18px;
+    border-radius: 22px;
   }
 }

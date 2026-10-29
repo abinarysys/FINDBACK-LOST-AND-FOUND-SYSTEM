@@ -1,10 +1,10 @@
-/* Form layout and feedback styles for account registration. */
+/* File guide: This stylesheet styles the r eg is te r interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 /* ===== OVERRIDES FOR THE ORIGINAL REGISTER HTML (paste at the very end) ===== */
 
 /* Page: stack everything in one centered column */
 body {
   background-color: #e2d8ff;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -132,7 +132,7 @@ form label {
 form input {
   border: 1px solid #9f87f6;
   background: #e4ddff;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   display: block;
   width: 100%;
   height: auto;
@@ -145,7 +145,7 @@ form button[type="submit"] {
   background-color: #7c18ff;
   border: 1px solid #405956;
   color: white;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   font-weight: 500;
   display: block;

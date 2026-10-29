@@ -62,3 +62,128 @@ body .u-main select {
   body .u-main * { scroll-behavior: auto !important; }
   body .u-main .btn-primary:hover { transform: none; }
 }
+
+/* Account pages use a compact app-like shell on tablets and phones. */
+@media (max-width: 900px) {
+  .u-tabs {
+    width: calc(100% - 32px);
+    max-width: 760px;
+    margin-right: auto;
+    margin-left: auto;
+    overflow-x: auto;
+    justify-content: flex-start;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 28px rgba(44, 28, 59, .08);
+  }
+
+  .u-tab { flex: 0 0 auto; }
+  .u-main { padding-top: 28px; }
+}
+
+@media (max-width: 700px) {
+  .u-hero {
+    margin-top: calc(var(--nav-h, 60px) * -1);
+    padding: calc(var(--nav-h, 60px) + 28px) 18px 62px;
+    border-radius: 0 0 24px 24px;
+  }
+
+  .u-hero-in { gap: 12px; }
+  .u-hero-text h1 { font-size: clamp(24px, 7vw, 32px); }
+  .u-hero-text p { font-size: 13px; }
+
+  .u-tabs {
+    width: calc(100% - 24px);
+    margin-top: -22px;
+    padding: 5px;
+    border-radius: 16px;
+  }
+
+  .u-tab {
+    min-height: 44px;
+    height: 44px;
+    padding: 0 14px;
+    border-radius: 12px;
+    font-size: 13px;
+  }
+
+  .u-main { padding: 24px 14px 52px; }
+  .u-main .page-head { gap: 10px; margin-bottom: 18px; }
+  .u-main .page-head h1 { font-size: clamp(24px, 7vw, 32px); line-height: 1.12; }
+  .u-main .page-head p { font-size: 13px; line-height: 1.55; }
+  .u-main .page-actions,
+  .u-main .page-actions .btn { width: 100%; }
+
+  .u-main .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .u-main .stat {
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 16px;
+  }
+  .u-main .stat p { font-size: 11px; line-height: 1.35; }
+  .u-main .stat strong { font-size: clamp(20px, 6vw, 25px); }
+
+  .u-main .panel { border-radius: 16px; }
+  .u-main .panel-head,
+  .u-main .panel-body { padding-right: 15px; padding-left: 15px; }
+  .u-main .panel-head { align-items: flex-start; }
+  .u-main .table-wrap,
+  .u-main .table-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+}
+
+@media (max-width: 380px) {
+  .u-main .stats { grid-template-columns: minmax(0, 1fr); }
+  .u-main .stat { flex-direction: row; align-items: center; }
+  .u-tabs { width: calc(100% - 16px); }
+}
+
+/* Dedicated account tools: conversation, notification, and claim detail screens. */
+@media (max-width: 800px) {
+  .u-main .chat {
+    height: clamp(360px, 58dvh, 620px);
+    min-height: 360px;
+    border-radius: 16px;
+  }
+  .u-main .chat-list-pane,
+  .u-main .chat-thread-pane { min-height: 0; }
+  .u-main .chat-thread { min-height: 0; }
+  .u-main .chat-msg { max-width: 88%; }
+}
+
+@media (max-width: 700px) {
+  .u-main .notifications-content { padding: 0; }
+  .u-main .notifications-content .page-heading {
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .u-main .notifications-content .page-heading-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .u-main .notifications-card { border-radius: 16px; }
+  .u-main .notification-item {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+    padding: 15px 13px;
+  }
+  .u-main .notification-item-info { min-width: 0; }
+  .u-main .claim-banner { padding: 16px; border-radius: 15px; }
+  .u-main .claim-item { margin: 0 12px 16px; }
+  .u-main .claim-facts { padding: 0 14px 16px; }
+}
+
+@media (max-width: 420px) {
+  .u-main .chat { height: 56dvh; min-height: 320px; }
+  .u-main .chat-compose {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .u-main .notification-item { grid-template-columns: 30px minmax(0, 1fr); }
+  .u-main .notification-item-info h4 { overflow-wrap: anywhere; }
+  .u-main .claim-item { margin-right: 8px; margin-left: 8px; }
+}

@@ -1,4 +1,4 @@
-/* Notification list layout and read or unread states. */
+/* File guide: This stylesheet styles the n ot if interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 /* =========================================
    FINDBACK - USER NOTIFICATIONS PAGE
    File: public/css/user/notif.css
@@ -39,7 +39,7 @@
 
 body {
   margin: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   background: var(--notif-background);
   color: var(--notif-text);
 }
@@ -402,7 +402,7 @@ body {
   border-radius: 9px;
   background: var(--notif-primary);
   color: var(--on-primary, #fff) !important;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   font-weight: 600;
   line-height: 1.5;

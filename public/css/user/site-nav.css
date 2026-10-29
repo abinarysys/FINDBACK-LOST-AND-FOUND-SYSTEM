@@ -1,10 +1,9 @@
-/* Shared site navigation, including responsive menu behavior. */
+/* File guide: This stylesheet styles the s it e n av interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 /* public/css/user/site-nav.css
    The FindBack top navigation, used on EVERY page (public site + account pages).
    Self-contained: it only styles .u-* classes, so it can't restyle the page around it. */
 
 @import url("/css/user/tokens.css");
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 :root {
   --nav-h: 60px;
@@ -303,6 +302,203 @@ body {
 
 @media print {
   .u-nav {
+    display: none;
+  }
+}
+
+/* =====================================================
+   MODERN NAVIGATION REFRESH
+   Sticky glass bar, gradient CTAs and a clean active pill.
+   ===================================================== */
+:root {
+  --nav-h: 64px;
+}
+
+.u-nav {
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.u-nav.scrolled {
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  border-bottom-color: var(--border);
+  box-shadow: 0 10px 30px -18px rgba(15, 23, 42, 0.35);
+}
+
+.u-brand img {
+  height: 24px;
+  transition: transform 0.25s ease;
+}
+.u-brand:hover img {
+  transform: translateY(-1px) scale(1.03);
+}
+
+.u-links {
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-2) 75%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+}
+
+.u-links a {
+  position: relative;
+  padding: 8px 15px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.u-links a:hover {
+  background: var(--surface);
+  color: var(--primary);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+.u-links a.active {
+  background: var(--surface);
+  color: var(--primary);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+.u-links a.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 3px;
+  width: 16px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--accent-gradient);
+  transform: translateX(-50%);
+}
+
+.u-nav .u-btn {
+  height: 42px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.u-nav .u-btn:hover {
+  transform: translateY(-1px);
+}
+
+.u-nav .u-btn-primary {
+  border-color: transparent;
+  background: var(--accent-gradient);
+  box-shadow: 0 8px 20px -10px color-mix(in srgb, var(--primary) 80%, transparent);
+}
+.u-nav .u-btn-primary:hover {
+  filter: brightness(1.06);
+  box-shadow: 0 12px 26px -10px color-mix(in srgb, var(--primary) 85%, transparent);
+}
+
+.u-account summary {
+  height: 42px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.u-account summary:hover {
+  box-shadow: 0 6px 16px -10px rgba(15, 23, 42, 0.35);
+}
+
+.u-menu {
+  margin-top: 4px;
+  padding: 8px;
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+  animation: uMenuIn 0.18s ease both;
+}
+
+@keyframes uMenuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.u-menu a {
+  display: flex;
+  align-items: center;
+  padding: 10px 13px;
+  border-radius: 11px;
+  font-weight: 500;
+}
+
+.u-burger {
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+@media (max-width: 900px) {
+  .u-links {
+    padding: 10px;
+    border-radius: 20px;
+    background: color-mix(in srgb, var(--surface) 96%, transparent);
+    box-shadow: var(--shadow-lg);
+  }
+  .u-links a {
+    padding: 12px 14px;
+    border-radius: 12px;
+  }
+  .u-links a.active::after {
+    display: none;
+  }
+  .u-links a.active {
+    background: var(--primary-soft);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .u-menu {
+    animation: none;
+  }
+  .u-brand img,
+  .u-nav .u-btn {
+    transition: none;
+  }
+}
+
+/* Keep the guest CTA on a single line and stop it shrinking in the mobile bar. */
+.u-nav .u-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .u-nav-in {
+    gap: 10px;
+  }
+  .u-nav-actions {
+    gap: 6px;
+  }
+  .u-nav .u-btn {
+    padding: 0 12px;
+    font-size: 12.5px;
+  }
+  .u-burger {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 380px) {
+  .u-nav .u-btn:not(.u-btn-primary) {
     display: none;
   }
 }

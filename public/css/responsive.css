@@ -1,0 +1,781 @@
+/* Shared narrow-screen safeguards and layout fixes for every FindBack surface. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: clip;
+}
+
+img,
+video,
+iframe,
+canvas {
+  max-width: 100%;
+}
+
+input,
+select,
+textarea,
+button {
+  max-width: 100%;
+}
+
+pre,
+code,
+td,
+th,
+p,
+h1,
+h2,
+h3,
+h4,
+a,
+label {
+  overflow-wrap: anywhere;
+}
+
+.main,
+.u-main,
+.admin-main,
+.panel,
+.grid-2,
+.grid-eq,
+.stats,
+.stats-grid,
+.items-container,
+.browse .grid,
+.chat,
+.chat > *,
+.u-main > *,
+.admin-main > * {
+  min-width: 0;
+}
+
+.table-wrap,
+.ma-table-wrap,
+.u-main .table-wrap,
+.u-main .table-scroll,
+.table-responsive,
+.data-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  max-width: 100%;
+}
+
+@media (max-width: 900px) {
+  .main,
+  .admin-main,
+  .u-main {
+    max-width: 100%;
+  }
+
+  .u-main .page-head,
+  .u-main .page-heading,
+  .admin-main .page-head,
+  .admin-main .page-heading,
+  .page-heading,
+  .page-head {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .page-actions,
+  .page-heading-actions {
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+
+  .browse .hero {
+    gap: 12px;
+  }
+
+  .browse .hero-deco {
+    width: clamp(72px, 18vw, 140px);
+    flex: 0 1 auto;
+  }
+
+  .browse .posts-head,
+  .toolbar,
+  .u-main .toolbar {
+    flex-wrap: wrap;
+  }
+
+  .u-main .grid-2,
+  .admin-main .grid-2,
+  .admin-main .grid-eq {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  body > .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    padding: 12px 16px;
+  }
+
+  body > .nav .logo {
+    flex: 0 0 auto;
+  }
+
+  body > .nav .nav-links {
+    order: 3;
+    flex: 1 1 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    width: 100%;
+  }
+
+  body > .nav .right-buttons {
+    flex: 0 1 auto;
+    margin-left: auto;
+  }
+
+  .u-main {
+    padding: 26px 16px 60px;
+  }
+
+  .u-main .page-head,
+  .page-head {
+    gap: 12px;
+  }
+
+  .u-main .page-head > *,
+  .page-head > * {
+    min-width: 0;
+  }
+
+  .panel-head,
+  .panel-foot,
+  .toolbar,
+  .page-actions,
+  .page-heading-actions,
+  .btn-row,
+  .row-actions {
+    flex-wrap: wrap;
+  }
+
+  .contact-page,
+  .hiw-page,
+  .claim-container,
+  .category-page,
+  .browse .posts {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .browse .search-wrap {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .browse .search-bar {
+    gap: 8px;
+    padding: 12px 14px;
+    border-radius: 16px;
+  }
+
+  .browse .search-bar input {
+    min-width: 0;
+  }
+
+  .browse .grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  }
+
+  .browse .card-actions {
+    flex-wrap: wrap;
+  }
+
+  .browse .card-actions > * {
+    flex: 1 1 120px;
+  }
+
+  .contact-grid,
+  .contact-content,
+  .contact-layout,
+  .contact-row,
+  .hiw-grid,
+  .hiw-about-bottom,
+  .hiw-features,
+  .claim-layout,
+  .claim-grid,
+  .claim-card,
+  .category-layout,
+  .form-grid,
+  .form-row {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .hiw-features {
+    grid-auto-flow: row;
+    grid-template-rows: none;
+  }
+
+  .main {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .main .panel,
+  .admin-main .panel,
+  .u-main .panel {
+    min-width: 0;
+  }
+
+  .table-wrap table,
+  .ma-table-wrap table {
+    min-width: 600px;
+  }
+
+  .modal-card,
+  .ma-modal-card,
+  .auth-card {
+    width: min(100% - 28px, 560px);
+    max-width: 560px;
+    min-width: 0;
+    max-height: calc(100dvh - 28px);
+    overflow-y: auto;
+  }
+
+  .ma-panel-heading,
+  .ma-actions {
+    flex-wrap: wrap;
+  }
+
+  .ma-search {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  body > .nav .nav-links {
+    justify-content: flex-start;
+    column-gap: 12px;
+    row-gap: 8px;
+  }
+
+  body > .nav .nav-links a,
+  body > .nav .right-buttons a {
+    font-size: 12px;
+  }
+
+  .u-main .stats,
+  .stats,
+  .stats-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .u-main .grid-eq,
+  .grid-eq {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-actions > *,
+  .page-heading-actions > *,
+  .toolbar > *,
+  .btn-row > * {
+    max-width: 100%;
+  }
+
+  .page-actions .btn,
+  .page-heading-actions .btn {
+    min-height: 42px;
+  }
+
+  .field-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .input,
+  .textarea,
+  input,
+  select,
+  textarea {
+    min-width: 0;
+  }
+
+  .u-main .table {
+    min-width: 600px;
+  }
+
+  .contact-page,
+  .hiw-page,
+  .claim-container,
+  .category-page,
+  .browse .posts,
+  .browse .search-wrap {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .browse .categories {
+    grid-template-columns: repeat(auto-fit, minmax(82px, 1fr));
+    gap: 12px 8px;
+  }
+
+  .browse .posts-head {
+    align-items: stretch;
+  }
+
+  .browse .filters {
+    min-width: 0;
+  }
+
+  .contact-info-item,
+  .notification-item,
+  .claim-summary-row {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .admin-sidebar .sidebar-nav a,
+  .sidebar .nav-link {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 360px) {
+  body > .nav {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .u-main,
+  .main,
+  .admin-main {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .panel-head,
+  .panel-body,
+  .panel-foot {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .btn,
+  button {
+    white-space: normal;
+  }
+}
+
+/* Public site pages: compact navigation and page-specific content flow. */
+@media (max-width: 700px) {
+  body > .nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 9px 14px 8px;
+  }
+
+  body > .nav .logo { grid-column: 1; grid-row: 1; }
+  body > .nav .right-buttons { grid-column: 2; grid-row: 1; }
+  body > .nav .nav-links {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 6px;
+    width: 100%;
+    margin: 0;
+    padding: 3px 0 5px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    white-space: nowrap;
+  }
+
+  body > .nav .nav-links::-webkit-scrollbar { display: none; }
+  body > .nav .nav-links a {
+    flex: 0 0 auto;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 0 11px;
+    border-radius: 999px;
+    background: rgba(124, 74, 162, .07);
+  }
+
+  body > .nav .right-buttons { gap: 7px; }
+  body > .nav .right-buttons a { white-space: nowrap; }
+
+  .browse .hero { padding: 34px 20px 38px; }
+  .browse .hero h1 { font-size: clamp(28px, 8vw, 40px); line-height: 1.08; }
+  .browse .hero p { max-width: 42ch; font-size: 14px; }
+  .browse .hero-deco { display: none; }
+  .browse .categories { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .browse .posts { padding-top: 24px; }
+  .browse .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .browse .card { min-width: 0; }
+  .browse .card-actions { gap: 7px; }
+  .browse .card-actions > * { flex: 1 1 100%; }
+
+  .category-banner { padding: 30px 18px; }
+  .category-banner h1 { font-size: clamp(26px, 7vw, 36px); }
+  .category-content { width: min(100% - 28px, 760px); }
+  .claim-container { width: min(100% - 28px, 740px); }
+  .claim-card { overflow: hidden; }
+  .claim-card .item-details { grid-template-columns: minmax(0, 1fr); }
+  .claim-card .item-image,
+  .claim-card .no-image { width: 100%; max-height: 260px; }
+
+  .steps-and-form { width: 100%; }
+  .steps-and-form > *,
+  .steps-and-tips,
+  .lostItem-form,
+  .foundItem-form { min-width: 0; max-width: 100%; }
+  .lostItem-form,
+  .foundItem-form { padding: 20px 16px; }
+  .lostItem-form input,
+  .lostItem-form select,
+  .lostItem-form textarea,
+  .foundItem-form input,
+  .foundItem-form select,
+  .foundItem-form textarea { min-height: 46px; font-size: 16px; }
+
+  .hiw-page,
+  .contact-page { width: min(100%, 760px); }
+}
+
+@media (max-width: 480px) {
+  .browse .categories { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .browse .grid { grid-template-columns: minmax(0, 1fr); }
+  .browse .search-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+  .browse .search-bar input { grid-column: 1 / -1; width: 100%; }
+  .browse .search-bar button { min-height: 44px; }
+  .browse .posts-head { gap: 10px; }
+  .browse .filters { max-width: 100%; }
+
+  .category-content { width: calc(100% - 24px); }
+  .category-banner { padding: 26px 14px; }
+  .claim-container { width: calc(100% - 24px); }
+  .claim-header { padding: 20px 16px; }
+
+  .contact-page,
+  .hiw-page { padding-right: 12px; padding-left: 12px; }
+  .contact-form,
+  .contact-info,
+  .hiw-card,
+  .steps-and-tips { border-radius: 16px; }
+
+  .lostItem-form,
+  .foundItem-form { padding: 17px 13px; }
+  .lostItem-form button[type="submit"],
+  .foundItem-form button[type="submit"] { width: 100%; min-height: 48px; }
+}
+
+@media (max-width: 360px) {
+  .browse .categories { gap: 8px; }
+  .browse .categories > * { min-width: 0; padding-right: 8px; padding-left: 8px; }
+  .browse .card { border-radius: 14px; }
+  .browse .card-actions { flex-direction: column; }
+}
+
+/* Shared touch and short-screen behavior across every page family. */
+@media (hover: none) and (pointer: coarse) {
+  a,
+  button,
+  input[type="checkbox"],
+  input[type="radio"],
+  select,
+  summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button,
+  .btn,
+  .u-btn,
+  .nav-links a,
+  .u-links a,
+  .sidebar .nav-link {
+    touch-action: manipulation;
+  }
+
+  button,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  select,
+  .btn,
+  .u-btn {
+    min-height: 44px;
+  }
+
+  .browse .card:hover,
+  .item-card:hover,
+  .hiw-card:hover,
+  .contact-info-item:hover,
+  .u-main .stat:hover {
+    transform: none;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .u-hero { padding-top: calc(var(--nav-h, 60px) + 18px); padding-bottom: 38px; }
+  .u-hero-avatar { width: 62px; height: 62px; }
+  .u-main { padding-top: 18px; }
+  .auth-shell { margin-top: 12px; margin-bottom: 18px; }
+  .auth-aside { padding-top: 18px; padding-bottom: 18px; }
+  .browse .hero { padding-top: 24px; padding-bottom: 26px; }
+  .category-banner { padding-top: 22px; padding-bottom: 22px; }
+  .notification-item-photo { height: 120px; }
+}
+
+@media print {
+  .u-nav,
+  .nav,
+  .u-tabs,
+  .sidebar,
+  .admin-sidebar,
+  .page-actions,
+  .page-heading-actions,
+  .help-band,
+  .u-burger {
+    display: none !important;
+  }
+
+  .u-main,
+  .main,
+  .admin-main {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+/* Tablet and phone layouts are composed deliberately instead of simply shrinking
+   the desktop canvas. Keep the desktop rules above 1024px untouched. */
+@media (min-width: 701px) and (max-width: 1024px) {
+  .u-main,
+  .main,
+  .admin-main {
+    padding-right: clamp(20px, 4vw, 40px);
+    padding-left: clamp(20px, 4vw, 40px);
+  }
+
+  .u-main .grid-2,
+  .admin-main .grid-2,
+  .admin-main .grid-eq,
+  .form-grid,
+  .form-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .u-main .stats,
+  .admin-main .stats,
+  .admin-main .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .u-main .page-head,
+  .admin-main .page-head {
+    align-items: center;
+  }
+}
+
+@media (max-width: 700px) {
+  /* Compact mobile header, with the existing menu button controlling its links. */
+  .u-nav .u-nav-in {
+    min-height: 58px;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .u-nav .u-links {
+    max-height: min(70dvh, 460px);
+    overflow-y: auto;
+  }
+
+  .u-nav .u-nav-actions {
+    gap: 8px;
+  }
+
+  .u-main,
+  .main,
+  .admin-main {
+    padding: 24px 18px 48px;
+  }
+
+  .u-main .page-head,
+  .admin-main .page-head,
+  .page-heading,
+  .page-head {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-actions,
+  .page-heading-actions,
+  .u-main .page-actions {
+    width: 100%;
+  }
+
+  .u-main .stats,
+  .admin-main .stats,
+  .admin-main .stats-grid,
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .u-main .grid-2,
+  .admin-main .grid-2,
+  .admin-main .grid-eq,
+  .form-grid,
+  .form-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .u-main .panel,
+  .admin-main .panel,
+  .panel {
+    border-radius: 16px;
+  }
+
+  .u-main .panel-head,
+  .u-main .panel-body,
+  .admin-main .panel-head,
+  .admin-main .panel-body {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .u-main .panel-head,
+  .admin-main .panel-head,
+  .toolbar,
+  .u-main .toolbar {
+    gap: 12px;
+  }
+
+  .u-main .btn,
+  .admin-main .btn,
+  .page-actions .btn,
+  .page-heading-actions .btn {
+    min-height: 44px;
+  }
+
+  .contact-page,
+  .hiw-page,
+  .claim-container,
+  .category-page,
+  .browse .posts,
+  .browse .search-wrap {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .footer-bar {
+    gap: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .u-nav .u-nav-in {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .u-main,
+  .main,
+  .admin-main {
+    padding: 20px 14px 40px;
+  }
+
+  .u-main .stats,
+  .admin-main .stats,
+  .admin-main .stats-grid,
+  .stats-grid {
+    gap: 10px;
+  }
+
+  .u-main .stat,
+  .admin-main .stat,
+  .stat {
+    min-width: 0;
+    padding: 14px;
+  }
+
+  .u-main .stat strong,
+  .admin-main .stat strong,
+  .stat strong {
+    font-size: clamp(18px, 6vw, 23px);
+  }
+
+  .u-main .page-head h1,
+  .admin-main .page-head h1,
+  .page-heading h1,
+  .page-head h1 {
+    font-size: clamp(22px, 7vw, 30px);
+    line-height: 1.15;
+  }
+
+  .panel-head,
+  .panel-body,
+  .panel-foot {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .table-wrap table,
+  .ma-table-wrap table,
+  .u-main .table {
+    min-width: 560px;
+  }
+
+  .contact-page,
+  .hiw-page,
+  .claim-container,
+  .category-page,
+  .browse .posts,
+  .browse .search-wrap {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .footer-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 360px) {
+  .u-main .stats,
+  .admin-main .stats,
+  .admin-main .stats-grid,
+  .stats-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .u-main,
+  .main,
+  .admin-main {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+}

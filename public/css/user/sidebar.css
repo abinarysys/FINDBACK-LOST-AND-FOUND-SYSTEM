@@ -1,5 +1,4 @@
-/* Sidebar appearance and responsive behavior for user pages. */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+/* File guide: This stylesheet styles the s id eb ar interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 
 :root {
   --primary: #7c18ff;
@@ -31,7 +30,7 @@
   background: #ffffff;
   border-right: 1px solid var(--border);
   z-index: 900;
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Scrollbar */

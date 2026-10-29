@@ -1,5 +1,4 @@
-/* Navigation bar styles for signed-in user pages. */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+/* File guide: This stylesheet styles the n av ba r interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 
 /* =====================================================
    ORIGINAL CODE (unchanged)
@@ -236,7 +235,6 @@ body {
   background: #1d4ed8;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 /* ===== BASE (needed by the navbar) ===== */
 * {
@@ -246,7 +244,7 @@ body {
 body {
   margin: 0;
   padding: 60px 0 0; /* space for the fixed navbar */
-  font-family: "Poppins", sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   color: #2d2a4a;
 }
 

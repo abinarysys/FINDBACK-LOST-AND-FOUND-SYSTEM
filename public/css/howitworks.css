@@ -1,9 +1,7 @@
-/* Layout for the illustrated steps on the How It Works page. */
+/* File guide: This stylesheet styles the h ow it wo rk s interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 /* public/css/howitworks.css  -  How It Works page
    Colours come from tokens.css (accent + dark mode). Nav and footer styles live in
    site-nav.css and public-base.css. */
-
-@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap");
 
 body.page-hiw {
   background: var(--tint);
@@ -200,5 +198,194 @@ body.page-hiw {
     grid-template-columns: 1fr;
     grid-auto-flow: row;
     grid-template-rows: none;
+  }
+}
+
+/* =========================================================
+   MODERN HOW-IT-WORKS REFRESH
+   ========================================================= */
+
+body.page-hiw {
+  background:
+    radial-gradient(55% 40% at 4% 4%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 70%),
+    radial-gradient(45% 38% at 100% 10%, color-mix(in srgb, var(--secondary) 11%, transparent), transparent 70%),
+    var(--bg);
+}
+
+.hiw-page {
+  max-width: 1140px;
+  padding: 0 24px 80px;
+}
+
+.hiw-pill {
+  padding: 8px 16px;
+  border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--border));
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.hiw-hero {
+  padding: clamp(52px, 7vw, 84px) 0 44px;
+}
+.hiw-hero h1 {
+  margin: 18px 0 12px;
+  font-size: clamp(38px, 5vw, 58px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+}
+.hiw-hero h1 span {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.hiw-hero p {
+  font-size: 15.5px;
+  line-height: 1.65;
+}
+
+.hiw-steps {
+  gap: 18px;
+}
+.hiw-card {
+  position: relative;
+  padding: 20px 20px 24px;
+  border-radius: 22px;
+  border-color: color-mix(in srgb, var(--border) 85%, transparent);
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.26s ease,
+    box-shadow 0.26s ease,
+    border-color 0.26s ease;
+}
+.hiw-card:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--primary) 28%, var(--border));
+  box-shadow: var(--shadow-lg);
+}
+.hiw-card-top {
+  min-height: 0;
+  flex-direction: column;
+  gap: 14px;
+}
+.hiw-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--accent-gradient);
+  box-shadow: 0 10px 20px -12px color-mix(in srgb, var(--primary) 90%, transparent);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.hiw-card-top img {
+  width: 100%;
+  max-width: 100%;
+  height: 150px;
+  max-height: none;
+  margin: 0;
+  object-fit: cover;
+  border-radius: 14px;
+  background: var(--surface-2);
+}
+.hiw-card h3 {
+  margin: 16px 0 7px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.hiw-card p {
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+
+.hiw-tagline {
+  margin: 48px 0 34px;
+  font-family: var(--font);
+  font-size: clamp(18px, 2.4vw, 24px);
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+}
+
+.hiw-about {
+  position: relative;
+  padding: clamp(28px, 4vw, 52px);
+  border-radius: 28px;
+  border-color: color-mix(in srgb, var(--primary) 16%, var(--border));
+  background:
+    radial-gradient(80% 120% at 0% 0%, color-mix(in srgb, var(--primary) 9%, transparent), transparent 60%),
+    radial-gradient(70% 100% at 100% 100%, color-mix(in srgb, var(--secondary) 8%, transparent), transparent 60%),
+    var(--surface);
+  box-shadow: var(--shadow-lg);
+}
+.hiw-about h2 {
+  margin: 18px 0 18px;
+  font-size: clamp(28px, 3.6vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+.hiw-about h2 span {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.hiw-about-text {
+  max-width: 760px;
+  font-size: 14.5px;
+  line-height: 1.85;
+}
+.hiw-about-bottom {
+  gap: 40px;
+  margin-top: 44px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.hiw-mission {
+  padding-left: 18px;
+  border-left: 3px solid color-mix(in srgb, var(--primary) 55%, transparent);
+  font-size: 13.5px;
+  line-height: 1.9;
+}
+.hiw-feature {
+  padding: 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--surface) 74%, transparent);
+}
+.hiw-feature h4 {
+  margin-bottom: 5px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+.hiw-feature p {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .hiw-card {
+    flex: 0 0 calc((100% - 18px) / 2);
+  }
+  .hiw-about-bottom {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+@media (hover: none) {
+  .hiw-card:hover {
+    transform: none;
   }
 }

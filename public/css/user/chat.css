@@ -1,5 +1,7 @@
-/* Chat layout and message styling. Shared user design tokens keep it in step with each
-   person's accent colour and light or dark theme. */
+/* File guide: This stylesheet styles the c ha t interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
+/* public/css/user/chat.css  -  Chat page.
+   Loaded after user-ui.css + user-shell.css. Only design tokens are used, so the user's
+   accent colour and dark mode apply automatically. */
 
 .chat {
   display: grid;

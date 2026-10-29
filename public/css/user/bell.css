@@ -1,4 +1,4 @@
-/* Notification bell, unread badge, and notification panel styles. */
+/* File guide: This stylesheet styles the b el l interface and its page components. It styles classes and elements emitted by related EJS templates; it controls browser presentation and does not save application data. */
 /* public/css/user/bell.css
    Global floating notification bell (bottom-right, always visible while scrolling).
    Colours use the shared design tokens (--primary, --surface...) with fallbacks, so the
@@ -13,7 +13,7 @@
   right: 24px;
   bottom: 24px;
   z-index: 1100;
-  font-family: var(--font, "Poppins", system-ui, sans-serif);
+  font-family: var(--font, Arial, Helvetica, sans-serif);
 }
 
 .notif-bell-wrap .notif-bell {
@@ -57,12 +57,16 @@
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: var(--danger, #ef4444);
+  background: var(--danger, #b91c1c);
   color: #fff;
   font-size: 11px;
   font-weight: 600;
   line-height: 1;
   border: 2px solid var(--surface, #fff);
+}
+
+[data-theme="dark"] .notif-bell-wrap .notif-badge {
+  color: #0b1020;
 }
 
 /* ---------- Dropdown panel (opens upward, above the bell) ---------- */
